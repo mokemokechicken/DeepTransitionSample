@@ -39,7 +39,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="NsS-47-P9t" kind="show" identifier="news" id="iw0-hS-56S"/>
+                                    <action selector="onBtnNews:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="eiK-R1-IG2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhA-yF-wdx">
@@ -48,13 +48,17 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CTB-Sg-wH4" kind="show" identifier="coupon" id="c01-4G-UCq"/>
+                                    <action selector="onBtnCoupon:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="u27-vx-0hH"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="6rJ-Q4-f3Y"/>
+                    <connections>
+                        <segue destination="NsS-47-P9t" kind="show" identifier="news" id="IOC-jB-j6l"/>
+                        <segue destination="CTB-Sg-wH4" kind="show" identifier="coupon" id="WWf-jH-QzW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -88,7 +92,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="bAu-6K-Oz7" kind="show" id="yOJ-iR-Mwa"/>
+                        <segue destination="bAu-6K-Oz7" kind="show" identifier="detail" id="yOJ-iR-Mwa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qQH-cy-rom" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -118,12 +122,15 @@
                                 <state key="normal" title="news1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onBtnNews1:" destination="NsS-47-P9t" eventType="touchUpInside" id="FH2-T5-jeD"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="Sbi-SS-hMQ" kind="show" id="hh1-o8-Rd9"/>
+                        <segue destination="Sbi-SS-hMQ" kind="show" identifier="detail" id="hh1-o8-Rd9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kms-v9-4tM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -149,23 +156,35 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEn-DP-2O6">
-                                <rect key="frame" x="168" y="229" width="42" height="21"/>
+                                <rect key="frame" x="166" y="215" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8p-xb-q6n">
+                                <rect key="frame" x="143" y="319" width="90" height="30"/>
+                                <state key="normal" title="Coupon2">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnCoupon2:" destination="Sbi-SS-hMQ" eventType="touchUpInside" id="uIf-GS-Lxy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="label" destination="NEn-DP-2O6" id="u7N-lH-sqs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3A-IA-d13" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="621.5" y="39.5"/>
         </scene>
-        <!--Coupon List View Controller-->
+        <!--Coupon View Controller-->
         <scene sceneID="iVI-SL-B4p">
             <objects>
-                <viewController id="bAu-6K-Oz7" customClass="CouponListViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bAu-6K-Oz7" customClass="CouponViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qq6-en-EwD"/>
                         <viewControllerLayoutGuide type="bottom" id="atf-4f-Uhq"/>

@@ -8,28 +8,16 @@
 
 import UIKit
 
-class NewsViewController: UIViewController {
+class NewsViewController: TreeTransitionViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func onBtnCoupon2(sender: AnyObject) {
+        transition("/top/coupon/detail?id=2")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBOutlet weak var label: UILabel!
+    
+    override func viewDidLoad() {
+        self.path = "/top/news/detail"
+        super.viewDidLoad()
     }
-    */
-
 }

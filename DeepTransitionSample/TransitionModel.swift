@@ -16,4 +16,12 @@ public class TransitionModel {
     }
     
     public var location: String = "/"
+    
+    public class func set(location: String) {
+        instance.location = location
+    }
+    
+    public class func get() -> String {
+        return instance.location
+    }
 }
