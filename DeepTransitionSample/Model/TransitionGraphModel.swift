@@ -52,27 +52,34 @@ public class TransitionGraphModel {
         // /top#coupon!show(id=10,shop=5)
         
         let tokens = tokenize(path)
+        for token in tokens {
+            
+        }
         return pathList
     }
+    
 
     private enum State {
         case Normal, ParamKey, ParamValue
     }
     
-    // Private
-    public func tokenize(path: String) -> [String] {
-        var tokens = [String]()
-        var token: String?
+    public enum Token : Equatable {
+        case VC(String)
+        case ParamKey(String)
+        case ParamValue(String)
+        case KindShow, KindModal, KindTab
+    }
+    
+    // Private なんだけど UnitTest用にPublic
+    public func tokenize(path: String) -> [Token] {
+        var tokens = [Token]()
+        var tstr: String?
         let end = "\u{0}"
         var state: State = .Normal
         
-        func flushToken(_ ch: String? = nil) {
-            if let t = token { tokens.append(t); token = nil }
-            if let c = ch { tokens.append(c) }
-        }
         
         func addToken(ch: String) {
-            token = (token ?? "") + ch
+            tstr = (tstr ?? "") + ch
         }
         
         for chara in (path+end) {
@@ -80,13 +87,23 @@ public class TransitionGraphModel {
             switch state {
             case .Normal:
                 switch ch {
-                case SegueKind.Show.rawValue, SegueKind.Modal.rawValue, SegueKind.Tab.rawValue:
-                    flushToken(ch)
+                case SegueKind.Show.rawValue:
+                    if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
+                    tokens.append(Token.KindShow)
+                    
+                case SegueKind.Modal.rawValue:
+                    if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
+                    tokens.append(Token.KindModal)
+                    
+                case SegueKind.Tab.rawValue:
+                    if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
+                    tokens.append(Token.KindTab)
+
                 case end:
-                    flushToken()
+                    if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
                     break
                 case "(":
-                    flushToken(ch)
+                    if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
                     state = .ParamKey
                 default:
                     addToken(ch)
@@ -94,7 +111,7 @@ public class TransitionGraphModel {
             case .ParamKey:
                 switch ch {
                 case "=":
-                    flushToken(ch)
+                    if let t = tstr { tokens.append(Token.ParamKey(t)); tstr = nil }
                     state = .ParamValue
                 default:
                     addToken(ch)
@@ -103,10 +120,10 @@ public class TransitionGraphModel {
             case .ParamValue:
                 switch ch {
                 case ",":
-                    flushToken(ch)
+                    if let t = tstr { tokens.append(Token.ParamValue(t)); tstr = nil }
                     state = .ParamKey
                 case ")":
-                    flushToken(ch)
+                    if let t = tstr { tokens.append(Token.ParamValue(t)); tstr = nil }
                     state = .Normal
                 default:
                     addToken(ch)
@@ -116,6 +133,20 @@ public class TransitionGraphModel {
         return tokens
     }
 }
+
+public func ==(lhs: TransitionGraphModel.Token, rhs: TransitionGraphModel.Token) -> Bool {
+    switch (lhs, rhs) {
+    case (.VC(let a), .VC(let b)) where a == b: return true
+    case (.ParamKey(let a), .ParamKey(let b)) where a == b: return true
+    case (.ParamValue(let a), .ParamValue(let b)) where a == b: return true
+    case (.KindShow, .KindShow): return true
+    case (.KindModal, .KindModal): return true
+    case (.KindTab, .KindTab): return true
+    default:
+        return false
+    }
+}
+
 
 
 public enum SegueKind : String {
