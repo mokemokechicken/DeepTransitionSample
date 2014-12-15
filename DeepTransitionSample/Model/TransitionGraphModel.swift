@@ -52,8 +52,41 @@ public class TransitionGraphModel {
         // /top#coupon!show(id=10,shop=5)
         
         let tokens = tokenize(path)
+        
+        var segue: SegueKind = SegueKind.Modal
+        var name: String? = nil
+        var paramKey: String?
+        var params = [String:String]()
+        
+        func addPath() {
+            if let id = name {
+                pathList.append(ViewControllerGraphProperty(identifier: id, segueKind: segue, params:params))
+            }
+            name = nil
+            params = [String:String]()
+        }
+        
         for token in tokens {
-            
+            switch token {
+            case .KindShow:
+                addPath()
+                segue = .Show
+            case .KindModal:
+                addPath()
+                segue = .Modal
+            case .KindTab:
+                addPath()
+                segue = .Tab
+
+            case .VC(let n): name = n
+            case .ParamKey(let k): paramKey = k
+            case .ParamValue(let v): if let k = paramKey { params[k] = v }
+            case .End:
+                addPath()
+                break
+            }
+
+
         }
         return pathList
     }
@@ -68,6 +101,8 @@ public class TransitionGraphModel {
         case ParamKey(String)
         case ParamValue(String)
         case KindShow, KindModal, KindTab
+        case End
+        
     }
     
     // Private なんだけど UnitTest用にPublic
@@ -101,6 +136,7 @@ public class TransitionGraphModel {
 
                 case end:
                     if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
+                    tokens.append(.End)
                     break
                 case "(":
                     if let t = tstr { tokens.append(Token.VC(t)); tstr = nil }
@@ -142,6 +178,7 @@ public func ==(lhs: TransitionGraphModel.Token, rhs: TransitionGraphModel.Token)
     case (.KindShow, .KindShow): return true
     case (.KindModal, .KindModal): return true
     case (.KindTab, .KindTab): return true
+    case (.End, .End): return true
     default:
         return false
     }
@@ -157,21 +194,20 @@ public enum SegueKind : String {
 
 public protocol ViewControllerGraphPropertyProtocol {
     var segueKind: SegueKind { get }
-    var identifier : String { get }
-    var params : [String:String] { get set }
+    var identifier: String { get }
+    var params: [String:String] { get }
 }
 
 public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
     public let segueKind: SegueKind
-    public let identifier : String
-    public var params = [String:String]()
+    public let identifier: String
+    public let params: [String:String]
     
-    public init(identifier: String, segueKind: SegueKind) {
+    public init(identifier: String, segueKind: SegueKind, params:[String:String]) {
         self.identifier  = identifier
         self.segueKind = segueKind
+        self.params = params
     }
-    
-
 }
 
 
