@@ -11,9 +11,11 @@ import XCTest
 
 import DeepTransitionSample
 
+typealias SegueKind = ViewControllerPath.SegueKind
+typealias ContainerKind = ViewControllerPath.ContainerKind
 
 class TransitionGraphModelTest: XCTestCase {
-    let obj = TransitionGraphModel.getInstance()
+    let obj = ViewControllerPath(path: "")
 
     override func setUp() {
         super.setUp()
@@ -105,7 +107,7 @@ class TransitionGraphModelTest: XCTestCase {
         XCTAssertEqual(root, t.ownRootContainer)
     }
     
-    typealias T = TransitionGraphModel.Token
+    typealias T = ViewControllerPath.Token
     func testTokenize() {
         
         XCTAssertEqual([T.KindShow, T.VC("top"), T.KindShow, T.VC("news"), T.End], obj.tokenize("/top/news"))

@@ -20,6 +20,7 @@
 		BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42301A3E5FA800D740A3 /* TopViewController.swift */; };
 		BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42311A3E5FA800D740A3 /* TreeTransitionViewController.swift */; };
 		BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */; };
+		BEF0F2DD1A3EE4C700D6139D /* ViewControllerPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		BE8E42301A3E5FA800D740A3 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		BE8E42311A3E5FA800D740A3 /* TreeTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeTransitionViewController.swift; sourceTree = "<group>"; };
 		BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionGraphModelTest.swift; sourceTree = "<group>"; };
+		BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerPath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				BE8E42291A3E5FA200D740A3 /* TransitionGraphModel.swift */,
+				BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
 				BE8E422A1A3E5FA200D740A3 /* TransitionGraphModel.swift in Sources */,
 				BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */,
+				BEF0F2DD1A3EE4C700D6139D /* ViewControllerPath.swift in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,
 				BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */,
 				BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */,
@@ -457,6 +461,7 @@
 				BE8E42161A3C32AA00D740A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BE8E42171A3C32AA00D740A3 /* Build configuration list for PBXNativeTarget "DeepTransitionSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +470,7 @@
 				BE8E42191A3C32AA00D740A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
