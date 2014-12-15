@@ -8,10 +8,25 @@
 
 import UIKit
 
-class TreeTransitionViewController: UIViewController {
-    let transitionModel = TransitionModel.getInstance()
-  
+public class TreeTransitionViewController: UIViewController {
+
+    public override func willMoveToParentViewController(parent: UIViewController?) {
+        super.willMoveToParentViewController(parent)
+        let model = TransitionGraphModel.getInstance()
+        if self.parentViewController === parent {
+            model.addObserver(self, handler: self.didUpdateTransitionDestination)
+        } else {
+            model.removeObserver(self)
+        }
+    }
+    
+    func didUpdateTransitionDestination(model: TransitionGraphModel) {
+        let dest = model.destination
+        
+    }
+    
 }
+
 
 public protocol ViewControllerGraphProtocol {
     func showViewController(graphInfo: ViewControllerGraphPropertyProtocol)
@@ -20,16 +35,4 @@ public protocol ViewControllerGraphProtocol {
     func didReceiveDissmissRequest()
 }
 
-public enum SegueKind : String {
-    case Show = "/"
-    case Modal = "!"
-    case Tab = "#"
-}
 
-public protocol ViewControllerGraphPropertyProtocol {
-    var identifier : String { get }
-    var params : [String:AnyObject] { get set }
-    var segueKind: SegueKind { get set }
-    var path: String { get set }
-    var viewController: UIViewController { get set }
-}

@@ -12,13 +12,14 @@
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
 		BE8E42051A3C32AA00D740A3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42031A3C32AA00D740A3 /* LaunchScreen.xib */; };
 		BE8E42111A3C32AA00D740A3 /* DeepTransitionSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42101A3C32AA00D740A3 /* DeepTransitionSampleTests.swift */; };
-		BE8E422A1A3E5FA200D740A3 /* TransitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42291A3E5FA200D740A3 /* TransitionModel.swift */; };
+		BE8E422A1A3E5FA200D740A3 /* TransitionGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42291A3E5FA200D740A3 /* TransitionGraphModel.swift */; };
 		BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422C1A3E5FA800D740A3 /* CouponListViewController.swift */; };
 		BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422D1A3E5FA800D740A3 /* CouponViewController.swift */; };
 		BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */; };
 		BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */; };
 		BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42301A3E5FA800D740A3 /* TopViewController.swift */; };
 		BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42311A3E5FA800D740A3 /* TreeTransitionViewController.swift */; };
+		BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,13 +42,14 @@
 		BE8E420A1A3C32AA00D740A3 /* DeepTransitionSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeepTransitionSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E420F1A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E42101A3C32AA00D740A3 /* DeepTransitionSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepTransitionSampleTests.swift; sourceTree = "<group>"; };
-		BE8E42291A3E5FA200D740A3 /* TransitionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionModel.swift; sourceTree = "<group>"; };
+		BE8E42291A3E5FA200D740A3 /* TransitionGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionGraphModel.swift; sourceTree = "<group>"; };
 		BE8E422C1A3E5FA800D740A3 /* CouponListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponListViewController.swift; sourceTree = "<group>"; };
 		BE8E422D1A3E5FA800D740A3 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
 		BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		BE8E42301A3E5FA800D740A3 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		BE8E42311A3E5FA800D740A3 /* TreeTransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeTransitionViewController.swift; sourceTree = "<group>"; };
+		BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionGraphModelTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */,
 				BE8E42011A3C32AA00D740A3 /* Images.xcassets */,
 				BE8E42031A3C32AA00D740A3 /* LaunchScreen.xib */,
+				BE8E42381A3E797C00D740A3 /* Test */,
 				BE8E41F81A3C32AA00D740A3 /* Supporting Files */,
 			);
 			path = DeepTransitionSample;
@@ -128,7 +131,7 @@
 		BE8E42281A3E5FA200D740A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BE8E42291A3E5FA200D740A3 /* TransitionModel.swift */,
+				BE8E42291A3E5FA200D740A3 /* TransitionGraphModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -144,6 +147,14 @@
 				BE8E42311A3E5FA800D740A3 /* TreeTransitionViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		BE8E42381A3E797C00D740A3 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,7 +259,7 @@
 			files = (
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
-				BE8E422A1A3E5FA200D740A3 /* TransitionModel.swift in Sources */,
+				BE8E422A1A3E5FA200D740A3 /* TransitionGraphModel.swift in Sources */,
 				BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,
 				BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */,
@@ -262,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8E42111A3C32AA00D740A3 /* DeepTransitionSampleTests.swift in Sources */,
+				BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
