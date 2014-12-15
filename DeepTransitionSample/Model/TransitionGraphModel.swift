@@ -52,28 +52,45 @@ public class TransitionGraphModel {
         // /top#coupon!show(id=10,shop=5)
         
         let tokens = tokenize(path)
-        
-        var segue: SegueKind = SegueKind.Modal
+        var alreadyHasNavigationController = false
+        var ownContainer = ContainerKind.None
+        var segue: SegueKind?
         var name: String? = nil
         var paramKey: String?
         var params = [String:String]()
         
         func addPath() {
             if let id = name {
-                pathList.append(ViewControllerGraphProperty(identifier: id, segueKind: segue, params:params))
+                if let seg = segue {
+                    pathList.append(ViewControllerGraphProperty(identifier: id, segueKind: seg, params:params, ownRootContainer: ownContainer))
+                    name = nil
+                    params = [String:String]()
+                    segue = nil
+                    ownContainer = .None
+                }
             }
-            name = nil
-            params = [String:String]()
         }
         
         for token in tokens {
             switch token {
             case .KindShow:
                 addPath()
-                segue = .Show
+                switch (alreadyHasNavigationController, segue) {
+                case (_, .Some(.Modal)): // "!/"
+                    ownContainer = .Navigation
+                case (_, .Some(.Tab)):   // "#/"
+                    ownContainer = .Navigation
+                case (false, .None):
+                    ownContainer = .Navigation
+                    alreadyHasNavigationController = true
+                    segue = .Show
+                default:
+                    segue = .Show
+                }
             case .KindModal:
                 addPath()
                 segue = .Modal
+                alreadyHasNavigationController = false
             case .KindTab:
                 addPath()
                 segue = .Tab
@@ -192,21 +209,30 @@ public enum SegueKind : String {
     case Tab = "#"
 }
 
+public enum ContainerKind {
+    case None
+    case Navigation
+}
+
 public protocol ViewControllerGraphPropertyProtocol {
     var segueKind: SegueKind { get }
     var identifier: String { get }
     var params: [String:String] { get }
+    var ownRootContainer: ContainerKind { get }
 }
 
 public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
     public let segueKind: SegueKind
     public let identifier: String
     public let params: [String:String]
+    public let ownRootContainer: ContainerKind
+
     
-    public init(identifier: String, segueKind: SegueKind, params:[String:String]) {
+    public init(identifier: String, segueKind: SegueKind, params:[String:String], ownRootContainer: ContainerKind) {
         self.identifier  = identifier
         self.segueKind = segueKind
         self.params = params
+        self.ownRootContainer = ownRootContainer
     }
 }
 

@@ -27,12 +27,13 @@ class TransitionGraphModelTest: XCTestCase {
     func testSplitPath_1() {
         let pl = obj.splitPath("/top")
         XCTAssertEqual(1, pl.count)
-        checkSamePathComponent(target: pl.first, id: "top", kind: SegueKind.Show, params: nil)
+        checkSamePathComponent(target: pl.first, id: "top", kind: SegueKind.Show, root: .Navigation, params: nil)
     }
 
     func testSplitPath_2() {
         let pl = obj.splitPath("/top/news(id=10)")
         XCTAssertEqual(2, pl.count)
+        checkSamePathComponent(target: pl.first, id: "top", kind: SegueKind.Show, root: .Navigation, params: nil)
         checkSamePathComponent(target: pl.last, id: "news", kind: SegueKind.Show, params: ["id":"10"])
     }
 
@@ -40,7 +41,7 @@ class TransitionGraphModelTest: XCTestCase {
         let pl = obj.splitPath("/top#coupon!show(id=10,shop=5)")
         XCTAssertEqual(3, pl.count)
         if pl.count > 0 {
-            checkSamePathComponent(target: pl[0], id: "top", kind: SegueKind.Show, params: nil)
+            checkSamePathComponent(target: pl[0], id: "top", kind: SegueKind.Show, root: .Navigation, params: nil)
         }
         if pl.count > 1 {
             checkSamePathComponent(target: pl[1], id: "coupon", kind: SegueKind.Tab, params: nil)
@@ -51,14 +52,20 @@ class TransitionGraphModelTest: XCTestCase {
     }
 
     func testSplitPath_4() {
-        let pl = obj.splitPath("/top!/menu/settings")
+        let pl = obj.splitPath("/top!/menu#/settings")
         XCTAssertEqual(3, pl.count)
+        if pl.count > 0 {
+            checkSamePathComponent(target: pl[0], id: "top", kind: SegueKind.Show, root: .Navigation, params: nil)
+        }
         if pl.count > 1 {
-            checkSamePathComponent(target: pl[1], id: "menu", kind: SegueKind.Modal, params: nil)
+            checkSamePathComponent(target: pl[1], id: "menu", kind: SegueKind.Modal, root: .Navigation, params: nil)
+        }
+        if pl.count > 2 {
+            checkSamePathComponent(target: pl[2], id: "settings", kind: SegueKind.Tab, root: .Navigation, params: nil)
         }
     }
 
-    func checkSamePathComponent(target t: ViewControllerGraphPropertyProtocol!, id: String, kind: SegueKind, params p: [String:String]? = nil) {
+    func checkSamePathComponent(target t: ViewControllerGraphPropertyProtocol!, id: String, kind: SegueKind, root: ContainerKind = ContainerKind.None, params p: [String:String]? = nil) {
         if t == nil {
             XCTAssert(false, "Target Object is nil!")
             return
@@ -67,6 +74,7 @@ class TransitionGraphModelTest: XCTestCase {
         XCTAssertEqual(id, t.identifier)
         XCTAssertEqual(kind, t.segueKind)
         XCTAssertEqual(params, t.params)
+        XCTAssertEqual(root, t.ownRootContainer)
     }
     
     typealias T = TransitionGraphModel.Token
