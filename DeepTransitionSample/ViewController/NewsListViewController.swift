@@ -9,13 +9,4 @@
 import UIKit
 
 class NewsListViewController: TreeTransitionViewController {
-    @IBAction func onBtnNews1(sender: AnyObject) {
-        transition("/top/news/detail?id=1")
-    }
-
-    override func viewDidLoad() {
-        self.path = "/top/news"
-        self.childs = ["detail"]
-        super.viewDidLoad()
-    }
 }

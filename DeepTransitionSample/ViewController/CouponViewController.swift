@@ -9,8 +9,4 @@
 import UIKit
 
 class CouponViewController: TreeTransitionViewController {
-    override func viewDidLoad() {
-        self.path = "/top/coupon/detail"
-        super.viewDidLoad()
-    }
 }

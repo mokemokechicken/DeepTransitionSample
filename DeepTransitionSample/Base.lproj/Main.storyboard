@@ -43,8 +43,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhA-yF-wdx">
-                                <rect key="frame" x="159" y="261" width="52" height="30"/>
-                                <state key="normal" title="coupon">
+                                <rect key="frame" x="159" y="261" width="66" height="30"/>
+                                <state key="normal" title="SubMenu">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -57,7 +57,7 @@
                     <navigationItem key="navigationItem" id="6rJ-Q4-f3Y"/>
                     <connections>
                         <segue destination="NsS-47-P9t" kind="show" identifier="news" id="IOC-jB-j6l"/>
-                        <segue destination="CTB-Sg-wH4" kind="show" identifier="coupon" id="WWf-jH-QzW"/>
+                        <segue destination="CTB-Sg-wH4" kind="presentation" identifier="coupon" id="WWf-jH-QzW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -77,16 +77,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXi-Qh-gyj">
-                                <rect key="frame" x="164" y="127" width="64" height="30"/>
+                                <rect key="frame" x="155" y="91" width="64" height="30"/>
                                 <state key="normal" title="Coupon1">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onBtnCoupon1:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="Tll-hj-GaC"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d31-F6-GcR">
-                                <rect key="frame" x="164" y="239" width="64" height="30"/>
-                                <state key="normal" title="Coupon2">
+                                <rect key="frame" x="155" y="194" width="47" height="30"/>
+                                <state key="normal" title="News2">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onBtnCoupon2:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="eSg-wn-2bP"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
