@@ -63,6 +63,9 @@ public class TransitionGraphModel {
             if let id = name {
                 if let seg = segue {
                     pathList.append(ViewControllerGraphProperty(identifier: id, segueKind: seg, params:params, ownRootContainer: ownContainer))
+                    if !alreadyHasNavigationController && ownContainer == .Navigation {
+                        alreadyHasNavigationController = true
+                    }
                     name = nil
                     params = [String:String]()
                     segue = nil
@@ -82,7 +85,6 @@ public class TransitionGraphModel {
                     ownContainer = .Navigation
                 case (false, .None):
                     ownContainer = .Navigation
-                    alreadyHasNavigationController = true
                     segue = .Show
                 default:
                     segue = .Show
@@ -95,15 +97,15 @@ public class TransitionGraphModel {
                 addPath()
                 segue = .Tab
 
-            case .VC(let n): name = n
+            case .VC(let n):
+                name = n
+                segue = segue ?? .Show
             case .ParamKey(let k): paramKey = k
             case .ParamValue(let v): if let k = paramKey { params[k] = v }
             case .End:
                 addPath()
                 break
             }
-
-
         }
         return pathList
     }
@@ -113,13 +115,32 @@ public class TransitionGraphModel {
         case Normal, ParamKey, ParamValue
     }
     
-    public enum Token : Equatable {
+    public enum Token : Equatable, Printable {
         case VC(String)
         case ParamKey(String)
         case ParamValue(String)
         case KindShow, KindModal, KindTab
         case End
         
+        
+        public var description: String {
+            switch self {
+            case .VC(let s):
+                return "VC(\(s))"
+            case .ParamKey(let s):
+                return "Key(\(s))"
+            case .ParamValue(let s):
+                return "Val(\(s))"
+            case .KindShow:
+                return "/"
+            case .KindModal:
+                return "!"
+            case .KindTab:
+                return "#"
+            case .End:
+                return "$"
+            }
+        }
     }
     
     // Private なんだけど UnitTest用にPublic
@@ -209,9 +230,13 @@ public enum SegueKind : String {
     case Tab = "#"
 }
 
-public enum ContainerKind {
-    case None
-    case Navigation
+public enum ContainerKind : String, Printable {
+    case None = "None"
+    case Navigation = "Navigation"
+    
+    public var description : String {
+        return "ContainerKind.\(self.rawValue)"
+    }
 }
 
 public protocol ViewControllerGraphPropertyProtocol {
