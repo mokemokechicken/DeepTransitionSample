@@ -95,7 +95,7 @@ class TransitionGraphModelTest: XCTestCase {
         }
     }
 
-    func checkSamePathComponent(target t: ViewControllerGraphPropertyProtocol!, id: String, kind: SegueKind, root: ContainerKind = ContainerKind.None, params p: [String:String]? = nil) {
+    func checkSamePathComponent(target t: ViewControllerGraphProperty!, id: String, kind: SegueKind, root: ContainerKind = ContainerKind.None, params p: [String:String]? = nil) {
         if t == nil {
             XCTAssert(false, "Target Object is nil!")
             return
@@ -119,4 +119,58 @@ class TransitionGraphModelTest: XCTestCase {
     }
     
 
+    func testIsDifferenceRoot() {
+        let path = ViewControllerPath(path: "/a/b/c")
+        XCTAssertEqual(true, path.isDifferenceRoot(ViewControllerPath(path: "/a/b/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/a/b/c/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/a/c/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/b")))
+        XCTAssertEqual(true, path.isDifferenceRoot(ViewControllerPath(path: "/a/b!c")))
+        
+        let p2 = ViewControllerPath(path: "menu")
+        XCTAssertEqual(true , p2.isDifferenceRoot(ViewControllerPath(path: "/a/b!c")))
+        XCTAssertEqual(false, p2.isDifferenceRoot(ViewControllerPath(path: "menu!/top")))
+        XCTAssertEqual(true , p2.isDifferenceRoot(ViewControllerPath(path: "/menu!/top")))
+    }
+    
+    func testDiff_1() {
+        let path1 = ViewControllerPath(path: "/a/b/c")
+        let path2 = ViewControllerPath(path: "/a/b/e/f")
+        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        XCTAssertEqual(2, common.depth)
+        XCTAssertEqual(1, d1.count)
+        XCTAssertEqual(2, d2.count)
+        XCTAssertEqual("a", common.componentList[0].identifier)
+        XCTAssertEqual("b", common.componentList[1].identifier)
+        XCTAssertEqual("c", d1[0].identifier)
+        XCTAssertEqual("e", d2[0].identifier)
+        XCTAssertEqual("f", d2[1].identifier)
+    }
+
+    func testDiff_2() {
+        let path1 = ViewControllerPath(path: "/a(id=1)/b(id=3)/c")
+        let path2 = ViewControllerPath(path: "/a(id=1)/b(id=4)/e/f")
+        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        XCTAssertEqual(1, common.depth)
+        XCTAssertEqual(2, d1.count)
+        XCTAssertEqual(3, d2.count)
+        XCTAssertEqual("a", common.componentList[0].identifier)
+        XCTAssertEqual("b", d1[0].identifier)
+        XCTAssertEqual("id=3", d1[0].paramString())
+        XCTAssertEqual("c", d1[1].identifier)
+        XCTAssertEqual("b", d2[0].identifier)
+        XCTAssertEqual("id=4", d2[0].paramString())
+        XCTAssertEqual("e", d2[1].identifier)
+        XCTAssertEqual("f", d2[2].identifier)
+    }
+    
+    func testComponentListToPath_1() {
+        var path = ""
+        path = "/a/b/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = ""; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = "a"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = "a!b!/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = "a#b!/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = "a#/b!/c(id=10,url=http://hoge.com/hoge?ud=10#jjj)/ddx"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+    }
 }

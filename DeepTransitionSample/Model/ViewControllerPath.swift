@@ -9,18 +9,103 @@
 import Foundation
 
 
-public class ViewControllerPath {
+public class ViewControllerPath : Hashable, Printable {
     public let path: String
+    public private(set) var componentList = [ViewControllerGraphProperty]()
+    public var depth : Int { return componentList.count }
 
-    public private(set) var componentList = [ViewControllerGraphPropertyProtocol]()
-    
     public init(path: String) {
         self.path = path
         self.componentList = splitPath(path)
     }
     
-    public func splitPath(path: String) -> [ViewControllerGraphPropertyProtocol] {
-        var pathList = [ViewControllerGraphPropertyProtocol]()
+    private init(componentList: [ViewControllerGraphProperty]) {
+        self.path = ViewControllerPath.componentListToPath(componentList)
+        self.componentList = componentList
+    }
+    
+    public class func diff(#path1: ViewControllerPath, path2: ViewControllerPath) -> (common: ViewControllerPath, d1: [ViewControllerGraphProperty], d2: [ViewControllerGraphProperty]) {
+        let minDepth = min(path1.depth, path2.depth)
+        var common = [ViewControllerGraphProperty]()
+        var d1 = [ViewControllerGraphProperty]()
+        var d2 = [ViewControllerGraphProperty]()
+
+        var diffRootIndex = -1
+        for i in 0..<minDepth {
+            if path1.componentList[i] == path2.componentList[i] {
+                common.append(path1.componentList[i])
+            } else {
+                diffRootIndex = i
+                break
+            }
+        }
+        if diffRootIndex > -1 {
+            for i1 in diffRootIndex..<path1.depth {
+                d1.append(path1.componentList[i1])
+            }
+            for i2 in diffRootIndex..<path2.depth {
+                d2.append(path2.componentList[i2])
+            }
+        }
+        return (ViewControllerPath(componentList: common), d1, d2)
+    }
+    
+    public func isDifferenceRoot(destinationPath: ViewControllerPath) -> Bool {
+        // path の 最後の要素以外が一致していて、かつ、最後の要素が一致してなければTrue。
+        // それ以外はFalse
+        if destinationPath.depth < depth || depth == 0 {
+            return false
+        }
+        
+        for i in 0..<(depth-1) {
+            if destinationPath.componentList[i] != componentList[i] {
+                return false
+            }
+        }
+        let lastIndex = depth-1
+        if destinationPath.componentList[lastIndex] != componentList[lastIndex] {
+            return true
+        }
+        return false
+    }
+    
+    public class func componentListToPath(componentList: [ViewControllerGraphProperty]) -> String {
+        if componentList.isEmpty {
+            return ""
+        }
+        var str = ""
+        for c in componentList  {
+            str += c.description
+        }
+        return str.substringFromIndex(advance(str.startIndex, 1))
+    }
+    
+    // MARK: Enums
+    public enum SegueKind : String {
+        case Show = "/"
+        case Modal = "!"
+        case Tab = "#"
+    }
+    
+    public enum ContainerKind : String, Printable {
+        case None = "None"
+        case Navigation = "Navigation"
+        
+        public var description : String {
+            return "ContainerKind.\(self.rawValue)"
+        }
+    }
+    
+    // MARK: Hashable
+    public var hashValue : Int { return path.hashValue }
+
+    // MARK: Printable
+    public var description: String { return path }
+    
+    // MARK: Private
+    // Private なんだけど UnitTest用にPublic
+    public func splitPath(path: String) -> [ViewControllerGraphProperty] {
+        var pathList = [ViewControllerGraphProperty]()
         let tokens = tokenize(path)
         var alreadyHasNavigationController = false
         var ownContainer = ContainerKind.None
@@ -112,7 +197,6 @@ public class ViewControllerPath {
         }
     }
     
-    // Private なんだけど UnitTest用にPublic
     public func tokenize(path: String) -> [Token] {
         var tokens = [Token]()
         var tstr: String?
@@ -176,21 +260,20 @@ public class ViewControllerPath {
         return tokens
     }
     
-    public enum SegueKind : String {
-        case Show = "/"
-        case Modal = "!"
-        case Tab = "#"
-    }
-    
-    public enum ContainerKind : String, Printable {
-        case None = "None"
-        case Navigation = "Navigation"
-        
-        public var description : String {
-            return "ContainerKind.\(self.rawValue)"
-        }
-    }
 }
+
+public func ==(lhs: ViewControllerPath, rhs: ViewControllerPath) -> Bool {
+    if lhs.depth == rhs.depth {
+        for i in 0..<lhs.depth {
+            if lhs.componentList[i] != rhs.componentList[i] {
+                return false
+            }
+        }
+        return true
+    }
+    return false
+}
+
 
 public func ==(lhs: ViewControllerPath.Token, rhs: ViewControllerPath.Token) -> Bool {
     switch (lhs, rhs) {
@@ -207,16 +290,11 @@ public func ==(lhs: ViewControllerPath.Token, rhs: ViewControllerPath.Token) -> 
 }
 
 
-public protocol ViewControllerGraphPropertyProtocol : Printable {
-    var segueKind: ViewControllerPath.SegueKind { get }
-    var identifier: String { get }
-    var params: [String:String] { get }
-    var ownRootContainer: ViewControllerPath.ContainerKind { get }
-    func paramString() -> String
-    func isEqual(other: ViewControllerGraphPropertyProtocol) -> Bool
+public func ==(lhs: ViewControllerGraphProperty, rhs: ViewControllerGraphProperty) -> Bool {
+    return lhs.isEqual(rhs)
 }
 
-public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
+public class ViewControllerGraphProperty : Printable, Equatable {
     public let segueKind: ViewControllerPath.SegueKind
     public let identifier: String
     public let params: [String:String]
@@ -229,7 +307,7 @@ public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
         self.ownRootContainer = ownRootContainer
     }
     
-    public func isEqual(other: ViewControllerGraphPropertyProtocol) -> Bool {
+    public func isEqual(other: ViewControllerGraphProperty) -> Bool {
         return
             self.identifier == other.identifier &&
                 self.segueKind == other.segueKind &&
@@ -238,7 +316,10 @@ public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
     }
     
     public var description: String {
-        let pstr = ""
+        var pstr = paramString()
+        if !pstr.isEmpty {
+            pstr = "(\(pstr))"
+        }
         var ret = ""
         switch ownRootContainer {
         case .None:
@@ -252,9 +333,9 @@ public class ViewControllerGraphProperty : ViewControllerGraphPropertyProtocol {
     public func paramString() -> String {
         var kvList = [String]()
         for k in params.keys.array.sorted(<) {
-            kvList.append("\(k)=\(params[k])")
+            kvList.append("\(k)=\(params[k]!)")
         }
-        return "(" + join(",", kvList) + ")"
+        return join(",", kvList)
     }
 }
 

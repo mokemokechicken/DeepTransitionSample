@@ -20,7 +20,7 @@ public class TreeTransitionViewController: UIViewController {
         }
     }
     
-    func didUpdateTransitionDestination(model: TransitionGraphModel) {
+    func didUpdateTransitionDestination(model: TransitionGraphModel, info: TransitionGraphModel.TransitionInfo) {
         let dest = model.destination
         
     }
@@ -29,7 +29,7 @@ public class TreeTransitionViewController: UIViewController {
 
 
 public protocol ViewControllerGraphProtocol {
-    func showViewController(graphInfo: ViewControllerGraphPropertyProtocol)
+    func showViewController(graphInfo: ViewControllerGraphProperty)
     func removeAllChildViewControllers()
     func allowToBeRemovedNow() -> Bool
     func didReceiveDissmissRequest()

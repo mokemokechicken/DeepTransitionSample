@@ -19,10 +19,10 @@ public class TransitionGraphModel {
     
     // MARK: Observable
     ///////// Observable ///////////
-    public typealias NotificationHandler = (TransitionGraphModel) -> Void
+    public typealias NotificationHandler = (TransitionGraphModel, TransitionInfo) -> Void
     
     private var observers = [(AnyObject, NotificationHandler)]()
-    public func addObserver(object: AnyObject, handler: (TransitionGraphModel) -> Void) {
+    public func addObserver(object: AnyObject, handler: (TransitionGraphModel, TransitionInfo) -> Void) {
         observers.append((object, handler))
     }
     
@@ -30,23 +30,35 @@ public class TransitionGraphModel {
         observers = observers.filter { $0.0 !== object}
     }
     
-    private func notify() {
+    private func notify(info: TransitionInfo) {
         for observer in observers {
-            observer.1(self)
+            observer.1(self, info)
         }
     }
     //////////////////////////////////
     
+    public class TransitionInfo {
+        public let commonPath : ViewControllerPath
+        public let newComponentList : [ViewControllerGraphProperty]
+        
+        public init(commonPath: ViewControllerPath, newComponentList: [ViewControllerGraphProperty])  {
+            self.commonPath = commonPath
+            self.newComponentList = newComponentList
+        }
+    }
+    
     // MARK: Transition
     public var destination : String = "" {
         didSet {
-            notify()
+            pastViewControllerPath = viewControllerPath
+            viewControllerPath = ViewControllerPath(path: destination)
+            let (common, d1, d2) = ViewControllerPath.diff(path1: pastViewControllerPath, path2: viewControllerPath)
+            notify(TransitionInfo(commonPath: common, newComponentList: d2))
         }
     }   // Is it enough by normal KVO?
-
-    public func needRemoveChildren(selfPath: ViewControllerPath, destinationPath: ViewControllerPath) -> Bool {
-        return true
-    }
+    public private(set) var viewControllerPath = ViewControllerPath(path: "")
+    public private(set) var pastViewControllerPath = ViewControllerPath(path: "")
+    
 }
 
 
