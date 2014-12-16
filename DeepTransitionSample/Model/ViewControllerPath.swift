@@ -42,7 +42,7 @@ import Foundation
         var d1 = [ViewControllerGraphProperty]()
         var d2 = [ViewControllerGraphProperty]()
 
-        var diffRootIndex = -1
+        var diffRootIndex = 0
         for i in 0..<minDepth {
             if path1.componentList[i] == path2.componentList[i] {
                 common.append(path1.componentList[i])
@@ -51,13 +51,12 @@ import Foundation
                 break
             }
         }
-        if diffRootIndex > -1 {
-            for i1 in diffRootIndex..<path1.depth {
-                d1.append(path1.componentList[i1])
-            }
-            for i2 in diffRootIndex..<path2.depth {
-                d2.append(path2.componentList[i2])
-            }
+
+        for i1 in diffRootIndex..<path1.depth {
+            d1.append(path1.componentList[i1])
+        }
+        for i2 in diffRootIndex..<path2.depth {
+            d2.append(path2.componentList[i2])
         }
         return (ViewControllerPath(componentList: common), d1, d2)
     }

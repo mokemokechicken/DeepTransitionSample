@@ -8,15 +8,19 @@
 
 import UIKit
 
-class TopViewController: TreeTransitionViewController {
+public class TopViewController: TreeTransitionViewController {
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+    }
    
     @IBAction func onBtnNews(sender: AnyObject) {
-
+        transition.request("/top/list_news")
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-
+        transition.request("/top/list_coupon")
     }
-    
+
     
 }
