@@ -30,6 +30,10 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
         return vcInfo
     }
     
+    public func beforePresentViewController(vc: UIViewController, info: ViewControllerGraphProperty) {
+        // for customize animation
+    }
+    
     // May Override
     public func addChildViewController(info: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ()) {
         if let vcInfo = processInfo(info) {
