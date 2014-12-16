@@ -15,16 +15,19 @@ public class RootTransitionContext : ViewControllerTransitionContext {
     }
     
     override public func removeChildViewController(completionHandler: () -> ()) {
-        UIApplication.sharedApplication().delegate?.window??.rootViewController = nil
+//        UIApplication.sharedApplication().delegate?.window??.rootViewController = nil
         completionHandler()
     }
     
     override public func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())  {
+        let window = UIApplication.sharedApplication().delegate?.window
         switch vcInfo.identifier {
         case "top":
-            let vc = TopViewController()
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as UIViewController
             let nav = UINavigationController(rootViewController: vc)
-            UIApplication.sharedApplication().delegate?.window??.rootViewController = nav
+            window??.rootViewController = nav
+            window??.makeKeyAndVisible()
+            
             completionHandler(vc)
         default:
             break

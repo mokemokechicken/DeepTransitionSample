@@ -20,9 +20,15 @@ import UIKit
 @objc public class ViewControllerTransitionContext {
     public private(set) var path: ViewControllerPath!
     public weak var delegate : ViewControllerTransitionContextDelegate?
+    private var vcInfo : ViewControllerGraphProperty?
+    
+    public var params : [String:String]? {
+        return vcInfo?.params
+    }
     
     public init(delegate: ViewControllerTransitionContextDelegate, baseContext: ViewControllerTransitionContext, vcInfo: ViewControllerGraphProperty) {
         self.delegate = delegate
+        self.vcInfo = vcInfo
         self.path = baseContext.path.appendPath(vcInfo)
         registerToModel()
     }

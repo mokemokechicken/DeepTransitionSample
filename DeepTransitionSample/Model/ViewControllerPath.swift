@@ -46,8 +46,8 @@ import Foundation
         for i in 0..<minDepth {
             if path1.componentList[i] == path2.componentList[i] {
                 common.append(path1.componentList[i])
+                diffRootIndex = i+1
             } else {
-                diffRootIndex = i
                 break
             }
         }

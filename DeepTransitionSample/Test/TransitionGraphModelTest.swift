@@ -175,6 +175,18 @@ class TransitionGraphModelTest: XCTestCase {
         XCTAssertEqual("b", d2[1].identifier)
     }
 
+    func testDiff_4() {
+        let path1 = ViewControllerPath(path: "/top")
+        let path2 = ViewControllerPath(path: "/top/list_news")
+        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        XCTAssertEqual(1, common.depth)
+        XCTAssertEqual(0, d1.count)
+        XCTAssertEqual(1, d2.count)
+        XCTAssertEqual("top", common.componentList[0].identifier)
+        XCTAssertEqual("list_news", d2[0].identifier)
+    }
+    
+
     func testComponentListToPath_1() {
         var path = ""
         path = "/a/b/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))

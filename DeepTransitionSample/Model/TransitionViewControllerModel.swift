@@ -60,6 +60,7 @@ public class TransitionViewControllerModel {
         switch state {
         case .Init:
             state = .Busy
+            NSLog("Requested Transition: \(currentPath.path) -> \(destination)")
             startTransition(destination)
         default:
             break
@@ -69,6 +70,7 @@ public class TransitionViewControllerModel {
     // MARK: Private
     
     private func cancelRequest() {
+        NSLog("Cancel Transition")
         state = .Init
     }
     
@@ -77,12 +79,17 @@ public class TransitionViewControllerModel {
         for context in self.caclWillRemoveContext(calcTransitionInfo()) {
             removeContext(context)
         }
+        NSLog("Finish Transition: \(currentPath.path) -> \(destPath.path)")
         currentPath = destPath
     }
     
     private func startTransition(destination: String) {
         destPath = ViewControllerPath(path: destination)
-        removeChild(calcTransitionInfo())
+        if currentPath == destPath {
+            cancelRequest()
+        } else {
+            removeChild(calcTransitionInfo())
+        }
     }
     
     private func removeChild(tInfo: TransitionInfo) {
@@ -98,6 +105,7 @@ public class TransitionViewControllerModel {
         if let context = findContextOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
             var isFirst = true
             context.removeChildViewController {
+                NSLog("RemoveChildRequest to '\(context.path)'")
                 if isFirst { // ひどい
                     isFirst = false
                     self.addChild(tInfo)
@@ -114,6 +122,7 @@ public class TransitionViewControllerModel {
         if let willAdd = tInfo.newComponentList.first {
             if let context = findContextOf(path) {
                 var isFirst = true
+                NSLog("AddChildRequest '\(context.path)' to \(willAdd.description)")
                 context.addChildViewController(willAdd) { vc in     // ひどい, かなしい
                     if isFirst { // 泣けてくるな
                         isFirst = false

@@ -19,7 +19,7 @@ public class TopViewController: TreeTransitionViewController {
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-        transition.request("/top/list_coupon")
+        transition.request("/top!/list_coupon")
     }
 
     

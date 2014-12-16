@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="-728" y="442"/>
         </scene>
-        <!--Top View Controller-->
+        <!--TOP-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController storyboardIdentifier="top" id="vXZ-lx-hvc" customClass="TopViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
@@ -54,7 +54,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="6rJ-Q4-f3Y"/>
+                    <navigationItem key="navigationItem" title="TOP" id="6rJ-Q4-f3Y"/>
                     <connections>
                         <segue destination="NsS-47-P9t" kind="show" identifier="news" id="IOC-jB-j6l"/>
                         <segue destination="CTB-Sg-wH4" kind="presentation" identifier="coupon" id="WWf-jH-QzW"/>
@@ -76,22 +76,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXi-Qh-gyj">
-                                <rect key="frame" x="155" y="91" width="64" height="30"/>
-                                <state key="normal" title="Coupon1">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d31-F6-GcR">
+                                <rect key="frame" x="111" y="208" width="142" height="30"/>
+                                <state key="normal" title="Push News VC">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBtnCoupon1:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="Tll-hj-GaC"/>
+                                    <action selector="onBtnNews2:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="rrx-gw-QxG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d31-F6-GcR">
-                                <rect key="frame" x="155" y="194" width="47" height="30"/>
-                                <state key="normal" title="News2">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXi-Qh-gyj">
+                                <rect key="frame" x="128" y="91" width="118" height="30"/>
+                                <state key="normal" title="Push Coupon VC">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBtnCoupon2:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="eSg-wn-2bP"/>
+                                    <action selector="onBtnCoupon2:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="PEz-v3-KF0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -118,18 +118,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Vc-te-dC5">
-                                <rect key="frame" x="164" y="202" width="45" height="30"/>
-                                <state key="normal" title="news2">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KCl-Ue-U07">
-                                <rect key="frame" x="165" y="119" width="45" height="30"/>
-                                <state key="normal" title="news1">
+                                <rect key="frame" x="140" y="203" width="86" height="30"/>
+                                <state key="normal" title="Modal News">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBtnNews1:" destination="NsS-47-P9t" eventType="touchUpInside" id="FH2-T5-jeD"/>
+                                    <action selector="onBtnNews2:" destination="NsS-47-P9t" eventType="touchUpInside" id="fCk-1k-NZs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KCl-Ue-U07">
+                                <rect key="frame" x="144" y="125" width="78" height="30"/>
+                                <state key="normal" title="Push News">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnNews1:" destination="NsS-47-P9t" eventType="touchUpInside" id="ljQ-Yf-M1C"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -168,19 +171,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8p-xb-q6n">
-                                <rect key="frame" x="143" y="319" width="90" height="30"/>
-                                <state key="normal" title="Coupon2">
+                                <rect key="frame" x="143" y="319" width="93" height="30"/>
+                                <state key="normal" title="Goto Coupon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBtnCoupon2:" destination="Sbi-SS-hMQ" eventType="touchUpInside" id="uIf-GS-Lxy"/>
+                                    <action selector="onBtnCoupon2:" destination="Sbi-SS-hMQ" eventType="touchUpInside" id="gT4-J4-kWQ"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="label" destination="NEn-DP-2O6" id="u7N-lH-sqs"/>
+                        <outlet property="label" destination="NEn-DP-2O6" id="36N-JC-lzW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3A-IA-d13" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -190,7 +193,7 @@
         <!--Coupon View Controller-->
         <scene sceneID="iVI-SL-B4p">
             <objects>
-                <viewController id="bAu-6K-Oz7" customClass="CouponViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="show_coupon" id="bAu-6K-Oz7" customClass="CouponViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Qq6-en-EwD"/>
                         <viewControllerLayoutGuide type="bottom" id="atf-4f-Uhq"/>
@@ -211,9 +214,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cIe-n4-lYU">
+                                <rect key="frame" x="149" y="288" width="77" height="30"/>
+                                <state key="normal" title="Goto News">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnNews2:" destination="bAu-6K-Oz7" eventType="touchUpInside" id="1yl-WB-1kS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="labelID" destination="tmW-Ad-ZBy" id="AcT-jh-MrK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="soD-t2-zHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -47,8 +47,11 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
                     }
                     
                 case .Tab:
+                    // Unimplemented Yet
                     break
                 }
+            } else {
+                completionHandler(nil)
             }
         } else {
             completionHandler(nil)

@@ -9,4 +9,16 @@
 import UIKit
 
 class CouponViewController: TreeTransitionViewController {
+    @IBOutlet weak var labelID: UILabel!
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let params = transitionContext?.params {
+            labelID.text = params["id"]
+        }
+    }
+    
+    @IBAction func onBtnNews2(sender: AnyObject) {
+        transition.request("/top/list_news/show_news(id=55)")
+    }
 }
