@@ -12,6 +12,19 @@ import UIKit
 private let instance: TransitionGraphModel = TransitionGraphModel()
 
 
+// Director?
+public class TransitionInfo {
+    public let commonPath : ViewControllerPath
+    public let newComponentList : [ViewControllerGraphProperty]
+    public let oldComponentList : [ViewControllerGraphProperty]
+    
+    public init(commonPath: ViewControllerPath, newComponentList: [ViewControllerGraphProperty], oldComponentList: [ViewControllerGraphProperty])  {
+        self.commonPath = commonPath
+        self.newComponentList = newComponentList
+        self.oldComponentList = oldComponentList
+    }
+}
+
 public class TransitionGraphModel {
     public class func getInstance() -> TransitionGraphModel {
         return instance
@@ -37,15 +50,6 @@ public class TransitionGraphModel {
     }
     //////////////////////////////////
     
-    public class TransitionInfo {
-        public let commonPath : ViewControllerPath
-        public let newComponentList : [ViewControllerGraphProperty]
-        
-        public init(commonPath: ViewControllerPath, newComponentList: [ViewControllerGraphProperty])  {
-            self.commonPath = commonPath
-            self.newComponentList = newComponentList
-        }
-    }
     
     // MARK: Transition
     public var destination : String = "" {
@@ -53,12 +57,12 @@ public class TransitionGraphModel {
             pastViewControllerPath = viewControllerPath
             viewControllerPath = ViewControllerPath(path: destination)
             let (common, d1, d2) = ViewControllerPath.diff(path1: pastViewControllerPath, path2: viewControllerPath)
-            notify(TransitionInfo(commonPath: common, newComponentList: d2))
+            notify(TransitionInfo(commonPath: common, newComponentList: d2, oldComponentList: d1))
         }
-    }   // Is it enough by normal KVO?
+    }
+    
     public private(set) var viewControllerPath = ViewControllerPath(path: "")
     public private(set) var pastViewControllerPath = ViewControllerPath(path: "")
-    
 }
 
 

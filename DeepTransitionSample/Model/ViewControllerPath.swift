@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class ViewControllerPath : Hashable, Printable {
+@objc public class ViewControllerPath : Hashable, Printable {
     public let path: String
     public private(set) var componentList = [ViewControllerGraphProperty]()
     public var depth : Int { return componentList.count }
@@ -22,6 +22,18 @@ public class ViewControllerPath : Hashable, Printable {
     private init(componentList: [ViewControllerGraphProperty]) {
         self.path = ViewControllerPath.componentListToPath(componentList)
         self.componentList = componentList
+    }
+    
+    public func appendPath(component: ViewControllerGraphProperty) -> ViewControllerPath {
+        return ViewControllerPath(componentList: self.componentList + [component])
+    }
+
+    public func appendPath(componentList: [ViewControllerGraphProperty]) -> ViewControllerPath {
+        return ViewControllerPath(componentList: self.componentList + componentList)
+    }
+
+    public func appendPath(path: ViewControllerPath) -> ViewControllerPath {
+        return ViewControllerPath(componentList: self.componentList + path.componentList)
     }
     
     public class func diff(#path1: ViewControllerPath, path2: ViewControllerPath) -> (common: ViewControllerPath, d1: [ViewControllerGraphProperty], d2: [ViewControllerGraphProperty]) {
@@ -294,7 +306,7 @@ public func ==(lhs: ViewControllerGraphProperty, rhs: ViewControllerGraphPropert
     return lhs.isEqual(rhs)
 }
 
-public class ViewControllerGraphProperty : Printable, Equatable {
+@objc public class ViewControllerGraphProperty : Printable, Equatable {
     public let segueKind: ViewControllerPath.SegueKind
     public let identifier: String
     public let params: [String:String]
