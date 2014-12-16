@@ -127,7 +127,9 @@ public class TransitionViewControllerModel {
                     if isFirst { // 泣けてくるな
                         isFirst = false
                         if let nextInfo = self.handlerAddViewController(tInfo, component: willAdd, context:context, viewController: vc) {
-                            self.addChild(nextInfo)
+                            dispatch_after(DISPATCH_TIME_NOW + USEC_PER_SEC * 1000, dispatch_get_main_queue()) {
+                                self.addChild(nextInfo)
+                            }
                         } else {
                             self.finishRequest()
                         }

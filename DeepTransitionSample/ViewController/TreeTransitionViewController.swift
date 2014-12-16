@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 Yumemi. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 public class TreeTransitionViewController: UIViewController, ViewControllerTransitionContextDelegate {
@@ -35,8 +36,9 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
             if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(vcInfo.identifier) as? UIViewController {
                 switch vcInfo.segueKind {
                 case .Show:
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    completionHandler(vc)
+                    self.navigationController?.pushViewController(vc, animated: true) {
+                        completionHandler(vc)
+                    }
                     
                 case .Modal:
                     if vcInfo.ownRootContainer == .Navigation {
@@ -68,4 +70,15 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
         }
     }
 }
+
+extension UINavigationController {
+    public func pushViewController(viewController: UIViewController, animated: Bool, completion: () -> ()) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        self.pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+}
+
+
 
