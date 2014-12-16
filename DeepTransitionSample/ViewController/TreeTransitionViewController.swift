@@ -39,25 +39,10 @@ public class TreeTransitionViewController: UIViewController, ViewControllerGraph
     // ViewController階層に追加・削除されたタイミングでObserveするようにする
     public override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
-        let model = TransitionGraphModel.getInstance()
         if self.parentViewController === parent {
             NSLog("\(self.description): addObserver")
-            model.addObserver(self, handler: self.didUpdateTransitionDestination)
         } else {
             NSLog("\(self.description): removeObserver")
-            model.removeObserver(self)
-        }
-    }
-    
-    public func didUpdateTransitionDestination(model: TransitionGraphModel, info: TransitionInfo) {
-        let dest = model.destination
-        if let path = viewControllerPath {
-            if path == info.commonPath {
-                removeAllChildViewControllers()
-                if let vcInfo = info.newComponentList.first {
-                    showViewController(vcInfo)
-                }
-            }
         }
     }
 }
@@ -66,12 +51,14 @@ public class TreeTransitionViewController: UIViewController, ViewControllerGraph
     var transitionContext: ViewControllerTransitionContext? { get set }
     func canDisappearNow() -> Bool
     func removeChildViewController(completionHandler: () -> ())
-    func addChildViewController(vcInfo: ViewControllerGraphProperty) -> UIViewController
+    func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())
 }
 
 @objc public class ViewControllerTransitionContext {
     public private(set) var path: ViewControllerPath?
     public weak var delegate : ViewControllerTransitionContextDelegate?
+    
+    public init() {}
     
     func setup(baseContext: ViewControllerTransitionContext, vcInfo: ViewControllerGraphProperty) {
         path = baseContext.path?.appendPath(vcInfo)
@@ -90,15 +77,12 @@ public class TreeTransitionViewController: UIViewController, ViewControllerGraph
         }
     }
     
-    public func addChildViewController(vcInfo: ViewControllerGraphProperty) -> UIViewController? {
-        var ret = del?.addChildViewController(vcInfo)
-        if let hasContext = ret as? ViewControllerTransitionContextDelegate {
-            if hasContext.transitionContext  == nil {
-                hasContext.transitionContext = ViewControllerTransitionContext()
-                hasContext.transitionContext?.setup(self, vcInfo: vcInfo)
-            }
+    public func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())  {
+        if let d = del {
+            del?.addChildViewController(vcInfo, completionHandler)
+        } else {
+            completionHandler(nil)
         }
-        return ret
     }
     
     // MARK: Private

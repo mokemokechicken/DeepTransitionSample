@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-private let instance: TransitionGraphModel = TransitionGraphModel()
+private let instance: TransitionViewControllerModel = TransitionViewControllerModel()
 
 
 // Director?
@@ -25,44 +25,119 @@ public class TransitionInfo {
     }
 }
 
-public class TransitionGraphModel {
-    public class func getInstance() -> TransitionGraphModel {
+public class TransitionViewControllerModel {
+    public class func getInstance() -> TransitionViewControllerModel {
         return instance
     }
     
-    // MARK: Observable
-    ///////// Observable ///////////
-    public typealias NotificationHandler = (TransitionGraphModel, TransitionInfo) -> Void
-    
-    private var observers = [(AnyObject, NotificationHandler)]()
-    public func addObserver(object: AnyObject, handler: (TransitionGraphModel, TransitionInfo) -> Void) {
-        observers.append((object, handler))
+    //////////////////////////////////
+    private var contexts = [ViewControllerTransitionContext]()
+    public func addContext(context: ViewControllerTransitionContext) {
+        contexts.append(context)
     }
     
-    public func removeObserver(object: AnyObject) {
-        observers = observers.filter { $0.0 !== object}
+    public func removeContext(context: ViewControllerTransitionContext) {
+        contexts = contexts.filter { $0.0 !== context}
     }
     
-    private func notify(info: TransitionInfo) {
-        for observer in observers {
-            observer.1(self, info)
+    private func findContextOf(path: ViewControllerPath) -> ViewControllerTransitionContext? {
+        for c in contexts {
+            if c.path? == path {
+                return c
+            }
         }
+        return nil
     }
     //////////////////////////////////
+    public private(set) var currentPath = ViewControllerPath(path: "")
+    private var destPath = ViewControllerPath(path: "")
+
+    enum State {
+        case Init, Busy
+    }
+    var state: State = .Init
     
-    
-    // MARK: Transition
-    public var destination : String = "" {
-        didSet {
-            pastViewControllerPath = viewControllerPath
-            viewControllerPath = ViewControllerPath(path: destination)
-            let (common, d1, d2) = ViewControllerPath.diff(path1: pastViewControllerPath, path2: viewControllerPath)
-            notify(TransitionInfo(commonPath: common, newComponentList: d2, oldComponentList: d1))
+    public func request(destination: String) {
+        switch state {
+        case .Init:
+            state = .Busy
+            startTransition(destination)
+        default:
+            break
         }
     }
     
-    public private(set) var viewControllerPath = ViewControllerPath(path: "")
-    public private(set) var pastViewControllerPath = ViewControllerPath(path: "")
-}
+    private func cancelRequest() {
+        state = .Init
+    }
+    
+    private func finishRequest() {
+        state = .Init
+        currentPath = destPath
+    }
+    
+    private func startTransition(destination: String) {
+        destPath = ViewControllerPath(path: destination)
+        let (commonPath, d1, d2) = ViewControllerPath.diff(path1: currentPath, path2: destPath)
+        let tInfo = TransitionInfo(commonPath: commonPath, newComponentList: d2, oldComponentList: d1)
+        removeChild(tInfo)
+    }
+    
+    private func removeChild(tInfo: TransitionInfo) {
+        var path = tInfo.commonPath
+        for willRemoved in tInfo.oldComponentList {
+            path = path.appendPath(willRemoved)
+            if let context = findContextOf(path) {
+                if !context.canDisappearNow(destPath) { // これから消されるVCに消えて大丈夫か尋ねる
+                    cancelRequest()
+                    return
+                }
+            }
+        }
+        //
+        if let context = findContextOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
+            context.removeChildViewController {
+                self.addChild(tInfo)
+            }
+        }
+    }
 
+    // 子供のViewController を順次追加していく
+    private func addChild(tInfo: TransitionInfo) {
+        var path = tInfo.commonPath
+        if let willAdd = tInfo.newComponentList.first {
+            if let context = findContextOf(path) {
+                context.addChildViewController(willAdd) { vc in     // ひどい, かなしい
+                    if let nextInfo = self.handlerAddViewController(tInfo, component: willAdd, context:context, viewController: vc) {
+                        self.addChild(nextInfo)
+                    } else {
+                        self.finishRequest()
+                    }
+                }
+            } else {
+                finishRequest()
+            }
+        } else {
+            finishRequest()
+        }
+    }
+    
+    private func handlerAddViewController(tInfo: TransitionInfo, component: ViewControllerGraphProperty, context: ViewControllerTransitionContext, viewController: UIViewController?) -> TransitionInfo? {
+        if let vc = viewController as? ViewControllerTransitionContextDelegate {
+            if vc.transitionContext == nil {
+                vc.transitionContext = ViewControllerTransitionContext()
+                vc.transitionContext!.setup(context, vcInfo: component)
+            }
+            
+            let nextPath = tInfo.commonPath.appendPath(component)
+            var nextNewList = [ViewControllerGraphProperty]()
+            for c in tInfo.newComponentList[1..<tInfo.newComponentList.count] {
+                nextNewList.append(c)
+            }
+            return TransitionInfo(commonPath: nextPath, newComponentList: nextNewList, oldComponentList: tInfo.oldComponentList)
+            
+        }
+        return nil
+    }
+}
 
