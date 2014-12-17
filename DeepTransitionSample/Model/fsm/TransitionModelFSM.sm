@@ -1,0 +1,46 @@
+%package TransitionModel
+%import    <UIKit/UIKit.h>
+%class      TransitionViewControllerModel
+%fsmclass   TransitionModelFSM
+
+%start  TransitionModelStateMap::IDLE
+
+%map TransitionModelStateMap
+%%
+
+IDLE
+Entry { onEntryIdle(); }
+{
+  request CONFIRMING { }
+}
+
+CONFIRMING
+Entry { onEntryConfirming(); }
+{
+  cancel IDLE {}
+  ok REMOVING {}
+}
+
+REMOVING
+Entry { onEntryRemoving(); }
+{
+  add ADDING {}
+}
+
+ADDING
+Entry { onEntryAdding(); }
+{
+  finish_add(vc: id) FINISH_ADD { onFinishAdd(vc); }
+}
+
+FINISH_ADD
+{
+  add ADDING {}
+  finish_transition IDLE {}
+}
+
+Default {
+  stop IDLE {}
+  Default nil {}
+}
+%%

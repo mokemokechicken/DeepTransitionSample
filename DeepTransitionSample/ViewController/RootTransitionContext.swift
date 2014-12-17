@@ -10,16 +10,15 @@
 import UIKit
 
 public class RootTransitionContext : ViewControllerTransitionContext {
-    public init() {
-        super.init(delegate: nil)
+    public init(center: TransitionCenterProtocol) {
+        super.init(delegate: nil, center: center)
     }
     
-    override public func removeChildViewController(completionHandler: () -> ()) {
-//        UIApplication.sharedApplication().delegate?.window??.rootViewController = nil
-        completionHandler()
+    override public func removeChildViewController() {
+        transitionCenter.reportFinishedRemoveViewController()
     }
     
-    override public func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())  {
+    override public func addChildViewController(vcInfo: ViewControllerGraphProperty)  {
         let window = UIApplication.sharedApplication().delegate?.window
         switch vcInfo.identifier {
         case "top":
@@ -28,7 +27,7 @@ public class RootTransitionContext : ViewControllerTransitionContext {
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
             
-            completionHandler(vc)
+            transitionCenter.reportAddedViewController(vc)
         default:
             break
         }

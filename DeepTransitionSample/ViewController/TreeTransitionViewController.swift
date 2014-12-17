@@ -11,10 +11,13 @@ import UIKit
 
 public class TreeTransitionViewController: UIViewController, ViewControllerTransitionContextDelegate {
     public var transitionContext: ViewControllerTransitionContext?
-    let transition = TransitionViewControllerModel.getInstance()
+    
+    public func transition(destination: String) {
+        transitionContext?.request(destination)
+    }
     
     // May Override
-    public func removeChildViewController(completionHandler: () -> ()) {
+    public func removeChildViewController() {
         if let modal = presentedViewController {
             modal.dismissViewControllerAnimated(true, nil)
         }
@@ -22,7 +25,7 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
         if let navi = navigationController {
             navi.popToViewController(self, animated: true)
         }
-        completionHandler()
+        transitionContext?.reportFinishedRemoveViewController()
     }
     
     // May Override
@@ -35,21 +38,26 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     }
     
     // May Override
-    public func addChildViewController(info: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ()) {
-        if let vcInfo = processInfo(info) {
-            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(vcInfo.identifier) as? UIViewController {
+    public func addViewController(vcInfo: ViewControllerGraphProperty) {
+        if let info = processInfo(vcInfo) {
+            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? UIViewController {
                 switch vcInfo.segueKind {
                 case .Show:
-                    self.navigationController?.pushViewController(vc, animated: true) {
-                        completionHandler(vc)
-                    }
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.transitionContext?.reportAddedViewController(vc)
                     
                 case .Modal:
                     if vcInfo.ownRootContainer == .Navigation {
                         let nav = UINavigationController(rootViewController: vc)
-                        self.presentViewController(nav, animated: true) { completionHandler(vc); return }
+                        self.presentViewController(nav, animated: true) {
+                            self.transitionContext?.reportAddedViewController(vc)
+                            return
+                        }
                     } else {
-                        self.presentViewController(vc, animated: true) { completionHandler(vc); return }
+                        self.presentViewController(vc, animated: true) {
+                            self.transitionContext?.reportAddedViewController(vc)
+                            return
+                        }
                     }
                     
                 case .Tab:
@@ -57,10 +65,10 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
                     break
                 }
             } else {
-                completionHandler(nil)
+                self.transitionContext?.reportAddedViewController(nil)
             }
         } else {
-            completionHandler(nil)
+            self.transitionContext?.reportAddedViewController(nil)
         }
     }
 
@@ -74,15 +82,4 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
         }
     }
 }
-
-extension UINavigationController {
-    public func pushViewController(viewController: UIViewController, animated: Bool, completion: () -> ()) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
-        self.pushViewController(viewController, animated: animated)
-        CATransaction.commit()
-    }
-}
-
-
 

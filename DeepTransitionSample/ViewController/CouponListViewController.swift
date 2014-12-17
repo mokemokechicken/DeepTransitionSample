@@ -10,9 +10,9 @@ import UIKit
 
 class CouponListViewController: TreeTransitionViewController {
     @IBAction func onBtnCoupon2(sender: AnyObject) {
-        transition.request("/top!/list_coupon/show_coupon(id=99)")
+        transition("/top!/list_coupon/show_coupon(id=99)")
     }
     @IBAction func onBtnNews2(sender: AnyObject) {
-        transition.request("/top!/list_coupon/show_news(id=99)")
+        transition("/top!/list_coupon/show_news(id=99)")
     }
 }

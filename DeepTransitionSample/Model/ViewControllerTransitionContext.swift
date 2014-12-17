@@ -11,9 +11,9 @@ import UIKit
 
 @objc public protocol ViewControllerTransitionContextDelegate {
     var transitionContext: ViewControllerTransitionContext? { get set }
-    optional func removeChildViewController(completionHandler: () -> ())
-    func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())
+    func addViewController(vcInfo: ViewControllerGraphProperty)
 
+    optional func removeChildViewController()
     optional func canDisappearNow() -> Bool
 }
 
@@ -21,41 +21,58 @@ import UIKit
     public private(set) var path: ViewControllerPath!
     public weak var delegate : ViewControllerTransitionContextDelegate?
     private var vcInfo : ViewControllerGraphProperty?
+    let transitionCenter: TransitionCenterProtocol
     
     public var params : [String:String]? {
         return vcInfo?.params
     }
     
-    public init(delegate: ViewControllerTransitionContextDelegate, baseContext: ViewControllerTransitionContext, vcInfo: ViewControllerGraphProperty) {
+    public init(delegate: ViewControllerTransitionContextDelegate, center: TransitionCenterProtocol, baseContext: ViewControllerTransitionContext, vcInfo: ViewControllerGraphProperty) {
         self.delegate = delegate
         self.vcInfo = vcInfo
-        self.path = baseContext.path.appendPath(vcInfo)
+        self.path = baseContext.path.appendPath(component: vcInfo)
+        self.transitionCenter = center
         registerToModel()
     }
 
-    public init(delegate: ViewControllerTransitionContextDelegate?) {
+    public init(delegate: ViewControllerTransitionContextDelegate?, center: TransitionCenterProtocol) {
         self.delegate = delegate
         self.path = ViewControllerPath(path: "")
+        self.transitionCenter = center
         registerToModel()
     }
     
+    // MARK: TransitionCenterProtocol
+    public func reportFinishedRemoveViewController() {
+        transitionCenter.reportFinishedRemoveViewController()
+    }
+    
+    public func reportAddedViewController(vc: UIViewController?) {
+        transitionCenter.reportAddedViewController(vc)
+    }
+    
+    public func request(destination: String) {
+        transitionCenter.request(destination)
+    }
+    
+    //
     public func canDisappearNow(nextPath: ViewControllerPath) -> Bool {
         return del?.canDisappearNow?() ?? true
     }
-    
-    public func removeChildViewController(completionHandler: () -> ()) {
+
+    public func removeChildViewController() {
         if let handler = del?.removeChildViewController {
-            handler(completionHandler)
+            handler()
         } else {
-            completionHandler()
+            reportFinishedRemoveViewController()
         }
     }
     
-    public func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())  {
+    public func addChildViewController(vcInfo: ViewControllerGraphProperty)  {
         if let d = del {
-            d.addChildViewController(vcInfo, completionHandler)
+            d.addViewController(vcInfo)
         } else {
-            completionHandler(nil)
+            reportAddedViewController(nil)
         }
     }
     
@@ -71,12 +88,12 @@ import UIKit
     
     private func registerToModel() {
         // TODO: Use Locator
-        TransitionViewControllerModel.getInstance().addContext(self)
+        transitionCenter.addContext(self)
     }
     
     private func unregisterFromModel() {
         // TODO: Use Locator
-        TransitionViewControllerModel.getInstance().removeContext(self)
+        transitionCenter.removeContext(self)
     }
 }
 

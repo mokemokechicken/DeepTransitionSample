@@ -16,10 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        RootTransitionContext()
+        let root = RootTransitionContext(center: TransitionViewControllerModel.getInstance())
         
         dispatch_after(DISPATCH_TIME_NOW + USEC_PER_SEC*100, dispatch_get_main_queue()) {
-            TransitionViewControllerModel.getInstance().request("/top")
+            root.transitionCenter.request("/top")
         }
         return true
     }

@@ -24,11 +24,11 @@ import Foundation
         self.componentList = componentList
     }
     
-    public func appendPath(component: ViewControllerGraphProperty) -> ViewControllerPath {
+    public func appendPath(#component: ViewControllerGraphProperty) -> ViewControllerPath {
         return ViewControllerPath(componentList: self.componentList + [component])
     }
 
-    public func appendPath(componentList: [ViewControllerGraphProperty]) -> ViewControllerPath {
+    public func appendPath(#list: [ViewControllerGraphProperty]) -> ViewControllerPath {
         return ViewControllerPath(componentList: self.componentList + componentList)
     }
 

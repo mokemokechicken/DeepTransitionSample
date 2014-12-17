@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09096DB51A41355700D73591 /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = 09096DB41A41355700D73591 /* TransitionModelFSM.sm */; };
-		09096DB71A41366000D73591 /* TransitionModelFSM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09096DB61A41366000D73591 /* TransitionModelFSM.swift */; };
+		09096DC41A41627700D73591 /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC01A41627700D73591 /* statemap.m */; };
+		09096DC51A41627700D73591 /* TransitionModelFSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC21A41627700D73591 /* TransitionModelFSM.m */; };
+		09096DC61A41627700D73591 /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = 09096DC31A41627700D73591 /* TransitionModelFSM.sm */; };
+		09EAE7F51A41A89A00F4DC96 /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DBF1A41627700D73591 /* statemap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		09EAE7F61A41A89D00F4DC96 /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DC11A41627700D73591 /* TransitionModelFSM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
@@ -38,8 +41,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		09096DB41A41355700D73591 /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
-		09096DB61A41366000D73591 /* TransitionModelFSM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionModelFSM.swift; sourceTree = "<group>"; };
+		09096DBF1A41627700D73591 /* statemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
+		09096DC01A41627700D73591 /* statemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statemap.m; sourceTree = "<group>"; };
+		09096DC11A41627700D73591 /* TransitionModelFSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionModelFSM.h; sourceTree = "<group>"; };
+		09096DC21A41627700D73591 /* TransitionModelFSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionModelFSM.m; sourceTree = "<group>"; };
+		09096DC31A41627700D73591 /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
+		09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeepTransitionSample-Bridging-Header.h"; sourceTree = "<group>"; };
+		09EAE7EC1A419E2C00F4DC96 /* statemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E41F91A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +88,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09096DBE1A41627700D73591 /* fsm */ = {
+			isa = PBXGroup;
+			children = (
+				09096DBF1A41627700D73591 /* statemap.h */,
+				09096DC01A41627700D73591 /* statemap.m */,
+				09096DC11A41627700D73591 /* TransitionModelFSM.h */,
+				09096DC21A41627700D73591 /* TransitionModelFSM.m */,
+				09096DC31A41627700D73591 /* TransitionModelFSM.sm */,
+			);
+			path = fsm;
+			sourceTree = "<group>";
+		};
 		BE8E41EC1A3C32AA00D740A3 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +121,7 @@
 		BE8E41F71A3C32AA00D740A3 /* DeepTransitionSample */ = {
 			isa = PBXGroup;
 			children = (
+				09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */,
 				BE8E422B1A3E5FA800D740A3 /* ViewController */,
 				BE8E42281A3E5FA200D740A3 /* Model */,
 				BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */,
@@ -141,11 +162,10 @@
 		BE8E42281A3E5FA200D740A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				09096DBE1A41627700D73591 /* fsm */,
 				BE8E42291A3E5FA200D740A3 /* TransitionViewControllerModel.swift */,
-				09096DB61A41366000D73591 /* TransitionModelFSM.swift */,
 				BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */,
 				BEF0F2DE1A400F2B00D6139D /* ViewControllerTransitionContext.swift */,
-				09096DB41A41355700D73591 /* TransitionModelFSM.sm */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,11 +188,31 @@
 			isa = PBXGroup;
 			children = (
 				BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */,
+				09EAE7EC1A419E2C00F4DC96 /* statemap.h */,
 			);
 			path = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		09EAE7ED1A419E9200F4DC96 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EAE7F51A41A89A00F4DC96 /* statemap.h in Headers */,
+				09EAE7F61A41A89D00F4DC96 /* TransitionModelFSM.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09EAE7F01A419F1400F4DC96 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		BE8E41F41A3C32AA00D740A3 /* DeepTransitionSample */ = {
@@ -182,6 +222,7 @@
 				BE8E41F11A3C32AA00D740A3 /* Sources */,
 				BE8E41F21A3C32AA00D740A3 /* Frameworks */,
 				BE8E41F31A3C32AA00D740A3 /* Resources */,
+				09EAE7ED1A419E9200F4DC96 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -199,6 +240,7 @@
 				BE8E42061A3C32AA00D740A3 /* Sources */,
 				BE8E42071A3C32AA00D740A3 /* Frameworks */,
 				BE8E42081A3C32AA00D740A3 /* Resources */,
+				09EAE7F01A419F1400F4DC96 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -253,7 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */,
-				09096DB51A41355700D73591 /* TransitionModelFSM.sm in Resources */,
+				09096DC61A41627700D73591 /* TransitionModelFSM.sm in Resources */,
 				BE8E42051A3C32AA00D740A3 /* LaunchScreen.xib in Resources */,
 				BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */,
 			);
@@ -273,17 +315,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09096DC41A41627700D73591 /* statemap.m in Sources */,
 				BEF0F2E11A4024AB00D6139D /* RootTransitionContext.swift in Sources */,
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
 				BE8E422A1A3E5FA200D740A3 /* TransitionViewControllerModel.swift in Sources */,
 				BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */,
-				09096DB71A41366000D73591 /* TransitionModelFSM.swift in Sources */,
 				BEF0F2DD1A3EE4C700D6139D /* ViewControllerPath.swift in Sources */,
 				BEF0F2DF1A400F2B00D6139D /* ViewControllerTransitionContext.swift in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,
 				BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */,
 				BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */,
+				09096DC51A41627700D73591 /* TransitionModelFSM.m in Sources */,
 				BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,9 +451,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = DeepTransitionSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = MyHeaders;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/DeepTransitionSample-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -418,9 +467,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = DeepTransitionSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = MyHeaders;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/DeepTransitionSample-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -436,8 +490,15 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(CONFIGURATION_BUILD_DIR)/MyHeaders",
+				);
 				INFOPLIST_FILE = DeepTransitionSampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DTEST=1";
+				OTHER_SWIFT_FLAGS = "-DTEST=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeepTransitionSample.app/DeepTransitionSample";
 			};
@@ -451,8 +512,15 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(CONFIGURATION_BUILD_DIR)/Headers",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = DeepTransitionSampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-DTEST=1";
+				OTHER_SWIFT_FLAGS = "-DTEST=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DeepTransitionSample.app/DeepTransitionSample";
 			};

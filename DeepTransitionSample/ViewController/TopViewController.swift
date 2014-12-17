@@ -15,11 +15,11 @@ public class TopViewController: TreeTransitionViewController {
     }
    
     @IBAction func onBtnNews(sender: AnyObject) {
-        transition.request("/top/list_news")
+        transition("/top/list_news")
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-        transition.request("/top!/list_coupon")
+        transition("/top!/list_coupon")
     }
 
     
