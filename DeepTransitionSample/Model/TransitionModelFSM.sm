@@ -1,0 +1,37 @@
+%package TransitionModel
+%class      TransitionViewControllerModel
+%fsmclass   TransitionModelFSM
+
+%start  TransitionModelStateMap::IDLE
+
+%map TransitionModelStateMap
+%%
+
+IDLE
+{
+  request CONFIRMING { }
+}
+
+CONFIRMING
+Entry { confirmRemoveOK(); }
+{
+  ok REMOVING {}
+  cancel IDLE {}
+}
+
+REMOVING
+Entry { removeViewControllers(); }
+{
+  finish_removing ADDING {}
+}
+
+ADDING
+Entry { addViewController(); }
+{
+  finish_adding IDLE {}
+}
+
+Default {
+  Default nil {}
+}
+%%

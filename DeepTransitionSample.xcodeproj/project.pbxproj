@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09096DB51A41355700D73591 /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = 09096DB41A41355700D73591 /* TransitionModelFSM.sm */; };
+		09096DB71A41366000D73591 /* TransitionModelFSM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09096DB61A41366000D73591 /* TransitionModelFSM.swift */; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09096DB41A41355700D73591 /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
+		09096DB61A41366000D73591 /* TransitionModelFSM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionModelFSM.swift; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E41F91A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,8 +142,10 @@
 			isa = PBXGroup;
 			children = (
 				BE8E42291A3E5FA200D740A3 /* TransitionViewControllerModel.swift */,
+				09096DB61A41366000D73591 /* TransitionModelFSM.swift */,
 				BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */,
 				BEF0F2DE1A400F2B00D6139D /* ViewControllerTransitionContext.swift */,
+				09096DB41A41355700D73591 /* TransitionModelFSM.sm */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */,
+				09096DB51A41355700D73591 /* TransitionModelFSM.sm in Resources */,
 				BE8E42051A3C32AA00D740A3 /* LaunchScreen.xib in Resources */,
 				BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */,
 			);
@@ -271,6 +278,7 @@
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
 				BE8E422A1A3E5FA200D740A3 /* TransitionViewControllerModel.swift in Sources */,
 				BE8E42371A3E5FA800D740A3 /* TreeTransitionViewController.swift in Sources */,
+				09096DB71A41366000D73591 /* TransitionModelFSM.swift in Sources */,
 				BEF0F2DD1A3EE4C700D6139D /* ViewControllerPath.swift in Sources */,
 				BEF0F2DF1A400F2B00D6139D /* ViewControllerTransitionContext.swift in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,

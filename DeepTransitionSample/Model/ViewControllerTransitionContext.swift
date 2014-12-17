@@ -11,7 +11,7 @@ import UIKit
 
 @objc public protocol ViewControllerTransitionContextDelegate {
     var transitionContext: ViewControllerTransitionContext? { get set }
-    func removeChildViewController(completionHandler: () -> ())
+    optional func removeChildViewController(completionHandler: () -> ())
     func addChildViewController(vcInfo: ViewControllerGraphProperty, completionHandler: (UIViewController?) -> ())
 
     optional func canDisappearNow() -> Bool
@@ -44,8 +44,8 @@ import UIKit
     }
     
     public func removeChildViewController(completionHandler: () -> ()) {
-        if let d = del {
-            d.removeChildViewController(completionHandler)
+        if let handler = del?.removeChildViewController {
+            handler(completionHandler)
         } else {
             completionHandler()
         }

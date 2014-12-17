@@ -1,0 +1,34 @@
+構造
+=====
+
+* TransitionModel を
+  * StateMachineにする
+    * Idle, Removing, WaitingForFinishAdd, ...?
+  * 画面遷移する毎に状態を変更する。
+    * current, destination, changingTo
+  * 途中で遷移が継続できなくなることがある。それはしょうがないので、その状態で遷移を終了する。
+  * Completionイベントがこない場合のことを考える
+    * Timeoutを導入する？ 微妙だなぁ。ただまあ、そういう可能性もありかと。
+
+* 色々なMethodを継承して実装するのではなく、各種HandlerをContextのImpl Objectとして表現するとか
+  * Context はDelegateがProtocolを実装している場合、そっちを呼び出して、そうでない場合は Implを呼び出す
+  * そのImplも差し替えられるといいなぁ
+
+? Context(DefaultImpl())
+
+* Contextを設置するのは誰の責任かを明確にする
+  * 基本的にはFramework側である。ただし既に設置してあれば手出しはしない。
+  * DefaultImplをどう指定するか。
+    * -> 最初にModelに渡しておけば良いかな
+
+仕様
+====
+
+* Default実装
+  * 生成したVCをどう表示するかをHookできるようにする
+
+課題
+=======
+
+* NAVへ追加完了したイベントの取得
+* Defaultで付いてくるNavのBack機能でModelの状態がずれないようにする
