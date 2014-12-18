@@ -11,9 +11,6 @@
 import Foundation
 import UIKit
 
-private let instance: TransitionCenter = TransitionCenter()
-
-
 private class TransitionInfo {
     private let commonPath : TransitionPath
     private let newComponentList : [TransitionPathComponent]
@@ -28,8 +25,8 @@ private class TransitionInfo {
 
 public protocol TransitionCenterProtocol {
     func addAgent(agent: TransitionAgent)
-    func reportFinishedRemoveViewControllerFrom(hasAgent: HasTransitionAgent?)
-    func reportViewDidAppear(hasAgent: HasTransitionAgent)
+    func reportFinishedRemoveViewControllerFrom(path: TransitionPath)
+    func reportViewDidAppear(path: TransitionPath)
     func reportTransitionError(reason: String?)
     func request(destination: String)
 }
@@ -44,10 +41,7 @@ class WeakAgent {
 
 
 @objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
-    public class func getInstance() -> TransitionCenter {
-        return instance
-    }
-    
+
     private let _fsm : TransitionModelFSM!
     public override init() {
         super.init()
@@ -56,16 +50,12 @@ class WeakAgent {
     }
     
     // MARK: TransitionCenterProtocol
-    public func reportFinishedRemoveViewControllerFrom(hasAgent: HasTransitionAgent?) {
-        if let v = hasAgent {
-            async_fsm { $0.finish_remove(v) }
-        } else {
-            async_fsm { $0.stop() }
-        }
+    public func reportFinishedRemoveViewControllerFrom(path: TransitionPath) {
+        async_fsm { $0.finish_remove(path) }
     }
     
-    public func reportViewDidAppear(hasAgent: HasTransitionAgent) {
-        async_fsm { $0.move(hasAgent) }
+    public func reportViewDidAppear(path: TransitionPath) {
+        async_fsm { $0.move(path) }
     }
     
     public func reportTransitionError(reason: String?) {
@@ -81,15 +71,15 @@ class WeakAgent {
     
     // MARK: Observable
     //////////////////////////////////
-    private var contexts = [WeakAgent]()
+    private var agents = [WeakAgent]()
     public func addAgent(agent: TransitionAgent) {
-        mylog("addAgent: \(agent.path)")
-        contexts.append(WeakAgent(agent: agent))
+        mylog("addAgent: \(agent.transitionPath)")
+        agents.append(WeakAgent(agent: agent))
     }
     
-    private func findContextOf(path: TransitionPath) -> TransitionAgent? {
-        for c in contexts {
-            if path ==  c.agent?.path {
+    private func findAgentOf(path: TransitionPath) -> TransitionAgent? {
+        for c in agents {
+            if path ==  c.agent?.transitionPath {
                 return c.agent
             }
         }
@@ -104,8 +94,8 @@ class WeakAgent {
 
     private struct AddingInfo {
         let tInfo : TransitionInfo
-        let adding: TransitionPathComponent
-        let vcContext: TransitionAgent
+        let nextComponent: TransitionPathComponent
+        let agent: TransitionAgent
     }
     
     private func async_fsm(block:(TransitionModelFSM) -> Void) {
@@ -166,9 +156,9 @@ class WeakAgent {
             return
         }
         
-        if let context = findContextOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
-            mylog("Sending RemoveChildRequest to '\(context.path)'")
-            context.removeChildViewController()
+        if let agent = findAgentOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
+            mylog("Sending RemoveChildRequest to '\(agent.transitionPath)'")
+            agent.removeChildViewController()
         } else {
             mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
             async_fsm() { $0.stop() }
@@ -177,10 +167,10 @@ class WeakAgent {
     
     func isExpectedReporter(object: AnyObject!) -> Bool {
         let tInfo = calcTransitionInfo()
-        if let vc = object as? HasTransitionAgent {
-            if vc.transitionAgent?.path == tInfo.commonPath {
-                mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
-                currentPath = tInfo.commonPath
+        if let path = object as? TransitionPath {
+            if path == tInfo.commonPath {
+                mylog("Change CurrentPath From \(currentPath.path) to \(path)")
+                currentPath = path
                 return true
             }
         }
@@ -191,11 +181,11 @@ class WeakAgent {
         // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある
         let tInfo = calcTransitionInfo()
         var path = tInfo.commonPath
-        if let willAdd = tInfo.newComponentList.first {
-            if let context = findContextOf(path) {
-                self.addingInfo = AddingInfo(tInfo: tInfo, adding: willAdd, vcContext: context)
-                mylog("Sending AddChildRequest '\(context.path)' += \(willAdd.description)")
-                context.addChildViewController(willAdd)
+        if let nextComponent = tInfo.newComponentList.first {
+            if let agent = findAgentOf(path) {
+                self.addingInfo = AddingInfo(tInfo: tInfo, nextComponent: nextComponent, agent: agent)
+                mylog("Sending AddChildRequest '\(agent.transitionPath)' += \(nextComponent.description)")
+                agent.addChildViewController(nextComponent)
                 return
             }
         }
@@ -203,9 +193,9 @@ class WeakAgent {
     }
     
     func isExpectedChild(object: AnyObject!) -> Bool {
-        switch (addingInfo, object as? HasTransitionAgent) {
-        case(let .Some(ai), let .Some(vc)):
-            if vc.transitionAgent == nil || vc.transitionAgent!.path == currentPath.appendPath(component: ai.adding) {
+        switch (addingInfo, object as? TransitionPath) {
+        case(let .Some(ai), let .Some(path)):
+            if path == currentPath.appendPath(component: ai.nextComponent) {
                 return true
             }
         default:
@@ -215,11 +205,9 @@ class WeakAgent {
     }
     
     func onMove(object: AnyObject!) {
-        if let hasAgent = object as? HasTransitionAgent {
-            if let agent = hasAgent.transitionAgent {
-                mylog("Change CurrentPath From \(currentPath.path) to \(agent.path)")
-                currentPath = agent.path
-            }
+        if let path = object as? TransitionPath {
+            mylog("Change CurrentPath From \(currentPath.path) to \(path)")
+            currentPath = path
         }
     }
     
@@ -247,12 +235,11 @@ class WeakAgent {
         var path = tInfo.commonPath
         for willRemoved in tInfo.oldComponentList {
             path = path.appendPath(component: willRemoved)
-            if let context = findContextOf(path) {
+            if let context = findAgentOf(path) {
                 ret.append(context)
             }
         }
         return ret
     }
-    
 }
 

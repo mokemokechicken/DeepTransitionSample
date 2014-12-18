@@ -11,11 +11,10 @@ import UIKit
 
 private var instance : RootTransitionAgent?
 
-public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
-    public var transitionAgent : TransitionAgent? { return self }
+public class RootTransitionAgent : TransitionAgent {
 
     override public func removeChildViewController() {
-        transitionCenter.reportFinishedRemoveViewControllerFrom(self)
+        transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
     override public func addChildViewController(pathComponent: TransitionPathComponent)  {
@@ -27,8 +26,12 @@ public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
             
-            setupChildAgent(vc, pathComponent: pathComponent)
-            transitionCenter.reportViewDidAppear(vc)
+            let newAgent = TransitionAgent(parentAgent: self, pathComponent: pathComponent)
+            let handler = TransitionDefaultHandler(viewController: vc, path: newAgent.transitionPath)
+            newAgent.delegate = vc
+            newAgent.agentDelegateDefaultImpl = handler
+            vc.transitionAgent = newAgent
+            transitionCenter.reportViewDidAppear(newAgent.transitionPath)
 
         default:
             break

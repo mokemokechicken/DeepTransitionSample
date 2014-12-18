@@ -9,11 +9,7 @@
 import UIKit
 
 
-@objc public protocol HasTransitionAgent {
-    var transitionAgent: TransitionAgent? { get }
-}
-
-@objc public protocol CanSetTransitionAgent : HasTransitionAgent {
+@objc public protocol OwnTransitionAgent {
     var transitionAgent: TransitionAgent? { get set }
 }
 
@@ -23,38 +19,29 @@ import UIKit
     optional func canDisappearNow() -> Bool
 }
 
+@objc public protocol TransitionViewControllerProtocol : TransitionAgentDelegate, OwnTransitionAgent {}
+
 @objc public class TransitionAgent {
-    public private(set) var path: TransitionPath!
-    public weak var delegate : TransitionAgentDelegate?
-    public var agentDelegateDefaultImpl : TransitionAgentDelegate?
-    private var pathComponent: TransitionPathComponent?
-    let transitionCenter: TransitionCenterProtocol
-    
-    
+    public private(set) var transitionPath: TransitionPath
     public var params : [String:String]? {
         return pathComponent?.params
     }
+    
+    public weak var delegate : TransitionAgentDelegate?
+    public var agentDelegateDefaultImpl : TransitionAgentDelegate?
 
-    public init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, path: TransitionPath) {
-        self.delegate = delegate
+    private var pathComponent: TransitionPathComponent?
+    var transitionCenter: TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    
+
+    public init(path: TransitionPath) {
         self.pathComponent = path.componentList.last
-        self.path = path
-        self.transitionCenter = center
+        self.transitionPath = path
         transitionCenter.addAgent(self)
     }
 
-    public convenience init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
-        self.init(delegate: delegate, center: center, path: parentAgent.path.appendPath(component: pathComponent))
-    }
-
-    public init(center: TransitionCenterProtocol) {
-        self.path = TransitionPath(path: "")
-        self.transitionCenter = center
-        transitionCenter.addAgent(self)
-    }
-
-    public func setupChildAgent(target: protocol<TransitionAgentDelegate,CanSetTransitionAgent>, pathComponent: TransitionPathComponent) {
-        target.transitionAgent = TransitionAgent(delegate: target, center: transitionCenter, parentAgent: self, pathComponent: pathComponent)
+    public convenience init(parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
+        self.init(path: parentAgent.transitionPath.appendPath(component: pathComponent))
     }
     
     //
@@ -85,7 +72,7 @@ import UIKit
     // MARK: Private
     
     deinit {
-        NSLog("deinit Context: \(self.path)")
+        NSLog("deinit Agent: \(self.transitionPath)")
     }
 }
 

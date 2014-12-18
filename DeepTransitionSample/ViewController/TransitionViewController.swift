@@ -11,15 +11,12 @@ import UIKit
 
 public class TransitionDefaultHandler : TransitionAgentDelegate {
     private weak var delegate : UIViewController?
-    private let transitionCenter : TransitionCenterProtocol
+    public private(set) var transitionPath : TransitionPath
+    private var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
 
-    public init(viewController: UIViewController?, center: TransitionCenterProtocol) {
+    public init(viewController: UIViewController?, path: TransitionPath) {
         self.delegate = viewController
-        self.transitionCenter = center
-    }
-    
-    private func hasAgent() -> HasTransitionAgent? {
-        return delegate as? HasTransitionAgent
+        self.transitionPath = path
     }
     
     public func removeChildViewController() {
@@ -30,36 +27,39 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         if let navi = delegate?.navigationController {
             navi.popToViewController(delegate!, animated: true)
         }
-        transitionCenter.reportFinishedRemoveViewControllerFrom(hasAgent())
-    }
-    
-    public func setupChildAgent(vc: protocol<TransitionAgentDelegate,CanSetTransitionAgent>, pathComponent: TransitionPathComponent) {
-        if let hasAgent = self.delegate as? HasTransitionAgent {
-            hasAgent.transitionAgent?.setupChildAgent(vc, pathComponent: pathComponent)
-        }
+        transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
     // May Override
     public func addViewController(pathComponent: TransitionPathComponent) {
-        if let vc = delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? TransitionViewController {
-            setupChildAgent(vc, pathComponent: pathComponent)
-            switch pathComponent.segueKind {
-            case .Show:
-                delegate!.navigationController?.pushViewController(vc, animated: true)
-                return
+        if let vc = delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController {
+            if let transitionVC = vc as? TransitionViewControllerProtocol {
                 
-            case .Modal:
-                if pathComponent.ownRootContainer == .Navigation {
-                    let nav = UINavigationController(rootViewController: vc)
-                    delegate!.presentViewController(nav, animated: true) {}
-                } else {
-                    delegate!.presentViewController(vc, animated: true) {}
+                let newAgent = TransitionAgent(path: transitionPath.appendPath(component: pathComponent))
+                let handler = TransitionDefaultHandler(viewController: vc, path: newAgent.transitionPath)
+                newAgent.delegate = transitionVC
+                newAgent.agentDelegateDefaultImpl = handler
+                transitionVC.transitionAgent = newAgent
+                
+                switch pathComponent.segueKind {
+                case .Show:
+                    delegate!.navigationController?.pushViewController(vc, animated: true)
+                    return
+                    
+                case .Modal:
+                    if pathComponent.ownRootContainer == .Navigation {
+                        let nav = UINavigationController(rootViewController: vc)
+                        delegate!.presentViewController(nav, animated: true) {}
+                    } else {
+                        delegate!.presentViewController(vc, animated: true) {}
+                    }
+                    return
+                    
+                case .Tab:
+                    // Unimplemented Yet
+                    break
                 }
-                return
                 
-            case .Tab:
-                // Unimplemented Yet
-                break
             }
         }
         transitionCenter.reportTransitionError("AddViewControlelr: \(pathComponent.identifier)")
@@ -70,9 +70,15 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
 }
 
-public class TransitionViewController: UIViewController, TransitionAgentDelegate, CanSetTransitionAgent {
+public class TransitionViewController: UIViewController, TransitionViewControllerProtocol {
     public var transitionAgent: TransitionAgent?
-    public var transitionCenter : TransitionCenterProtocol  = TransitionCenter.getInstance()
+    public var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    
+    public func reportViewDidAppear() {
+        if let path = transitionAgent?.transitionPath {
+            transitionCenter.reportViewDidAppear(path)
+        }
+    }
     
     public func transition(destination: String) {
         transitionCenter.request(destination)
@@ -80,7 +86,7 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        transitionCenter.reportViewDidAppear(self)
+        reportViewDidAppear()
         NSLog("viewDidAppear: \(self)")
     }
     
