@@ -13,9 +13,11 @@ import UIKit
     var transitionAgent: TransitionAgent? { get }
 }
 
-@objc public protocol TransitionAgentDelegate : HasTransitionAgent {
+@objc public protocol CanSetTransitionAgent : HasTransitionAgent {
     var transitionAgent: TransitionAgent? { get set }
+}
 
+@objc public protocol TransitionAgentDelegate {
     optional func addViewController(vcInfo: TransitionPathComponent)
     optional func removeChildViewController()
     optional func canDisappearNow() -> Bool
@@ -51,7 +53,7 @@ import UIKit
         transitionCenter.addAgent(self)
     }
 
-    public func setupChildAgent(target: TransitionAgentDelegate, pathComponent: TransitionPathComponent) {
+    public func setupChildAgent(target: protocol<TransitionAgentDelegate,CanSetTransitionAgent>, pathComponent: TransitionPathComponent) {
         target.transitionAgent = TransitionAgent(delegate: target, center: transitionCenter, parentAgent: self, pathComponent: pathComponent)
     }
     
