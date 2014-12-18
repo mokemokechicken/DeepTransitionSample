@@ -16,6 +16,6 @@ class NewsViewController: TransitionViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        label.text = transitionContext?.params?["id"]
+        label.text = transitionAgent?.params?["id"]
     }
 }

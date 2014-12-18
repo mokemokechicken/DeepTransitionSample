@@ -13,7 +13,7 @@ class CouponViewController: TransitionViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let params = transitionContext?.params {
+        if let params = transitionAgent?.params {
             labelID.text = params["id"]
         }
     }

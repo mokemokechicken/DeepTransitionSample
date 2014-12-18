@@ -2,9 +2,6 @@
 =====
 
 * TransitionModel を
-  * StateMachineにする -> Done
-  * 画面遷移する毎に状態を変更する。
-    * current, destination, changingTo
   * 途中で遷移が継続できなくなることがある。それはしょうがないので、その状態で遷移を終了する。
   * Completionイベントがこない場合のことを考える
     * Timeoutを導入する？ 微妙だなぁ。ただまあ、そういう可能性もありかと。
@@ -13,31 +10,14 @@
   * Context はDelegateがProtocolを実装している場合、そっちを呼び出して、そうでない場合は Implを呼び出す
   * そのImplも差し替えられるといいなぁ
 
-
-* Contextを設置するのは誰の責任かを明確にする
-  ->
-  * 基本的にはFramework側である。ただし既に設置してあれば手出しはしない。
+* Contextを設置するのは誰の責任かを明確にする -> Presentation Layer
   * DefaultImplをどう指定するか。
     ->
     * 最初にModelに渡しておけば良いかな
 
-* 名前を整理する。最終的にはCocoaPodsかFrameworkとして配布するので、名前空間はそれほど意識しなくてよい。
 * 状態の変更を通知するようにする
 * 履歴に関する情報を公開する
 * アニメーションに関するような情報を渡せるようにする？これは 同一判定には影響しないパラメータとして扱う。
-
-
-
-TransitionViewControllerModel  -> TransitionCenter
-ViewControllerPath -> TransitionPath
-ViewControllerGraphProperty -> TransitionPathComponent
-ViewControllerTransitionContext -> TransitionAgent
-RootTransitionContext -> RootTransitionAgent
-TreeTransitionViewController -> TransitionViewController
-
-HasTransitionAgent
-
-WeakContext
 
 仕様
 ====
@@ -48,5 +28,5 @@ WeakContext
 課題
 =======
 
-* NAVへ追加完了したイベントの取得
-* Defaultで付いてくるNavのBack機能でModelの状態がずれないようにする
+* NAVへ追加完了したイベントの取得 -> Done
+* Defaultで付いてくるNavのBack機能でModelの状態がずれないようにする -> Done

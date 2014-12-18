@@ -12,7 +12,7 @@ import UIKit
 private var instance : RootTransitionAgent?
 
 public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
-    public var transitionContext : TransitionAgent? { return self }
+    public var transitionAgent : TransitionAgent? { return self }
 
     public init(center: TransitionCenterProtocol) {
         super.init(delegate: nil, center: center)
@@ -22,16 +22,16 @@ public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
         transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
     
-    override public func addChildViewController(vcInfo: TransitionPathComponent)  {
+    override public func addChildViewController(pathComponent: TransitionPathComponent)  {
         let window = UIApplication.sharedApplication().delegate?.window
-        switch vcInfo.identifier {
+        switch pathComponent.identifier {
         case "top":
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as TransitionViewController
             let nav = UINavigationController(rootViewController: vc)
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
             
-            setupContext(vc, vcInfo: vcInfo)
+            setupChildAgent(vc, pathComponent: pathComponent)
             transitionCenter.reportViewDidAppear(vc)
 
         default:

@@ -10,11 +10,11 @@ import UIKit
 
 
 @objc public protocol HasTransitionAgent {
-    var transitionContext: TransitionAgent? { get }
+    var transitionAgent: TransitionAgent? { get }
 }
 
 @objc public protocol TransitionAgentDelegate : HasTransitionAgent {
-    var transitionContext: TransitionAgent? { get set }
+    var transitionAgent: TransitionAgent? { get set }
     func addViewController(vcInfo: TransitionPathComponent)
 
     optional func removeChildViewController()
@@ -24,17 +24,17 @@ import UIKit
 @objc public class TransitionAgent {
     public private(set) var path: TransitionPath!
     public weak var delegate : TransitionAgentDelegate?
-    private var vcInfo : TransitionPathComponent?
+    private var pathComponent: TransitionPathComponent?
     let transitionCenter: TransitionCenterProtocol
     
     public var params : [String:String]? {
-        return vcInfo?.params
+        return pathComponent?.params
     }
     
-    public init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, baseContext: TransitionAgent, vcInfo: TransitionPathComponent) {
+    public init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
         self.delegate = delegate
-        self.vcInfo = vcInfo
-        self.path = baseContext.path.appendPath(component: vcInfo)
+        self.pathComponent = pathComponent
+        self.path = parentAgent.path.appendPath(component: pathComponent)
         self.transitionCenter = center
         transitionCenter.addContext(self)
     }
@@ -46,8 +46,8 @@ import UIKit
         transitionCenter.addContext(self)
     }
     
-    public func setupContext(delegate: TransitionAgentDelegate, vcInfo: TransitionPathComponent) {
-        delegate.transitionContext = TransitionAgent(delegate: delegate, center: transitionCenter, baseContext: self, vcInfo: vcInfo)
+    public func setupChildAgent(target: TransitionAgentDelegate, pathComponent: TransitionPathComponent) {
+        target.transitionAgent = TransitionAgent(delegate: target, center: transitionCenter, parentAgent: self, pathComponent: pathComponent)
     }
     
     //
@@ -63,9 +63,9 @@ import UIKit
         }
     }
     
-    public func addChildViewController(vcInfo: TransitionPathComponent)  {
+    public func addChildViewController(pathComponent: TransitionPathComponent)  {
         if let d = delegate {
-            d.addViewController(vcInfo)
+            d.addViewController(pathComponent)
         } else {
             // TODO: Use DEFAULT Implementatin
         }

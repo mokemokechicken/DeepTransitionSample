@@ -178,7 +178,7 @@ class WeakAgent {
     func isExpectedReporter(object: AnyObject!) -> Bool {
         let tInfo = calcTransitionInfo()
         if let vc = object as? HasTransitionAgent {
-            if vc.transitionContext?.path == tInfo.commonPath {
+            if vc.transitionAgent?.path == tInfo.commonPath {
                 mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
                 currentPath = tInfo.commonPath
                 return true
@@ -205,7 +205,7 @@ class WeakAgent {
     func isExpectedChild(object: AnyObject!) -> Bool {
         switch (addingInfo, object as? HasTransitionAgent) {
         case(let .Some(ai), let .Some(vc)):
-            if vc.transitionContext == nil || vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
+            if vc.transitionAgent == nil || vc.transitionAgent!.path == currentPath.appendPath(component: ai.adding) {
                 return true
             }
         default:
@@ -215,10 +215,10 @@ class WeakAgent {
     }
     
     func onMove(object: AnyObject!) {
-        if let hasContext = object as? HasTransitionAgent {
-            if let context = hasContext.transitionContext {
-                mylog("Change CurrentPath From \(currentPath.path) to \(context.path)")
-                currentPath = context.path
+        if let hasAgent = object as? HasTransitionAgent {
+            if let agent = hasAgent.transitionAgent {
+                mylog("Change CurrentPath From \(currentPath.path) to \(agent.path)")
+                currentPath = agent.path
             }
         }
     }

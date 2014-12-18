@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class TransitionViewController: UIViewController, TransitionAgentDelegate {
-    public var transitionContext: TransitionAgent?
+    public var transitionAgent: TransitionAgent?
     public var transitionCenter : TransitionCenterProtocol  = TransitionCenter.getInstance()
     
     public func transition(destination: String) {
@@ -36,8 +36,8 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
     }
     
     // May Override
-    public func processInfo(vcInfo: TransitionPathComponent) -> TransitionPathComponent? {
-        return vcInfo
+    public func processPathComponent(pathComponent: TransitionPathComponent) -> TransitionPathComponent? {
+        return pathComponent
     }
     
     public func beforePresentViewController(vc: UIViewController, info: TransitionPathComponent) {
@@ -45,17 +45,17 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
     }
     
     // May Override
-    public func addViewController(vcInfo: TransitionPathComponent) {
-        if let info = processInfo(vcInfo) {
+    public func addViewController(pathComponent: TransitionPathComponent) {
+        if let info = processPathComponent(pathComponent) {
             if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? TransitionViewController {
-                transitionContext?.setupContext(vc, vcInfo: vcInfo)
-                switch vcInfo.segueKind {
+                transitionAgent?.setupChildAgent(vc, pathComponent: pathComponent)
+                switch pathComponent.segueKind {
                 case .Show:
                     self.navigationController?.pushViewController(vc, animated: true)
                     return
                     
                 case .Modal:
-                    if vcInfo.ownRootContainer == .Navigation {
+                    if pathComponent.ownRootContainer == .Navigation {
                         let nav = UINavigationController(rootViewController: vc)
                         self.presentViewController(nav, animated: true) {}
                     } else {
@@ -69,7 +69,7 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
                 }
             }
         }
-        transitionCenter.reportTransitionError("AddViewControlelr: \(vcInfo.identifier)")
+        transitionCenter.reportTransitionError("AddViewControlelr: \(pathComponent.identifier)")
     }
     
     deinit {
