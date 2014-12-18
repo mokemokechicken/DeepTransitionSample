@@ -12,7 +12,7 @@ import Foundation
 
 
 public protocol TransitionCenterProtocol {
-    func addAgent(agent: TransitionAgent)
+    func addAgent(agent: TransitionAgentProtocol)
     func reportFinishedRemoveViewControllerFrom(path: TransitionPath)
     func reportViewDidAppear(path: TransitionPath)
     func reportTransitionError(reason: String?)
@@ -51,12 +51,12 @@ public protocol TransitionCenterProtocol {
     // MARK: Observable
     //////////////////////////////////
     private var agents = [WeakAgent]()
-    public func addAgent(agent: TransitionAgent) {
+    public func addAgent(agent: TransitionAgentProtocol) {
         mylog("addAgent: \(agent.transitionPath)")
         agents.append(WeakAgent(agent: agent))
     }
     
-    private func findAgentOf(path: TransitionPath) -> TransitionAgent? {
+    private func findAgentOf(path: TransitionPath) -> TransitionAgentProtocol? {
         for c in agents {
             if path ==  c.agent?.transitionPath {
                 return c.agent
@@ -74,7 +74,7 @@ public protocol TransitionCenterProtocol {
     private struct AddingInfo {
         let tInfo : TransitionInfo
         let nextComponent: TransitionPathComponent
-        let agent: TransitionAgent
+        let agent: TransitionAgentProtocol
     }
     
     private func async_fsm(block:(TransitionModelFSM) -> Void) {
@@ -209,13 +209,13 @@ public protocol TransitionCenterProtocol {
         return TransitionInfo(commonPath: commonPath, newComponentList: d2, oldComponentList: d1)
     }
     
-    private func caclWillRemoveContext(tInfo: TransitionInfo) -> [TransitionAgent] {
-        var ret = [TransitionAgent]()
+    private func caclWillRemoveContext(tInfo: TransitionInfo) -> [TransitionAgentProtocol] {
+        var ret = [TransitionAgentProtocol]()
         var path = tInfo.commonPath
         for willRemoved in tInfo.oldComponentList {
             path = path.appendPath(component: willRemoved)
-            if let context = findAgentOf(path) {
-                ret.append(context)
+            if let agent = findAgentOf(path) {
+                ret.append(agent)
             }
         }
         return ret
@@ -223,8 +223,8 @@ public protocol TransitionCenterProtocol {
 }
 
 private class WeakAgent {
-    private weak var agent:TransitionAgent?
-    init(agent: TransitionAgent) {
+    private weak var agent:TransitionAgentProtocol?
+    init(agent: TransitionAgentProtocol) {
         self.agent = agent
     }
 }

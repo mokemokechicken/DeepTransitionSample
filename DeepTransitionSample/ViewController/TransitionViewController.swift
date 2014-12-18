@@ -66,7 +66,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
 }
 
 public class TransitionViewController: UIViewController, TransitionViewControllerProtocol {
-    public var transitionAgent: TransitionAgent?
+    public var transitionAgent: TransitionAgentProtocol?
     public var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
     
     public func reportViewDidAppear() {

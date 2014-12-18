@@ -10,7 +10,7 @@ import UIKit
 
 
 @objc public protocol OwnTransitionAgent {
-    var transitionAgent: TransitionAgent? { get set }
+    var transitionAgent: TransitionAgentProtocol? { get set }
 }
 
 @objc public protocol TransitionAgentDelegate {
@@ -53,7 +53,7 @@ import UIKit
         transitionCenter.addAgent(self)
     }
 
-    public convenience init(parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
+    public convenience init(parentAgent: TransitionAgentProtocol, pathComponent: TransitionPathComponent) {
         self.init(path: parentAgent.transitionPath.appendPath(component: pathComponent))
     }
     
