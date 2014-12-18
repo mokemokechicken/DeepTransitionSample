@@ -13,6 +13,14 @@ private var instance : RootTransitionAgent?
 
 public class RootTransitionAgent : TransitionAgent {
 
+    class func create() -> RootTransitionAgent {
+        return RootTransitionAgent(path: TransitionPath(path: ""))
+    }
+    
+    func start(destinaton: String) {
+        transitionCenter.request(destinaton)
+    }
+    
     override public func removeChildViewController() {
         transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }

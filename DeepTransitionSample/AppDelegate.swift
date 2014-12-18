@@ -13,14 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let root = RootTransitionAgent(path: TransitionPath(path: "")).forever()
-        
-        dispatch_after(DISPATCH_TIME_NOW + USEC_PER_SEC*100, dispatch_get_main_queue()) {
-            root.transitionCenter.request("/top")
-        }
+        RootTransitionAgent.create().forever().start("/top")
         return true
     }
 

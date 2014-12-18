@@ -68,10 +68,14 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
 public class TransitionViewController: UIViewController, TransitionViewControllerProtocol {
     public var transitionAgent: TransitionAgentProtocol?
     public var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    private var missReporting = false
     
     public func reportViewDidAppear() {
         if let path = transitionAgent?.transitionPath {
             transitionCenter.reportViewDidAppear(path)
+            missReporting = false
+        } else {
+            missReporting = true
         }
     }
     
@@ -83,12 +87,20 @@ public class TransitionViewController: UIViewController, TransitionViewControlle
         transitionAgent = TransitionAgent(path: path)
         transitionAgent!.delegate = self
         transitionAgent!.delegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
+        if missReporting {
+            reportViewDidAppear()
+        }
     }
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         reportViewDidAppear()
         NSLog("viewDidAppear: \(self)")
+    }
+    
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        missReporting = false
     }
     
     deinit {

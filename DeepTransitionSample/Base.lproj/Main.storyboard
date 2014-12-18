@@ -13,9 +13,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="PDM-3a-glR"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="so6-KF-Ygr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -55,6 +52,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="TOP" id="6rJ-Q4-f3Y"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <segue destination="NsS-47-P9t" kind="show" identifier="news" id="IOC-jB-j6l"/>
                         <segue destination="CTB-Sg-wH4" kind="presentation" identifier="coupon" id="WWf-jH-QzW"/>
