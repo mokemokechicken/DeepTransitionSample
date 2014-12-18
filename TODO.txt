@@ -22,6 +22,7 @@
 仕様
 ====
 
+* AddChildViewController は 自分が結果を返すかどうかをBoolで返す。もしFalseならその親にAddChildを投げていく。
 * Default実装
   * 生成したVCをどう表示するかをHookできるようにする
 

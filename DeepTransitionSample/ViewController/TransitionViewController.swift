@@ -9,21 +9,8 @@
 import Foundation
 import UIKit
 
-public class TransitionViewController: UIViewController, TransitionAgentDelegate {
-    public var transitionAgent: TransitionAgent?
-    public var transitionCenter : TransitionCenterProtocol  = TransitionCenter.getInstance()
-    
-    public func transition(destination: String) {
-        transitionCenter.request(destination)
-    }
-    
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        transitionCenter.reportViewDidAppear(self)
-        NSLog("viewDidAppear: \(self)")
-    }
-    
-    // May Override
+public class TransitionHandler : TransitionAgentDelegate {
+
     public func removeChildViewController() {
         if let modal = presentedViewController {
             modal.dismissViewControllerAnimated(true, nil)
@@ -35,7 +22,6 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
         transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
     
-    // May Override
     public func addViewController(pathComponent: TransitionPathComponent) {
         if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? TransitionViewController {
             transitionAgent?.setupChildAgent(vc, pathComponent: pathComponent)
@@ -59,6 +45,25 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
             }
         }
         transitionCenter.reportTransitionError("AddViewControlelr: \(pathComponent.identifier)")
+    }
+    
+    deinit {
+        NSLog("deinit: \(self.description)")
+    }
+}
+
+public class TransitionViewController: UIViewController, TransitionAgentDelegate {
+    public var transitionAgent: TransitionAgent?
+    public var transitionCenter : TransitionCenterProtocol  = TransitionCenter.getInstance()
+    
+    public func transition(destination: String) {
+        transitionCenter.request(destination)
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        transitionCenter.reportViewDidAppear(self)
+        NSLog("viewDidAppear: \(self)")
     }
     
     deinit {

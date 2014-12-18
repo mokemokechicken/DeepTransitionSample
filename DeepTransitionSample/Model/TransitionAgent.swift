@@ -15,8 +15,8 @@ import UIKit
 
 @objc public protocol TransitionAgentDelegate : HasTransitionAgent {
     var transitionAgent: TransitionAgent? { get set }
-    func addViewController(vcInfo: TransitionPathComponent)
 
+    optional func addViewController(vcInfo: TransitionPathComponent)
     optional func removeChildViewController()
     optional func canDisappearNow() -> Bool
 }
@@ -24,8 +24,10 @@ import UIKit
 @objc public class TransitionAgent {
     public private(set) var path: TransitionPath!
     public weak var delegate : TransitionAgentDelegate?
+    public var agentDelegateDefaultImpl : TransitionAgentDelegate?
     private var pathComponent: TransitionPathComponent?
     let transitionCenter: TransitionCenterProtocol
+    
     
     public var params : [String:String]? {
         return pathComponent?.params
@@ -55,22 +57,26 @@ import UIKit
     
     //
     public func canDisappearNow(nextPath: TransitionPath) -> Bool {
-        return delegate?.canDisappearNow?() ?? true
+        return delegate?.canDisappearNow?() ?? agentDelegateDefaultImpl?.canDisappearNow?() ?? true
     }
 
     public func removeChildViewController() {
         if let handler = delegate?.removeChildViewController {
             handler()
+        } else if let handler = agentDelegateDefaultImpl?.removeChildViewController? {
+            handler()
         } else {
-            // TODO: Use DEFAULT Implementatin
+            transitionCenter.reportTransitionError("No Remove Child Handler")
         }
     }
     
     public func addChildViewController(pathComponent: TransitionPathComponent)  {
-        if let d = delegate {
-            d.addViewController(pathComponent)
+        if let handler = delegate?.addViewController {
+            handler(pathComponent)
+        } else if let handler = agentDelegateDefaultImpl?.addViewController {
+            handler(pathComponent)
         } else {
-            // TODO: Use DEFAULT Implementatin
+            transitionCenter.reportTransitionError("No Add Child Handler")
         }
     }
     
