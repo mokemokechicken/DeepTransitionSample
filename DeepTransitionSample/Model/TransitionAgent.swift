@@ -19,7 +19,9 @@ import UIKit
     optional func canDisappearNow() -> Bool
 }
 
-@objc public protocol TransitionViewControllerProtocol : TransitionAgentDelegate, OwnTransitionAgent {}
+@objc public protocol TransitionViewControllerProtocol : TransitionAgentDelegate, OwnTransitionAgent {
+     func setupAgent(path: TransitionPath)
+}
 
 @objc public class TransitionAgent {
     public private(set) var transitionPath: TransitionPath

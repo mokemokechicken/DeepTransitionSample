@@ -34,12 +34,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     public func addViewController(pathComponent: TransitionPathComponent) {
         if let vc = delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController {
             if let transitionVC = vc as? TransitionViewControllerProtocol {
-                
-                let newAgent = TransitionAgent(path: transitionPath.appendPath(component: pathComponent))
-                let handler = TransitionDefaultHandler(viewController: vc, path: newAgent.transitionPath)
-                newAgent.delegate = transitionVC
-                newAgent.agentDelegateDefaultImpl = handler
-                transitionVC.transitionAgent = newAgent
+                transitionVC.setupAgent(transitionPath.appendPath(component: pathComponent))
                 
                 switch pathComponent.segueKind {
                 case .Show:
@@ -82,6 +77,12 @@ public class TransitionViewController: UIViewController, TransitionViewControlle
     
     public func transition(destination: String) {
         transitionCenter.request(destination)
+    }
+    
+    public func setupAgent(path: TransitionPath) {
+        transitionAgent = TransitionAgent(path: path)
+        transitionAgent!.delegate = self
+        transitionAgent!.agentDelegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
     }
     
     public override func viewDidAppear(animated: Bool) {

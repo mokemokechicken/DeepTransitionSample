@@ -9,19 +9,7 @@
 //import "DeepTransitionSample-Bridging-Header.h"
 
 import Foundation
-import UIKit
 
-private class TransitionInfo {
-    private let commonPath : TransitionPath
-    private let newComponentList : [TransitionPathComponent]
-    private let oldComponentList : [TransitionPathComponent]
-    
-    private init(commonPath: TransitionPath, newComponentList: [TransitionPathComponent], oldComponentList: [TransitionPathComponent])  {
-        self.commonPath = commonPath
-        self.newComponentList = newComponentList
-        self.oldComponentList = oldComponentList
-    }
-}
 
 public protocol TransitionCenterProtocol {
     func addAgent(agent: TransitionAgent)
@@ -30,15 +18,6 @@ public protocol TransitionCenterProtocol {
     func reportTransitionError(reason: String?)
     func request(destination: String)
 }
-
-
-class WeakAgent {
-    private weak var agent:TransitionAgent?
-    init(agent: TransitionAgent) {
-        self.agent = agent
-    }
-}
-
 
 @objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
 
@@ -242,4 +221,26 @@ class WeakAgent {
         return ret
     }
 }
+
+private class WeakAgent {
+    private weak var agent:TransitionAgent?
+    init(agent: TransitionAgent) {
+        self.agent = agent
+    }
+}
+
+private class TransitionInfo {
+    private let commonPath : TransitionPath
+    private let newComponentList : [TransitionPathComponent]
+    private let oldComponentList : [TransitionPathComponent]
+    
+    private init(commonPath: TransitionPath, newComponentList: [TransitionPathComponent], oldComponentList: [TransitionPathComponent])  {
+        self.commonPath = commonPath
+        self.newComponentList = newComponentList
+        self.oldComponentList = oldComponentList
+    }
+}
+
+
+
 

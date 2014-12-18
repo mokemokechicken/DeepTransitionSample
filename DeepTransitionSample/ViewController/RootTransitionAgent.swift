@@ -26,12 +26,9 @@ public class RootTransitionAgent : TransitionAgent {
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
             
-            let newAgent = TransitionAgent(parentAgent: self, pathComponent: pathComponent)
-            let handler = TransitionDefaultHandler(viewController: vc, path: newAgent.transitionPath)
-            newAgent.delegate = vc
-            newAgent.agentDelegateDefaultImpl = handler
-            vc.transitionAgent = newAgent
-            transitionCenter.reportViewDidAppear(newAgent.transitionPath)
+            let path = transitionPath.appendPath(component: pathComponent)
+            vc.setupAgent(path)
+            transitionCenter.reportViewDidAppear(path)
 
         default:
             break
