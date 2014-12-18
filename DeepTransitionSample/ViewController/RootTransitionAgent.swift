@@ -21,11 +21,11 @@ public class RootTransitionAgent : TransitionAgent {
         transitionCenter.request(destinaton)
     }
     
-    override public func removeChildViewController() {
+    override public func removeViewController(pathComponent: TransitionPathComponent) {
         transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
-    override public func addChildViewController(pathComponent: TransitionPathComponent) -> Bool  {
+    override public func addViewController(pathComponent: TransitionPathComponent) -> Bool  {
         let window = UIApplication.sharedApplication().delegate?.window
         let path = transitionPath.appendPath(component: pathComponent)
  

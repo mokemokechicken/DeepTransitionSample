@@ -137,7 +137,7 @@ public protocol TransitionCenterProtocol {
         
         if let agent = findAgentOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
             mylog("Sending RemoveChildRequest to '\(agent.transitionPath)'")
-            agent.removeChildViewController()
+            agent.removeViewController(tInfo.oldComponentList.first!)
         } else {
             mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
             async_fsm() { $0.stop() }
@@ -165,7 +165,7 @@ public protocol TransitionCenterProtocol {
                 if let agent = findAgentOf(path!) {
                     self.addingInfo = AddingInfo(tInfo: tInfo, nextComponent: nextComponent, agent: agent)
                     mylog("Sending AddChildRequest '\(agent.transitionPath)' += \(nextComponent.description)")
-                    if agent.addChildViewController(nextComponent) {
+                    if agent.addViewController(nextComponent) {
                         return
                     }
                 }

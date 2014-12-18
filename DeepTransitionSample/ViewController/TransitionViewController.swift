@@ -19,7 +19,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         self.transitionPath = path
     }
     
-    public func removeChildViewController() {
+    public func removeViewController(pathComponent: TransitionPathComponent) {
         if let modal = delegate?.presentedViewController {
             modal.dismissViewControllerAnimated(true, nil)
         }
@@ -30,31 +30,61 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
+    public func decideViewController(pathComponent: TransitionPathComponent) -> UIViewController? {
+        if let handler = (delegate as? TransitionAgentDelegate)?.decideViewController {
+            return handler(pathComponent)
+        } else {
+            return delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController
+        }
+    }
+    
+    public func showViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool {
+        if let handler = (delegate as? TransitionAgentDelegate)?.showViewController {
+            return handler(vc, pathComponent: pathComponent)
+        } else {
+            return (delegate!.navigationController?.pushViewController(vc, animated: true)) != nil
+        }
+    }
+    
+    public func showModalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool {
+        if let handler = (delegate as? TransitionAgentDelegate)?.showModalViewController {
+            return handler(vc, pathComponent: pathComponent)
+        } else {
+            if pathComponent.ownRootContainer == .Navigation {
+                let nav = UINavigationController(rootViewController: vc)
+                delegate!.presentViewController(nav, animated: true) {}
+            } else {
+                delegate!.presentViewController(vc, animated: true) {}
+            }
+            return true
+        }
+        
+    }
+    
+    public func showInternalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool {
+        if let handler = (delegate as? TransitionAgentDelegate)?.showInternalViewController {
+            return handler(vc, pathComponent: pathComponent)
+        } else {
+            return false
+        }
+    }
+    
     // May Override
     public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
-        if let vc = delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController {
+        if let vc = decideViewController(pathComponent) {
             if let transitionVC = vc as? TransitionViewControllerProtocol {
                 transitionVC.setupAgent(transitionPath.appendPath(component: pathComponent))
                 
                 switch pathComponent.segueKind {
                 case .Show:
-                    delegate!.navigationController?.pushViewController(vc, animated: true)
-                    return true
+                    return showViewController(vc, pathComponent: pathComponent)
                     
                 case .Modal:
-                    if pathComponent.ownRootContainer == .Navigation {
-                        let nav = UINavigationController(rootViewController: vc)
-                        delegate!.presentViewController(nav, animated: true) {}
-                    } else {
-                        delegate!.presentViewController(vc, animated: true) {}
-                    }
-                    return true
+                    return showModalViewController(vc, pathComponent: pathComponent)
                     
                 case .Tab:
-                    // Unimplemented Yet
-                    break
+                    return showInternalViewController(vc, pathComponent: pathComponent)
                 }
-                
             }
         }
         return false

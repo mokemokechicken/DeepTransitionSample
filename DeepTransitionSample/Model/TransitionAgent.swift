@@ -15,8 +15,14 @@ import UIKit
 
 @objc public protocol TransitionAgentDelegate {
     optional func addViewController(pathComponent: TransitionPathComponent) -> Bool
-    optional func removeChildViewController()
+    optional func removeViewController(pathComponent: TransitionPathComponent)
     optional func canDisappearNow(nextPath: TransitionPath) -> Bool
+    
+    // Customize Show Child ViewController
+    optional func decideViewController(pathComponent: TransitionPathComponent)  -> UIViewController?
+    optional func showViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
+    optional func showModalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
+    optional func showInternalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
 }
 
 @objc public protocol TransitionViewControllerProtocol : TransitionAgentDelegate, OwnTransitionAgent {
@@ -29,8 +35,8 @@ import UIKit
     var delegate : TransitionAgentDelegate? { get set }
     var delegateDefaultImpl : TransitionAgentDelegate? { get set }
 
-    func addChildViewController(pathComponent: TransitionPathComponent) -> Bool
-    func removeChildViewController()
+    func addViewController(pathComponent: TransitionPathComponent) -> Bool
+    func removeViewController(pathComponent: TransitionPathComponent)
     func canDisappearNow(nextPath: TransitionPath) -> Bool
 }
 
@@ -62,17 +68,17 @@ import UIKit
         return delegate?.canDisappearNow?(nextPath) ?? delegateDefaultImpl?.canDisappearNow?(nextPath) ?? true
     }
 
-    public func removeChildViewController() {
-        if let handler = delegate?.removeChildViewController {
-            handler()
-        } else if let handler = delegateDefaultImpl?.removeChildViewController? {
-            handler()
+    public func removeViewController(pathComponent: TransitionPathComponent) {
+        if let handler = delegate?.removeViewController {
+            handler(pathComponent)
+        } else if let handler = delegateDefaultImpl?.removeViewController  {
+            handler(pathComponent)
         } else {
             transitionCenter.reportTransitionError("No Remove Child Handler")
         }
     }
     
-    public func addChildViewController(pathComponent: TransitionPathComponent) -> Bool {
+    public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let handler = delegate?.addViewController {
             return handler(pathComponent)
         } else if let handler = delegateDefaultImpl?.addViewController {
