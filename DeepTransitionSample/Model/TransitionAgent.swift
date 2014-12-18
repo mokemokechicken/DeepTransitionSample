@@ -30,22 +30,25 @@ import UIKit
     public var params : [String:String]? {
         return pathComponent?.params
     }
-    
-    public init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
+
+    public init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, path: TransitionPath) {
         self.delegate = delegate
-        self.pathComponent = pathComponent
-        self.path = parentAgent.path.appendPath(component: pathComponent)
+        self.pathComponent = path.componentList.last
+        self.path = path
         self.transitionCenter = center
         transitionCenter.addAgent(self)
     }
 
-    public init(delegate: TransitionAgentDelegate?, center: TransitionCenterProtocol) {
-        self.delegate = delegate
+    public convenience init(delegate: TransitionAgentDelegate, center: TransitionCenterProtocol, parentAgent: TransitionAgent, pathComponent: TransitionPathComponent) {
+        self.init(delegate: delegate, center: center, path: parentAgent.path.appendPath(component: pathComponent))
+    }
+
+    public init(center: TransitionCenterProtocol) {
         self.path = TransitionPath(path: "")
         self.transitionCenter = center
         transitionCenter.addAgent(self)
     }
-    
+
     public func setupChildAgent(target: TransitionAgentDelegate, pathComponent: TransitionPathComponent) {
         target.transitionAgent = TransitionAgent(delegate: target, center: transitionCenter, parentAgent: self, pathComponent: pathComponent)
     }

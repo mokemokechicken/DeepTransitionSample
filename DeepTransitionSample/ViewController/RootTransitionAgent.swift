@@ -14,10 +14,6 @@ private var instance : RootTransitionAgent?
 public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
     public var transitionAgent : TransitionAgent? { return self }
 
-    public init(center: TransitionCenterProtocol) {
-        super.init(delegate: nil, center: center)
-    }
-    
     override public func removeChildViewController() {
         transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
