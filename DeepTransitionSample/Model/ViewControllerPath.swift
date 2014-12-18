@@ -9,7 +9,7 @@
 import Foundation
 
 
-@objc public class ViewControllerPath : Hashable, Printable {
+@objc public class ViewControllerPath : Printable, Equatable {
     public let path: String
     public private(set) var componentList = [ViewControllerGraphProperty]()
     public var depth : Int { return componentList.count }
@@ -107,9 +107,6 @@ import Foundation
         }
     }
     
-    // MARK: Hashable
-    public var hashValue : Int { return path.hashValue }
-
     // MARK: Printable
     public var description: String { return path }
     

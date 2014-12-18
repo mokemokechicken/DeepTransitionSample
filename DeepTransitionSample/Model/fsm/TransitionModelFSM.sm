@@ -1,5 +1,5 @@
 %package TransitionModel
-%import    <UIKit/UIKit.h>
+%include    DeepTransitionSample-Swift.h
 %class      TransitionViewControllerModel
 %fsmclass   TransitionModelFSM
 
@@ -11,11 +11,10 @@
 IDLE
 Entry { onEntryIdle(); }
 {
-  request CONFIRMING { }
+  request(destination: NSString*) CONFIRMING { onRequestConfirming(destination); }
 }
 
 CONFIRMING
-Entry { onEntryConfirming(); }
 {
   cancel IDLE {}
   ok REMOVING {}

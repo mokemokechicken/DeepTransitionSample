@@ -43,6 +43,7 @@ public protocol TransitionCenterProtocol {
     private let _fsm : TransitionModelFSM!
     public init() {
         _fsm = TransitionModelFSM(owner: self)
+        _fsm.setDebugFlag(true)
     }
     
     // MARK: TransitionCenterProtocol
@@ -55,8 +56,7 @@ public protocol TransitionCenterProtocol {
     }
 
     public func request(destination: String) {
-        requestedDestination = destination
-        async_fsm { $0.request() }
+        async_fsm { $0.request(destination) }
     }
     //
     
@@ -83,8 +83,14 @@ public protocol TransitionCenterProtocol {
 
     public private(set) var currentPath = ViewControllerPath(path: "")
     private var destPath : ViewControllerPath?
-    private var changingTo : ViewControllerPath?
+    private var addingInfo : AddingInfo?
 
+    struct AddingInfo {
+        let tInfo : TransitionInfo
+        let adding: ViewControllerGraphProperty
+        let vcContext: ViewControllerTransitionContext
+    }
+    
     private func async_fsm(block:(TransitionModelFSM) -> Void) {
         dispatch_async(dispatch_get_main_queue()) {
             block(self._fsm)
@@ -99,8 +105,6 @@ public protocol TransitionCenterProtocol {
         #endif
     }
     
-    private var requestedDestination = ""
-
     func onEntryIdle() {
         for context in self.caclWillRemoveContext(calcTransitionInfo()) {
             removeContext(context)
@@ -112,9 +116,13 @@ public protocol TransitionCenterProtocol {
         }
     }
     
-    public func onEntryConfirming() {
-        destPath = ViewControllerPath(path: requestedDestination)
+    public func onRequestConfirming(destination: String!) {
+        if destination == nil {
+            async_fsm { $0.cancel() }
+            return
+        }
         
+        destPath = ViewControllerPath(path: destination!)
         if destPath == currentPath {
             async_fsm { $0.cancel() }
             return
@@ -147,13 +155,6 @@ public protocol TransitionCenterProtocol {
         }
     }
     
-    
-    struct AddingInfo {
-        let tInfo : TransitionInfo
-        let adding: ViewControllerGraphProperty
-        let vcContext: ViewControllerTransitionContext
-    }
-    private var addingInfo : AddingInfo?
     
     func onEntryAdding() {
         // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある

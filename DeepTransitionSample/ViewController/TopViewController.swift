@@ -9,11 +9,7 @@
 import UIKit
 
 public class TopViewController: TreeTransitionViewController {
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-   
+
     @IBAction func onBtnNews(sender: AnyObject) {
         transition("/top/list_news")
     }

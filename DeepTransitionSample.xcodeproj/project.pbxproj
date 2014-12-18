@@ -10,8 +10,6 @@
 		09096DC41A41627700D73591 /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC01A41627700D73591 /* statemap.m */; };
 		09096DC51A41627700D73591 /* TransitionModelFSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC21A41627700D73591 /* TransitionModelFSM.m */; };
 		09096DC61A41627700D73591 /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = 09096DC31A41627700D73591 /* TransitionModelFSM.sm */; };
-		09EAE7F51A41A89A00F4DC96 /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DBF1A41627700D73591 /* statemap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		09EAE7F61A41A89D00F4DC96 /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DC11A41627700D73591 /* TransitionModelFSM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
@@ -28,6 +26,8 @@
 		BEF0F2DD1A3EE4C700D6139D /* ViewControllerPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2DC1A3EE4C700D6139D /* ViewControllerPath.swift */; };
 		BEF0F2DF1A400F2B00D6139D /* ViewControllerTransitionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2DE1A400F2B00D6139D /* ViewControllerTransitionContext.swift */; };
 		BEF0F2E11A4024AB00D6139D /* RootTransitionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2E01A4024AB00D6139D /* RootTransitionContext.swift */; };
+		BEF0F2E31A424D6600D6139D /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DBF1A41627700D73591 /* statemap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BEF0F2E41A424D6600D6139D /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DC11A41627700D73591 /* TransitionModelFSM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,19 +196,19 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		09EAE7ED1A419E9200F4DC96 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				09EAE7F51A41A89A00F4DC96 /* statemap.h in Headers */,
-				09EAE7F61A41A89D00F4DC96 /* TransitionModelFSM.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		09EAE7F01A419F1400F4DC96 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF0F2E21A424D5700D6139D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEF0F2E31A424D6600D6139D /* statemap.h in Headers */,
+				BEF0F2E41A424D6600D6139D /* TransitionModelFSM.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +222,7 @@
 				BE8E41F11A3C32AA00D740A3 /* Sources */,
 				BE8E41F21A3C32AA00D740A3 /* Frameworks */,
 				BE8E41F31A3C32AA00D740A3 /* Resources */,
-				09EAE7ED1A419E9200F4DC96 /* Headers */,
+				BEF0F2E21A424D5700D6139D /* Headers */,
 			);
 			buildRules = (
 			);
@@ -455,6 +455,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = DeepTransitionSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "-DDEBUG";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = MyHeaders;

@@ -2,8 +2,7 @@
 =====
 
 * TransitionModel を
-  * StateMachineにする
-    * Idle, Removing, WaitingForFinishAdd, ...?
+  * StateMachineにする -> Done
   * 画面遷移する毎に状態を変更する。
     * current, destination, changingTo
   * 途中で遷移が継続できなくなることがある。それはしょうがないので、その状態で遷移を終了する。
@@ -14,12 +13,18 @@
   * Context はDelegateがProtocolを実装している場合、そっちを呼び出して、そうでない場合は Implを呼び出す
   * そのImplも差し替えられるといいなぁ
 
-? Context(DefaultImpl())
 
 * Contextを設置するのは誰の責任かを明確にする
+  ->
   * 基本的にはFramework側である。ただし既に設置してあれば手出しはしない。
   * DefaultImplをどう指定するか。
-    * -> 最初にModelに渡しておけば良いかな
+    ->
+    * 最初にModelに渡しておけば良いかな
+
+* 名前を整理する。最終的にはCocoaPodsかFrameworkとして配布するので、名前空間はそれほど意識しなくてよい。
+* 状態の変更を通知するようにする
+* 履歴に関する情報を公開する
+* アニメーションに関するような情報を渡せるようにする？これは 同一判定には影響しないパラメータとして扱う。
 
 仕様
 ====
