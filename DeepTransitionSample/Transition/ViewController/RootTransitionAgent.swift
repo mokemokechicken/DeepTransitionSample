@@ -13,11 +13,11 @@ private var instance : RootTransitionAgent?
 
 public class RootTransitionAgent : TransitionAgent {
 
-    class func create() -> RootTransitionAgent {
+    public class func create() -> RootTransitionAgent {
         return RootTransitionAgent(path: TransitionPath(path: ""))
     }
     
-    func start(destinaton: String) {
+    public func start(destinaton: String) {
         transitionCenter.request(destinaton)
     }
 
@@ -50,7 +50,7 @@ public class RootTransitionAgent : TransitionAgent {
         return false
     }
     
-    func forever() -> RootTransitionAgent {
+    public func forever() -> RootTransitionAgent {
         instance = self
         return self
     }

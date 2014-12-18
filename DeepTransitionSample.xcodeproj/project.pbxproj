@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09096DC41A41627700D73591 /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC01A41627700D73591 /* statemap.m */; };
-		09096DC51A41627700D73591 /* TransitionModelFSM.m in Sources */ = {isa = PBXBuildFile; fileRef = 09096DC21A41627700D73591 /* TransitionModelFSM.m */; };
-		09096DC61A41627700D73591 /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = 09096DC31A41627700D73591 /* TransitionModelFSM.sm */; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
 		BE8E42051A3C32AA00D740A3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42031A3C32AA00D740A3 /* LaunchScreen.xib */; };
 		BE8E42111A3C32AA00D740A3 /* DeepTransitionSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42101A3C32AA00D740A3 /* DeepTransitionSampleTests.swift */; };
-		BE8E422A1A3E5FA200D740A3 /* TransitionCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42291A3E5FA200D740A3 /* TransitionCenter.swift */; };
 		BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422C1A3E5FA800D740A3 /* CouponListViewController.swift */; };
 		BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422D1A3E5FA800D740A3 /* CouponViewController.swift */; };
 		BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */; };
 		BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */; };
 		BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42301A3E5FA800D740A3 /* TopViewController.swift */; };
-		BE8E42371A3E5FA800D740A3 /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42311A3E5FA800D740A3 /* TransitionViewController.swift */; };
 		BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */; };
-		BEF0F2DD1A3EE4C700D6139D /* TransitionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2DC1A3EE4C700D6139D /* TransitionPath.swift */; };
-		BEF0F2DF1A400F2B00D6139D /* TransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2DE1A400F2B00D6139D /* TransitionAgent.swift */; };
-		BEF0F2E11A4024AB00D6139D /* RootTransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2E01A4024AB00D6139D /* RootTransitionAgent.swift */; };
-		BEF0F2E31A424D6600D6139D /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DBF1A41627700D73591 /* statemap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEF0F2E41A424D6600D6139D /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = 09096DC11A41627700D73591 /* TransitionModelFSM.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEF0F2E91A42FA0200D6139D /* TransitionServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2E81A42FA0200D6139D /* TransitionServiceLocator.swift */; };
+		BEF0F2F91A432DF800D6139D /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2ED1A432DF800D6139D /* statemap.h */; };
+		BEF0F2FA1A432DF800D6139D /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2EE1A432DF800D6139D /* statemap.m */; };
+		BEF0F2FB1A432DF800D6139D /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */; };
+		BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */; };
+		BEF0F2FD1A432DF800D6139D /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */; };
+		BEF0F2FE1A432DF800D6139D /* TransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F21A432DF800D6139D /* TransitionAgent.swift */; };
+		BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */; };
+		BEF0F3001A432DF800D6139D /* TransitionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F41A432DF800D6139D /* TransitionPath.swift */; };
+		BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */; };
+		BEF0F3021A432DF800D6139D /* RootTransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */; };
+		BEF0F3031A432DF800D6139D /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		09096DBF1A41627700D73591 /* statemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
-		09096DC01A41627700D73591 /* statemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statemap.m; sourceTree = "<group>"; };
-		09096DC11A41627700D73591 /* TransitionModelFSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionModelFSM.h; sourceTree = "<group>"; };
-		09096DC21A41627700D73591 /* TransitionModelFSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionModelFSM.m; sourceTree = "<group>"; };
-		09096DC31A41627700D73591 /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
 		09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeepTransitionSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		09EAE7EC1A419E2C00F4DC96 /* statemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,18 +53,23 @@
 		BE8E420A1A3C32AA00D740A3 /* DeepTransitionSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeepTransitionSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E420F1A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E42101A3C32AA00D740A3 /* DeepTransitionSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepTransitionSampleTests.swift; sourceTree = "<group>"; };
-		BE8E42291A3E5FA200D740A3 /* TransitionCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionCenter.swift; sourceTree = "<group>"; };
 		BE8E422C1A3E5FA800D740A3 /* CouponListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponListViewController.swift; sourceTree = "<group>"; };
 		BE8E422D1A3E5FA800D740A3 /* CouponViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
 		BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		BE8E42301A3E5FA800D740A3 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
-		BE8E42311A3E5FA800D740A3 /* TransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
 		BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionGraphModelTest.swift; sourceTree = "<group>"; };
-		BEF0F2DC1A3EE4C700D6139D /* TransitionPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionPath.swift; sourceTree = "<group>"; };
-		BEF0F2DE1A400F2B00D6139D /* TransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAgent.swift; sourceTree = "<group>"; };
-		BEF0F2E01A4024AB00D6139D /* RootTransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTransitionAgent.swift; sourceTree = "<group>"; };
-		BEF0F2E81A42FA0200D6139D /* TransitionServiceLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionServiceLocator.swift; sourceTree = "<group>"; };
+		BEF0F2ED1A432DF800D6139D /* statemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
+		BEF0F2EE1A432DF800D6139D /* statemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statemap.m; sourceTree = "<group>"; };
+		BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionModelFSM.h; sourceTree = "<group>"; };
+		BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionModelFSM.m; sourceTree = "<group>"; };
+		BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
+		BEF0F2F21A432DF800D6139D /* TransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAgent.swift; sourceTree = "<group>"; };
+		BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionCenter.swift; sourceTree = "<group>"; };
+		BEF0F2F41A432DF800D6139D /* TransitionPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionPath.swift; sourceTree = "<group>"; };
+		BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionServiceLocator.swift; sourceTree = "<group>"; };
+		BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTransitionAgent.swift; sourceTree = "<group>"; };
+		BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,18 +90,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09096DBE1A41627700D73591 /* fsm */ = {
-			isa = PBXGroup;
-			children = (
-				09096DBF1A41627700D73591 /* statemap.h */,
-				09096DC01A41627700D73591 /* statemap.m */,
-				09096DC11A41627700D73591 /* TransitionModelFSM.h */,
-				09096DC21A41627700D73591 /* TransitionModelFSM.m */,
-				09096DC31A41627700D73591 /* TransitionModelFSM.sm */,
-			);
-			path = fsm;
-			sourceTree = "<group>";
-		};
 		BE8E41EC1A3C32AA00D740A3 = {
 			isa = PBXGroup;
 			children = (
@@ -124,8 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */,
+				BEF0F2EA1A432DF800D6139D /* Transition */,
 				BE8E422B1A3E5FA800D740A3 /* ViewController */,
-				BE8E42281A3E5FA200D740A3 /* Model */,
 				BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */,
 				BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */,
 				BE8E42011A3C32AA00D740A3 /* Images.xcassets */,
@@ -161,18 +149,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BE8E42281A3E5FA200D740A3 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				09096DBE1A41627700D73591 /* fsm */,
-				BE8E42291A3E5FA200D740A3 /* TransitionCenter.swift */,
-				BEF0F2DC1A3EE4C700D6139D /* TransitionPath.swift */,
-				BEF0F2DE1A400F2B00D6139D /* TransitionAgent.swift */,
-				BEF0F2E81A42FA0200D6139D /* TransitionServiceLocator.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		BE8E422B1A3E5FA800D740A3 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,8 +157,6 @@
 				BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */,
 				BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */,
 				BE8E42301A3E5FA800D740A3 /* TopViewController.swift */,
-				BE8E42311A3E5FA800D740A3 /* TransitionViewController.swift */,
-				BEF0F2E01A4024AB00D6139D /* RootTransitionAgent.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -194,6 +168,48 @@
 				09EAE7EC1A419E2C00F4DC96 /* statemap.h */,
 			);
 			path = Test;
+			sourceTree = "<group>";
+		};
+		BEF0F2EA1A432DF800D6139D /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				BEF0F2EB1A432DF800D6139D /* Model */,
+				BEF0F2F61A432DF800D6139D /* ViewController */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
+		BEF0F2EB1A432DF800D6139D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BEF0F2EC1A432DF800D6139D /* fsm */,
+				BEF0F2F21A432DF800D6139D /* TransitionAgent.swift */,
+				BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */,
+				BEF0F2F41A432DF800D6139D /* TransitionPath.swift */,
+				BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BEF0F2EC1A432DF800D6139D /* fsm */ = {
+			isa = PBXGroup;
+			children = (
+				BEF0F2ED1A432DF800D6139D /* statemap.h */,
+				BEF0F2EE1A432DF800D6139D /* statemap.m */,
+				BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */,
+				BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */,
+				BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */,
+			);
+			path = fsm;
+			sourceTree = "<group>";
+		};
+		BEF0F2F61A432DF800D6139D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */,
+				BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,8 +226,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEF0F2E31A424D6600D6139D /* statemap.h in Headers */,
-				BEF0F2E41A424D6600D6139D /* TransitionModelFSM.h in Headers */,
+				BEF0F2FB1A432DF800D6139D /* TransitionModelFSM.h in Headers */,
+				BEF0F2F91A432DF800D6139D /* statemap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,8 +314,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */,
-				09096DC61A41627700D73591 /* TransitionModelFSM.sm in Resources */,
 				BE8E42051A3C32AA00D740A3 /* LaunchScreen.xib in Resources */,
+				BEF0F2FD1A432DF800D6139D /* TransitionModelFSM.sm in Resources */,
 				BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,19 +334,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09096DC41A41627700D73591 /* statemap.m in Sources */,
-				BEF0F2E11A4024AB00D6139D /* RootTransitionAgent.swift in Sources */,
+				BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */,
+				BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */,
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
+				BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */,
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
-				BE8E422A1A3E5FA200D740A3 /* TransitionCenter.swift in Sources */,
-				BEF0F2E91A42FA0200D6139D /* TransitionServiceLocator.swift in Sources */,
-				BE8E42371A3E5FA800D740A3 /* TransitionViewController.swift in Sources */,
-				BEF0F2DD1A3EE4C700D6139D /* TransitionPath.swift in Sources */,
-				BEF0F2DF1A400F2B00D6139D /* TransitionAgent.swift in Sources */,
+				BEF0F3021A432DF800D6139D /* RootTransitionAgent.swift in Sources */,
+				BEF0F2FE1A432DF800D6139D /* TransitionAgent.swift in Sources */,
+				BEF0F2FA1A432DF800D6139D /* statemap.m in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,
+				BEF0F3001A432DF800D6139D /* TransitionPath.swift in Sources */,
 				BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */,
 				BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */,
-				09096DC51A41627700D73591 /* TransitionModelFSM.m in Sources */,
+				BEF0F3031A432DF800D6139D /* TransitionViewController.swift in Sources */,
 				BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
