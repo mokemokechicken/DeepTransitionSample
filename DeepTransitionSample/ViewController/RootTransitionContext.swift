@@ -26,12 +26,14 @@ public class RootTransitionContext : ViewControllerTransitionContext, HasTransit
         let window = UIApplication.sharedApplication().delegate?.window
         switch vcInfo.identifier {
         case "top":
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as UIViewController
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as TreeTransitionViewController
             let nav = UINavigationController(rootViewController: vc)
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
             
-            transitionCenter.reportAddedViewController(vc)
+            setupContext(vc, vcInfo: vcInfo)
+            transitionCenter.reportViewDidAppear(vc)
+
         default:
             break
         }

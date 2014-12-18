@@ -19,7 +19,7 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        transitionCenter.reportAddedViewController(self)
+        transitionCenter.reportViewDidAppear(self)
         NSLog("viewDidAppear: \(self)")
     }
     
@@ -47,36 +47,29 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     // May Override
     public func addViewController(vcInfo: ViewControllerGraphProperty) {
         if let info = processInfo(vcInfo) {
-            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? UIViewController {
+            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? TreeTransitionViewController {
+                transitionContext?.setupContext(vc, vcInfo: vcInfo)
                 switch vcInfo.segueKind {
                 case .Show:
                     self.navigationController?.pushViewController(vc, animated: true)
-//                    self.transitionContext?.reportAddedViewController(vc)
+                    return
                     
                 case .Modal:
                     if vcInfo.ownRootContainer == .Navigation {
                         let nav = UINavigationController(rootViewController: vc)
-                        self.presentViewController(nav, animated: true) {
-//                            self.transitionContext?.reportAddedViewController(vc)
-                            return
-                        }
+                        self.presentViewController(nav, animated: true) {}
                     } else {
-                        self.presentViewController(vc, animated: true) {
-//                            self.transitionContext?.reportAddedViewController(vc)
-                            return
-                        }
+                        self.presentViewController(vc, animated: true) {}
                     }
+                    return
                     
                 case .Tab:
                     // Unimplemented Yet
                     break
                 }
-            } else {
-                transitionCenter.reportAddedViewController(nil)
             }
-        } else {
-            transitionCenter.reportAddedViewController(nil)
         }
+        transitionCenter.reportTransitionError("AddViewControlelr: \(vcInfo.identifier)")
     }
     
     deinit {

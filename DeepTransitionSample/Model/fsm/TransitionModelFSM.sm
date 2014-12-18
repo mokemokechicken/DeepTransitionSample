@@ -11,6 +11,7 @@
 IDLE
 Entry { onEntryIdle(); }
 {
+  move(vc: id) IDLE { onMove(vc); }
   request(destination: NSString*) CONFIRMING { onRequestConfirming(destination); }
 }
 
@@ -30,11 +31,11 @@ Entry { onEntryRemoving(); }
 ADDING
 Entry { onEntryAdding(); }
 {
-  finish_add(vc: id) [ [ctxt isExpectedChild:vc] ] FINISH_ADD { onFinishAdd(vc); }
+  move(vc: id) [ [ctxt isExpectedChild:vc] ] MOVED { onMove(vc); }
 }
 
-FINISH_ADD
-Entry { onEntryFinishAdd(); }
+MOVED
+Entry { onEntryMoved(); }
 {
   add ADDING {}
   finish_transition IDLE {}

@@ -27,11 +27,11 @@ public class TransitionInfo {
 }
 
 public protocol TransitionCenterProtocol {
-    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?)
-    func reportAddedViewController(vc: UIViewController?)
-    func request(destination: String)
-
     func addContext(context: ViewControllerTransitionContext)
+    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?)
+    func reportViewDidAppear(vc: HasTransitionContext)
+    func reportTransitionError(reason: String?)
+    func request(destination: String)
 }
 
 
@@ -64,12 +64,14 @@ class WeakContext {
         }
     }
     
-    public func reportAddedViewController(vc: UIViewController?) {
-        if let v = vc {
-            async_fsm { $0.finish_add(v)}
-        } else {
-            async_fsm { $0.stop() }
-        }
+    public func reportViewDidAppear(vc: HasTransitionContext) {
+        async_fsm { $0.move(vc) }
+    }
+    
+    public func reportTransitionError(reason: String?) {
+        let r = reason ?? ""
+        mylog("TransitionError: \(r)")
+        async_fsm { $0.stop() }
     }
 
     public func request(destination: String) {
@@ -201,7 +203,7 @@ class WeakContext {
     }
     
     func isExpectedChild(object: AnyObject!) -> Bool {
-        switch (addingInfo, object as? ViewControllerTransitionContextDelegate) {
+        switch (addingInfo, object as? HasTransitionContext) {
         case(let .Some(ai), let .Some(vc)):
             if vc.transitionContext == nil || vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
                 return true
@@ -212,24 +214,17 @@ class WeakContext {
         return false
     }
     
-    func onFinishAdd(object: AnyObject!) {
-        switch (addingInfo, object as? ViewControllerTransitionContextDelegate) {
-        case(let .Some(ai), let .Some(vc)):
-            if vc.transitionContext == nil {
-                vc.transitionContext = ViewControllerTransitionContext(delegate: vc, center: self, baseContext: ai.vcContext, vcInfo: ai.adding)
+    func onMove(object: AnyObject!) {
+        if let hasContext = object as? HasTransitionContext {
+            if let context = hasContext.transitionContext {
+                mylog("Change CurrentPath From \(currentPath.path) to \(context.path)")
+                currentPath = context.path
             }
-            if vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
-                mylog("Change CurrentPath From \(currentPath.path) to \(vc.transitionContext!.path)")
-                currentPath = vc.transitionContext!.path
-                addingInfo = nil
-            }
-        default:
-            async_fsm() { $0.stop() }
-            break
         }
     }
     
-    func onEntryFinishAdd() {
+    func onEntryMoved() {
+        addingInfo = nil
         if currentPath == destPath {
             async_fsm { $0.finish_transition() }
         } else {

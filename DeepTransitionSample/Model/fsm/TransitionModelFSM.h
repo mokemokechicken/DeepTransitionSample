@@ -14,7 +14,7 @@
 @class TransitionModelStateMap_CONFIRMING;
 @class TransitionModelStateMap_REMOVING;
 @class TransitionModelStateMap_ADDING;
-@class TransitionModelStateMap_FINISH_ADD;
+@class TransitionModelStateMap_MOVED;
 @class TransitionModelStateMap_Default;
 @class TransitionViewControllerModelState;
 @class TransitionModelFSM;
@@ -28,9 +28,9 @@
 
 - (void)add:(TransitionModelFSM*)context;
 - (void)cancel:(TransitionModelFSM*)context;
-- (void)finish_add:(TransitionModelFSM*)context :(id)vc;
 - (void)finish_remove:(TransitionModelFSM*)context :(id)vc;
 - (void)finish_transition:(TransitionModelFSM*)context;
+- (void)move:(TransitionModelFSM*)context :(id)vc;
 - (void)ok:(TransitionModelFSM*)context;
 - (void)request:(TransitionModelFSM*)context :(NSString*)destination;
 - (void)skip_removing:(TransitionModelFSM*)context;
@@ -46,7 +46,7 @@
 + (TransitionModelStateMap_CONFIRMING*)CONFIRMING;
 + (TransitionModelStateMap_REMOVING*)REMOVING;
 + (TransitionModelStateMap_ADDING*)ADDING;
-+ (TransitionModelStateMap_FINISH_ADD*)FINISH_ADD;
++ (TransitionModelStateMap_MOVED*)MOVED;
 @end
 
 @interface TransitionModelStateMap_Default : TransitionViewControllerModelState
@@ -60,6 +60,7 @@
 {
 }
  -(void)Entry:(TransitionModelFSM*)context;
+- (void)move:(TransitionModelFSM*)context :(id)vc;
 - (void)request:(TransitionModelFSM*)context :(NSString*)destination;
 @end
 
@@ -82,10 +83,10 @@
 {
 }
  -(void)Entry:(TransitionModelFSM*)context;
-- (void)finish_add:(TransitionModelFSM*)context :(id)vc;
+- (void)move:(TransitionModelFSM*)context :(id)vc;
 @end
 
-@interface TransitionModelStateMap_FINISH_ADD : TransitionModelStateMap_Default
+@interface TransitionModelStateMap_MOVED : TransitionModelStateMap_Default
 {
 }
  -(void)Entry:(TransitionModelFSM*)context;
@@ -106,9 +107,9 @@
 
 - (void)add;
 - (void)cancel;
-- (void)finish_add:(id)vc;
 - (void)finish_remove:(id)vc;
 - (void)finish_transition;
+- (void)move:(id)vc;
 - (void)ok;
 - (void)request:(NSString*)destination;
 - (void)skip_removing;

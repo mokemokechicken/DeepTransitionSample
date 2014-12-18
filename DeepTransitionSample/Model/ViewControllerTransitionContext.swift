@@ -46,6 +46,10 @@ import UIKit
         transitionCenter.addContext(self)
     }
     
+    public func setupContext(delegate: ViewControllerTransitionContextDelegate, vcInfo: ViewControllerGraphProperty) {
+        delegate.transitionContext = ViewControllerTransitionContext(delegate: delegate, center: transitionCenter, baseContext: self, vcInfo: vcInfo)
+    }
+    
     //
     public func canDisappearNow(nextPath: ViewControllerPath) -> Bool {
         return delegate?.canDisappearNow?() ?? true
