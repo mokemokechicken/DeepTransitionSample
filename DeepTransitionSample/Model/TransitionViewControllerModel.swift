@@ -35,13 +35,14 @@ public protocol TransitionCenterProtocol {
     func removeContext(context: ViewControllerTransitionContext)
 }
 
-@objc public class TransitionViewControllerModel : TransitionCenterProtocol {
+@objc public class TransitionViewControllerModel : NSObject, TransitionCenterProtocol {
     public class func getInstance() -> TransitionViewControllerModel {
         return instance
     }
     
     private let _fsm : TransitionModelFSM!
-    public init() {
+    public override init() {
+        super.init()
         _fsm = TransitionModelFSM(owner: self)
         _fsm.setDebugFlag(true)
     }
@@ -82,6 +83,7 @@ public protocol TransitionCenterProtocol {
     //////////////////////////////////
 
     public private(set) var currentPath = ViewControllerPath(path: "")
+    private var startPath : ViewControllerPath?
     private var destPath : ViewControllerPath?
     private var addingInfo : AddingInfo?
 
@@ -109,14 +111,18 @@ public protocol TransitionCenterProtocol {
         for context in self.caclWillRemoveContext(calcTransitionInfo()) {
             removeContext(context)
         }
-        mylog("Finish Transition: \(currentPath.path) -> \(destPath?.path)")
-        if let d = destPath {
-            currentPath = destPath!
-            destPath = nil
+        switch (startPath, destPath) {
+        case (let .Some(s), let .Some(d)):
+            mylog("Finish Transition FROM \(s) TO \(d)")
+        default:
+            break
         }
+        destPath = nil
+        startPath = nil
     }
     
     public func onRequestConfirming(destination: String!) {
+        startPath = currentPath
         if destination == nil {
             async_fsm { $0.cancel() }
             return
@@ -163,7 +169,7 @@ public protocol TransitionCenterProtocol {
         if let willAdd = tInfo.newComponentList.first {
             if let context = findContextOf(path) {
                 self.addingInfo = AddingInfo(tInfo: tInfo, adding: willAdd, vcContext: context)
-                mylog("AddChildRequest '\(context.path)' to \(willAdd.description)")
+                mylog("AddChildRequest '\(context.path)' += \(willAdd.description)")
                 context.addChildViewController(willAdd)
                 return
             }
@@ -185,6 +191,7 @@ public protocol TransitionCenterProtocol {
     }
     
     func onEntryFinishAdd() {
+        addingInfo = nil
         if currentPath == destPath {
             async_fsm { $0.finish_transition() }
         } else {

@@ -33,6 +33,7 @@ Entry { onEntryAdding(); }
 }
 
 FINISH_ADD
+Entry { onEntryFinishAdd(); }
 {
   add ADDING {}
   finish_transition IDLE {}

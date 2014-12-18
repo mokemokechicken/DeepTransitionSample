@@ -85,6 +85,7 @@
 @interface TransitionModelStateMap_FINISH_ADD : TransitionModelStateMap_Default
 {
 }
+ -(void)Entry:(TransitionModelFSM*)context;
 - (void)add:(TransitionModelFSM*)context;
 - (void)finish_transition:(TransitionModelFSM*)context;
 @end

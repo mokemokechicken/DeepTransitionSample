@@ -76,7 +76,7 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     public override func willMoveToParentViewController(parent: UIViewController?) {
         super.willMoveToParentViewController(parent)
         if self.parentViewController === parent {
-            NSLog("\(self.description): Added to ViewControlelr Tree")
+            NSLog("\(self.description) will be Added to ViewControlelr Tree")
         } else {
             NSLog("\(self.description): Removed From ViewControlelr Tree")
         }
