@@ -69,7 +69,6 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         }
     }
     
-    // May Override
     public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let vc = decideViewController(pathComponent) {
             if let transitionVC = vc as? TransitionViewControllerProtocol {

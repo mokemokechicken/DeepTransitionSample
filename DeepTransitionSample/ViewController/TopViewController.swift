@@ -18,5 +18,4 @@ public class TopViewController: TransitionViewController {
         requestTransition("/top!/list_coupon")
     }
 
-    
 }
