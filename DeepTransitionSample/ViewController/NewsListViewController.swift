@@ -10,11 +10,11 @@ import UIKit
 
 class NewsListViewController: TransitionViewController {
     @IBAction func onBtnNews1(sender: AnyObject) {
-        transition("/top/list_news/show_news(id=44)")
+        requestTransition("/top/list_news/show_news(id=44)")
     }
 
     @IBAction func onBtnNews2(sender: AnyObject) {
-        transition("/top/list_news!show_news(id=44)")
+        requestTransition("/top/list_news!show_news(id=44)")
     }
 
 }

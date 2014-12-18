@@ -75,14 +75,14 @@ public class TransitionViewController: UIViewController, TransitionViewControlle
         }
     }
     
-    public func transition(destination: String) {
+    public func requestTransition(destination: String) {
         transitionCenter.request(destination)
     }
     
     public func setupAgent(path: TransitionPath) {
         transitionAgent = TransitionAgent(path: path)
         transitionAgent!.delegate = self
-        transitionAgent!.agentDelegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
+        transitionAgent!.delegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
     }
     
     public override func viewDidAppear(animated: Bool) {

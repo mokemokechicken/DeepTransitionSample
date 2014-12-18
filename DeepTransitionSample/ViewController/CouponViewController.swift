@@ -19,6 +19,6 @@ class CouponViewController: TransitionViewController {
     }
     
     @IBAction func onBtnNews2(sender: AnyObject) {
-        transition("/top/list_news/show_news(id=55)")
+        requestTransition("/top/list_news/show_news(id=55)")
     }
 }

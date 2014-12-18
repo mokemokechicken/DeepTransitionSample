@@ -11,11 +11,11 @@ import UIKit
 public class TopViewController: TransitionViewController {
 
     @IBAction func onBtnNews(sender: AnyObject) {
-        transition("/top/list_news")
+        requestTransition("/top/list_news")
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-        transition("/top!/list_coupon")
+        requestTransition("/top!/list_coupon")
     }
 
     

@@ -19,14 +19,15 @@ public class RootTransitionAgent : TransitionAgent {
     
     override public func addChildViewController(pathComponent: TransitionPathComponent)  {
         let window = UIApplication.sharedApplication().delegate?.window
+        let path = transitionPath.appendPath(component: pathComponent)
+ 
         switch pathComponent.identifier {
         case "top":
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as TransitionViewController
             let nav = UINavigationController(rootViewController: vc)
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
-            
-            let path = transitionPath.appendPath(component: pathComponent)
+
             vc.setupAgent(path)
             transitionCenter.reportViewDidAppear(path)
 
