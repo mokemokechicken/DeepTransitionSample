@@ -9,10 +9,10 @@
 
 import UIKit
 
-private var instance : RootTransitionContext?
+private var instance : RootTransitionAgent?
 
-public class RootTransitionContext : ViewControllerTransitionContext, HasTransitionContext {
-    public var transitionContext : ViewControllerTransitionContext? { return self }
+public class RootTransitionAgent : TransitionAgent, HasTransitionAgent {
+    public var transitionContext : TransitionAgent? { return self }
 
     public init(center: TransitionCenterProtocol) {
         super.init(delegate: nil, center: center)
@@ -22,11 +22,11 @@ public class RootTransitionContext : ViewControllerTransitionContext, HasTransit
         transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
     
-    override public func addChildViewController(vcInfo: ViewControllerGraphProperty)  {
+    override public func addChildViewController(vcInfo: TransitionPathComponent)  {
         let window = UIApplication.sharedApplication().delegate?.window
         switch vcInfo.identifier {
         case "top":
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as TreeTransitionViewController
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("top") as TransitionViewController
             let nav = UINavigationController(rootViewController: vc)
             window??.rootViewController = nav
             window??.makeKeyAndVisible()
@@ -39,7 +39,7 @@ public class RootTransitionContext : ViewControllerTransitionContext, HasTransit
         }
     }
     
-    func forever() -> RootTransitionContext {
+    func forever() -> RootTransitionAgent {
         instance = self
         return self
     }

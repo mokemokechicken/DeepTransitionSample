@@ -26,6 +26,19 @@
 * 履歴に関する情報を公開する
 * アニメーションに関するような情報を渡せるようにする？これは 同一判定には影響しないパラメータとして扱う。
 
+
+
+TransitionViewControllerModel  -> TransitionCenter
+ViewControllerPath -> TransitionPath
+ViewControllerGraphProperty -> TransitionPathComponent
+ViewControllerTransitionContext -> TransitionAgent
+RootTransitionContext -> RootTransitionAgent
+TreeTransitionViewController -> TransitionViewController
+
+HasTransitionAgent
+
+WeakContext
+
 仕様
 ====
 

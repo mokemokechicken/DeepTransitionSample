@@ -16,11 +16,11 @@
 @class TransitionModelStateMap_ADDING;
 @class TransitionModelStateMap_MOVED;
 @class TransitionModelStateMap_Default;
-@class TransitionViewControllerModelState;
+@class TransitionCenterState;
 @class TransitionModelFSM;
-@class TransitionViewControllerModel;
+@class TransitionCenter;
 
-@interface TransitionViewControllerModelState : SMCState
+@interface TransitionCenterState : SMCState
 {
 }
 - (void)Entry:(TransitionModelFSM*)context;
@@ -49,7 +49,7 @@
 + (TransitionModelStateMap_MOVED*)MOVED;
 @end
 
-@interface TransitionModelStateMap_Default : TransitionViewControllerModelState
+@interface TransitionModelStateMap_Default : TransitionCenterState
 {
 }
 - (void)stop:(TransitionModelFSM*)context;
@@ -96,12 +96,12 @@
 
 @interface TransitionModelFSM : SMCFSMContext
 {
-    __weak TransitionViewControllerModel *_owner;
+    __weak TransitionCenter *_owner;
 }
-- (id)initWithOwner:(TransitionViewControllerModel*)owner;
-- (id)initWithOwner:(TransitionViewControllerModel*)owner state:(SMCState*)aState;
-- (TransitionViewControllerModel*)owner;
-- (TransitionViewControllerModelState*)state;
+- (id)initWithOwner:(TransitionCenter*)owner;
+- (id)initWithOwner:(TransitionCenter*)owner state:(SMCState*)aState;
+- (TransitionCenter*)owner;
+- (TransitionCenterState*)state;
 
 - (void)enterStartState;
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CouponViewController: TreeTransitionViewController {
+class CouponViewController: TransitionViewController {
     @IBOutlet weak var labelID: UILabel!
     
     override func viewWillAppear(animated: Bool) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CouponListViewController: TreeTransitionViewController {
+class CouponListViewController: TransitionViewController {
     @IBAction func onBtnCoupon2(sender: AnyObject) {
         transition("/top!/list_coupon/show_coupon(id=99)")
     }

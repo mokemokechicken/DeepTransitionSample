@@ -11,15 +11,15 @@
 import Foundation
 import UIKit
 
-private let instance: TransitionViewControllerModel = TransitionViewControllerModel()
+private let instance: TransitionCenter = TransitionCenter()
 
 
-public class TransitionInfo {
-    public let commonPath : ViewControllerPath
-    public let newComponentList : [ViewControllerGraphProperty]
-    public let oldComponentList : [ViewControllerGraphProperty]
+private class TransitionInfo {
+    private let commonPath : TransitionPath
+    private let newComponentList : [TransitionPathComponent]
+    private let oldComponentList : [TransitionPathComponent]
     
-    public init(commonPath: ViewControllerPath, newComponentList: [ViewControllerGraphProperty], oldComponentList: [ViewControllerGraphProperty])  {
+    private init(commonPath: TransitionPath, newComponentList: [TransitionPathComponent], oldComponentList: [TransitionPathComponent])  {
         self.commonPath = commonPath
         self.newComponentList = newComponentList
         self.oldComponentList = oldComponentList
@@ -27,24 +27,24 @@ public class TransitionInfo {
 }
 
 public protocol TransitionCenterProtocol {
-    func addContext(context: ViewControllerTransitionContext)
-    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?)
-    func reportViewDidAppear(vc: HasTransitionContext)
+    func addContext(context: TransitionAgent)
+    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionAgent?)
+    func reportViewDidAppear(vc: HasTransitionAgent)
     func reportTransitionError(reason: String?)
     func request(destination: String)
 }
 
 
-class WeakContext {
-    private weak var context:ViewControllerTransitionContext?
-    init(context: ViewControllerTransitionContext) {
+class WeakAgent {
+    private weak var context:TransitionAgent?
+    init(context: TransitionAgent) {
         self.context = context
     }
 }
 
 
-@objc public class TransitionViewControllerModel : NSObject, TransitionCenterProtocol {
-    public class func getInstance() -> TransitionViewControllerModel {
+@objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
+    public class func getInstance() -> TransitionCenter {
         return instance
     }
     
@@ -56,7 +56,7 @@ class WeakContext {
     }
     
     // MARK: TransitionCenterProtocol
-    public func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?) {
+    public func reportFinishedRemoveViewControllerFrom(vc: HasTransitionAgent?) {
         if let v = vc {
             async_fsm { $0.finish_remove(v) }
         } else {
@@ -64,7 +64,7 @@ class WeakContext {
         }
     }
     
-    public func reportViewDidAppear(vc: HasTransitionContext) {
+    public func reportViewDidAppear(vc: HasTransitionAgent) {
         async_fsm { $0.move(vc) }
     }
     
@@ -81,13 +81,13 @@ class WeakContext {
     
     // MARK: Observable
     //////////////////////////////////
-    private var contexts = [WeakContext]()
-    public func addContext(context: ViewControllerTransitionContext) {
+    private var contexts = [WeakAgent]()
+    public func addContext(context: TransitionAgent) {
         mylog("addContext: \(context.path)")
-        contexts.append(WeakContext(context: context))
+        contexts.append(WeakAgent(context: context))
     }
     
-    private func findContextOf(path: ViewControllerPath) -> ViewControllerTransitionContext? {
+    private func findContextOf(path: TransitionPath) -> TransitionAgent? {
         for c in contexts {
             if path ==  c.context?.path {
                 return c.context
@@ -97,15 +97,15 @@ class WeakContext {
     }
     //////////////////////////////////
 
-    public private(set) var currentPath = ViewControllerPath(path: "")
-    private var startPath : ViewControllerPath?
-    private var destPath : ViewControllerPath?
+    public private(set) var currentPath = TransitionPath(path: "")
+    private var startPath : TransitionPath?
+    private var destPath : TransitionPath?
     private var addingInfo : AddingInfo?
 
-    struct AddingInfo {
+    private struct AddingInfo {
         let tInfo : TransitionInfo
-        let adding: ViewControllerGraphProperty
-        let vcContext: ViewControllerTransitionContext
+        let adding: TransitionPathComponent
+        let vcContext: TransitionAgent
     }
     
     private func async_fsm(block:(TransitionModelFSM) -> Void) {
@@ -140,7 +140,7 @@ class WeakContext {
             return
         }
         
-        destPath = ViewControllerPath(path: destination!)
+        destPath = TransitionPath(path: destination!)
         if destPath == currentPath {
             async_fsm { $0.cancel() }
             return
@@ -177,7 +177,7 @@ class WeakContext {
     
     func isExpectedReporter(object: AnyObject!) -> Bool {
         let tInfo = calcTransitionInfo()
-        if let vc = object as? HasTransitionContext {
+        if let vc = object as? HasTransitionAgent {
             if vc.transitionContext?.path == tInfo.commonPath {
                 mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
                 currentPath = tInfo.commonPath
@@ -203,7 +203,7 @@ class WeakContext {
     }
     
     func isExpectedChild(object: AnyObject!) -> Bool {
-        switch (addingInfo, object as? HasTransitionContext) {
+        switch (addingInfo, object as? HasTransitionAgent) {
         case(let .Some(ai), let .Some(vc)):
             if vc.transitionContext == nil || vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
                 return true
@@ -215,7 +215,7 @@ class WeakContext {
     }
     
     func onMove(object: AnyObject!) {
-        if let hasContext = object as? HasTransitionContext {
+        if let hasContext = object as? HasTransitionAgent {
             if let context = hasContext.transitionContext {
                 mylog("Change CurrentPath From \(currentPath.path) to \(context.path)")
                 currentPath = context.path
@@ -235,15 +235,15 @@ class WeakContext {
     // MARK: Utility
     private func calcTransitionInfo() -> TransitionInfo {
         if destPath == nil {
-            return TransitionInfo(commonPath: currentPath, newComponentList: [ViewControllerGraphProperty](), oldComponentList: [ViewControllerGraphProperty]())
+            return TransitionInfo(commonPath: currentPath, newComponentList: [TransitionPathComponent](), oldComponentList: [TransitionPathComponent]())
         }
         
-        let (commonPath, d1, d2) = ViewControllerPath.diff(path1: currentPath, path2: destPath!)
+        let (commonPath, d1, d2) = TransitionPath.diff(path1: currentPath, path2: destPath!)
         return TransitionInfo(commonPath: commonPath, newComponentList: d2, oldComponentList: d1)
     }
     
-    private func caclWillRemoveContext(tInfo: TransitionInfo) -> [ViewControllerTransitionContext] {
-        var ret = [ViewControllerTransitionContext]()
+    private func caclWillRemoveContext(tInfo: TransitionInfo) -> [TransitionAgent] {
+        var ret = [TransitionAgent]()
         var path = tInfo.commonPath
         for willRemoved in tInfo.oldComponentList {
             path = path.appendPath(component: willRemoved)

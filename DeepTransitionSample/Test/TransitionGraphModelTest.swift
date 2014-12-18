@@ -11,11 +11,11 @@ import XCTest
 
 import DeepTransitionSample
 
-typealias SegueKind = ViewControllerPath.SegueKind
-typealias ContainerKind = ViewControllerPath.ContainerKind
+typealias SegueKind = TransitionPath.SegueKind
+typealias ContainerKind = TransitionPath.ContainerKind
 
 class TransitionGraphModelTest: XCTestCase {
-    let obj = ViewControllerPath(path: "")
+    let obj = TransitionPath(path: "")
 
     override func setUp() {
         super.setUp()
@@ -95,7 +95,7 @@ class TransitionGraphModelTest: XCTestCase {
         }
     }
 
-    func checkSamePathComponent(target t: ViewControllerGraphProperty!, id: String, kind: SegueKind, root: ContainerKind = ContainerKind.None, params p: [String:String]? = nil) {
+    func checkSamePathComponent(target t: TransitionPathComponent!, id: String, kind: SegueKind, root: ContainerKind = ContainerKind.None, params p: [String:String]? = nil) {
         if t == nil {
             XCTAssert(false, "Target Object is nil!")
             return
@@ -107,7 +107,7 @@ class TransitionGraphModelTest: XCTestCase {
         XCTAssertEqual(root, t.ownRootContainer)
     }
     
-    typealias T = ViewControllerPath.Token
+    typealias T = TransitionPath.Token
     func testTokenize() {
         
         XCTAssertEqual([T.KindShow, T.VC("top"), T.KindShow, T.VC("news"), T.End], obj.tokenize("/top/news"))
@@ -120,23 +120,23 @@ class TransitionGraphModelTest: XCTestCase {
     
 
     func testIsDifferenceRoot() {
-        let path = ViewControllerPath(path: "/a/b/c")
-        XCTAssertEqual(true, path.isDifferenceRoot(ViewControllerPath(path: "/a/b/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/a/b/c/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/a/c/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(ViewControllerPath(path: "/b")))
-        XCTAssertEqual(true, path.isDifferenceRoot(ViewControllerPath(path: "/a/b!c")))
+        let path = TransitionPath(path: "/a/b/c")
+        XCTAssertEqual(true, path.isDifferenceRoot(TransitionPath(path: "/a/b/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/a/b/c/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/a/c/d")))
+        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/b")))
+        XCTAssertEqual(true, path.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
         
-        let p2 = ViewControllerPath(path: "menu")
-        XCTAssertEqual(true , p2.isDifferenceRoot(ViewControllerPath(path: "/a/b!c")))
-        XCTAssertEqual(false, p2.isDifferenceRoot(ViewControllerPath(path: "menu!/top")))
-        XCTAssertEqual(true , p2.isDifferenceRoot(ViewControllerPath(path: "/menu!/top")))
+        let p2 = TransitionPath(path: "menu")
+        XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
+        XCTAssertEqual(false, p2.isDifferenceRoot(TransitionPath(path: "menu!/top")))
+        XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/menu!/top")))
     }
     
     func testDiff_1() {
-        let path1 = ViewControllerPath(path: "/a/b/c")
-        let path2 = ViewControllerPath(path: "/a/b/e/f")
-        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        let path1 = TransitionPath(path: "/a/b/c")
+        let path2 = TransitionPath(path: "/a/b/e/f")
+        let (common, d1, d2) = TransitionPath.diff(path1: path1, path2: path2)
         XCTAssertEqual(2, common.depth)
         XCTAssertEqual(1, d1.count)
         XCTAssertEqual(2, d2.count)
@@ -148,9 +148,9 @@ class TransitionGraphModelTest: XCTestCase {
     }
 
     func testDiff_2() {
-        let path1 = ViewControllerPath(path: "/a(id=1)/b(id=3)/c")
-        let path2 = ViewControllerPath(path: "/a(id=1)/b(id=4)/e/f")
-        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        let path1 = TransitionPath(path: "/a(id=1)/b(id=3)/c")
+        let path2 = TransitionPath(path: "/a(id=1)/b(id=4)/e/f")
+        let (common, d1, d2) = TransitionPath.diff(path1: path1, path2: path2)
         XCTAssertEqual(1, common.depth)
         XCTAssertEqual(2, d1.count)
         XCTAssertEqual(3, d2.count)
@@ -165,9 +165,9 @@ class TransitionGraphModelTest: XCTestCase {
     }
     
     func testDiff_3() {
-        let path1 = ViewControllerPath(path: "")
-        let path2 = ViewControllerPath(path: "/a/b")
-        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        let path1 = TransitionPath(path: "")
+        let path2 = TransitionPath(path: "/a/b")
+        let (common, d1, d2) = TransitionPath.diff(path1: path1, path2: path2)
         XCTAssertEqual(0, common.depth)
         XCTAssertEqual(0, d1.count)
         XCTAssertEqual(2, d2.count)
@@ -176,9 +176,9 @@ class TransitionGraphModelTest: XCTestCase {
     }
 
     func testDiff_4() {
-        let path1 = ViewControllerPath(path: "/top")
-        let path2 = ViewControllerPath(path: "/top/list_news")
-        let (common, d1, d2) = ViewControllerPath.diff(path1: path1, path2: path2)
+        let path1 = TransitionPath(path: "/top")
+        let path2 = TransitionPath(path: "/top/list_news")
+        let (common, d1, d2) = TransitionPath.diff(path1: path1, path2: path2)
         XCTAssertEqual(1, common.depth)
         XCTAssertEqual(0, d1.count)
         XCTAssertEqual(1, d2.count)
@@ -189,11 +189,11 @@ class TransitionGraphModelTest: XCTestCase {
 
     func testComponentListToPath_1() {
         var path = ""
-        path = "/a/b/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
-        path = ""; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
-        path = "a"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
-        path = "a!b!/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
-        path = "a#b!/c"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
-        path = "a#/b!/c(id=10,url=http://hoge.com/hoge?ud=10#jjj)/ddx"; XCTAssertEqual(path, ViewControllerPath.componentListToPath(ViewControllerPath(path: path).componentList))
+        path = "/a/b/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = ""; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "a"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "a!b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "a#b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "a#/b!/c(id=10,url=http://hoge.com/hoge?ud=10#jjj)/ddx"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
     }
 }

@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-public class TreeTransitionViewController: UIViewController, ViewControllerTransitionContextDelegate {
-    public var transitionContext: ViewControllerTransitionContext?
-    public var transitionCenter : TransitionCenterProtocol  = TransitionViewControllerModel.getInstance()
+public class TransitionViewController: UIViewController, TransitionAgentDelegate {
+    public var transitionContext: TransitionAgent?
+    public var transitionCenter : TransitionCenterProtocol  = TransitionCenter.getInstance()
     
     public func transition(destination: String) {
         transitionCenter.request(destination)
@@ -36,18 +36,18 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     }
     
     // May Override
-    public func processInfo(vcInfo: ViewControllerGraphProperty) -> ViewControllerGraphProperty? {
+    public func processInfo(vcInfo: TransitionPathComponent) -> TransitionPathComponent? {
         return vcInfo
     }
     
-    public func beforePresentViewController(vc: UIViewController, info: ViewControllerGraphProperty) {
+    public func beforePresentViewController(vc: UIViewController, info: TransitionPathComponent) {
         // for customize animation
     }
     
     // May Override
-    public func addViewController(vcInfo: ViewControllerGraphProperty) {
+    public func addViewController(vcInfo: TransitionPathComponent) {
         if let info = processInfo(vcInfo) {
-            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? TreeTransitionViewController {
+            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? TransitionViewController {
                 transitionContext?.setupContext(vc, vcInfo: vcInfo)
                 switch vcInfo.segueKind {
                 case .Show:

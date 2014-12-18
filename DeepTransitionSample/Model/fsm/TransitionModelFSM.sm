@@ -1,6 +1,6 @@
 %package TransitionModel
 %include    DeepTransitionSample-Swift.h
-%class      TransitionViewControllerModel
+%class      TransitionCenter
 %fsmclass   TransitionModelFSM
 
 %start  TransitionModelStateMap::IDLE

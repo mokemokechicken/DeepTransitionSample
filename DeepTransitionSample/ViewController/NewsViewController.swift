@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsViewController: TreeTransitionViewController {
+class NewsViewController: TransitionViewController {
     @IBOutlet weak var label: UILabel!
     @IBAction func onBtnCoupon2(sender: AnyObject) {
         transition("/top!/list_coupon/show_coupon(id=88)")

@@ -9,9 +9,9 @@
 import Foundation
 
 
-@objc public class ViewControllerPath : Printable, Equatable {
+@objc public class TransitionPath : Printable, Equatable {
     public let path: String
-    public private(set) var componentList = [ViewControllerGraphProperty]()
+    public private(set) var componentList = [TransitionPathComponent]()
     public var depth : Int { return componentList.count }
 
     public init(path: String) {
@@ -19,28 +19,28 @@ import Foundation
         self.componentList = splitPath(path)
     }
     
-    private init(componentList: [ViewControllerGraphProperty]) {
-        self.path = ViewControllerPath.componentListToPath(componentList)
+    private init(componentList: [TransitionPathComponent]) {
+        self.path = TransitionPath.componentListToPath(componentList)
         self.componentList = componentList
     }
     
-    public func appendPath(#component: ViewControllerGraphProperty) -> ViewControllerPath {
-        return ViewControllerPath(componentList: self.componentList + [component])
+    public func appendPath(#component: TransitionPathComponent) -> TransitionPath {
+        return TransitionPath(componentList: self.componentList + [component])
     }
 
-    public func appendPath(#list: [ViewControllerGraphProperty]) -> ViewControllerPath {
-        return ViewControllerPath(componentList: self.componentList + componentList)
+    public func appendPath(#list: [TransitionPathComponent]) -> TransitionPath {
+        return TransitionPath(componentList: self.componentList + componentList)
     }
 
-    public func appendPath(path: ViewControllerPath) -> ViewControllerPath {
-        return ViewControllerPath(componentList: self.componentList + path.componentList)
+    public func appendPath(path: TransitionPath) -> TransitionPath {
+        return TransitionPath(componentList: self.componentList + path.componentList)
     }
     
-    public class func diff(#path1: ViewControllerPath, path2: ViewControllerPath) -> (common: ViewControllerPath, d1: [ViewControllerGraphProperty], d2: [ViewControllerGraphProperty]) {
+    public class func diff(#path1: TransitionPath, path2: TransitionPath) -> (common: TransitionPath, d1: [TransitionPathComponent], d2: [TransitionPathComponent]) {
         let minDepth = min(path1.depth, path2.depth)
-        var common = [ViewControllerGraphProperty]()
-        var d1 = [ViewControllerGraphProperty]()
-        var d2 = [ViewControllerGraphProperty]()
+        var common = [TransitionPathComponent]()
+        var d1 = [TransitionPathComponent]()
+        var d2 = [TransitionPathComponent]()
 
         var diffRootIndex = 0
         for i in 0..<minDepth {
@@ -58,10 +58,10 @@ import Foundation
         for i2 in diffRootIndex..<path2.depth {
             d2.append(path2.componentList[i2])
         }
-        return (ViewControllerPath(componentList: common), d1, d2)
+        return (TransitionPath(componentList: common), d1, d2)
     }
     
-    public func isDifferenceRoot(destinationPath: ViewControllerPath) -> Bool {
+    public func isDifferenceRoot(destinationPath: TransitionPath) -> Bool {
         // path の 最後の要素以外が一致していて、かつ、最後の要素が一致してなければTrue。
         // それ以外はFalse
         if destinationPath.depth < depth || depth == 0 {
@@ -80,7 +80,7 @@ import Foundation
         return false
     }
     
-    public class func componentListToPath(componentList: [ViewControllerGraphProperty]) -> String {
+    public class func componentListToPath(componentList: [TransitionPathComponent]) -> String {
         if componentList.isEmpty {
             return ""
         }
@@ -112,8 +112,8 @@ import Foundation
     
     // MARK: Private
     // Private なんだけど UnitTest用にPublic
-    public func splitPath(path: String) -> [ViewControllerGraphProperty] {
-        var pathList = [ViewControllerGraphProperty]()
+    public func splitPath(path: String) -> [TransitionPathComponent] {
+        var pathList = [TransitionPathComponent]()
         let tokens = tokenize(path)
         var alreadyHasNavigationController = false
         var ownContainer = ContainerKind.None
@@ -125,7 +125,7 @@ import Foundation
         func addPath() {
             if let id = name {
                 if let seg = segue {
-                    pathList.append(ViewControllerGraphProperty(identifier: id, segueKind: seg, params:params, ownRootContainer: ownContainer))
+                    pathList.append(TransitionPathComponent(identifier: id, segueKind: seg, params:params, ownRootContainer: ownContainer))
                     if !alreadyHasNavigationController && ownContainer == .Navigation {
                         alreadyHasNavigationController = true
                     }
@@ -270,7 +270,7 @@ import Foundation
     
 }
 
-public func ==(lhs: ViewControllerPath, rhs: ViewControllerPath) -> Bool {
+public func ==(lhs: TransitionPath, rhs: TransitionPath) -> Bool {
     if lhs.depth == rhs.depth {
         for i in 0..<lhs.depth {
             if lhs.componentList[i] != rhs.componentList[i] {
@@ -283,7 +283,7 @@ public func ==(lhs: ViewControllerPath, rhs: ViewControllerPath) -> Bool {
 }
 
 
-public func ==(lhs: ViewControllerPath.Token, rhs: ViewControllerPath.Token) -> Bool {
+public func ==(lhs: TransitionPath.Token, rhs: TransitionPath.Token) -> Bool {
     switch (lhs, rhs) {
     case (.VC(let a), .VC(let b)) where a == b: return true
     case (.ParamKey(let a), .ParamKey(let b)) where a == b: return true
@@ -298,24 +298,24 @@ public func ==(lhs: ViewControllerPath.Token, rhs: ViewControllerPath.Token) -> 
 }
 
 
-public func ==(lhs: ViewControllerGraphProperty, rhs: ViewControllerGraphProperty) -> Bool {
+public func ==(lhs: TransitionPathComponent, rhs: TransitionPathComponent) -> Bool {
     return lhs.isEqual(rhs)
 }
 
-@objc public class ViewControllerGraphProperty : Printable, Equatable {
-    public let segueKind: ViewControllerPath.SegueKind
+@objc public class TransitionPathComponent : Printable, Equatable {
+    public let segueKind: TransitionPath.SegueKind
     public let identifier: String
     public let params: [String:String]
-    public let ownRootContainer: ViewControllerPath.ContainerKind
+    public let ownRootContainer: TransitionPath.ContainerKind
     
-    public init(identifier: String, segueKind: ViewControllerPath.SegueKind, params:[String:String], ownRootContainer: ViewControllerPath.ContainerKind) {
+    public init(identifier: String, segueKind: TransitionPath.SegueKind, params:[String:String], ownRootContainer: TransitionPath.ContainerKind) {
         self.identifier  = identifier
         self.segueKind = segueKind
         self.params = params
         self.ownRootContainer = ownRootContainer
     }
     
-    public func isEqual(other: ViewControllerGraphProperty) -> Bool {
+    public func isEqual(other: TransitionPathComponent) -> Bool {
         return
             self.identifier == other.identifier &&
                 self.segueKind == other.segueKind &&

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TopViewController: TreeTransitionViewController {
+public class TopViewController: TransitionViewController {
 
     @IBAction func onBtnNews(sender: AnyObject) {
         transition("/top/list_news")
