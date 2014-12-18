@@ -32,8 +32,16 @@ public protocol TransitionCenterProtocol {
     func request(destination: String)
 
     func addContext(context: ViewControllerTransitionContext)
-    func removeContext(context: ViewControllerTransitionContext)
 }
+
+
+class WeakContext {
+    private weak var context:ViewControllerTransitionContext?
+    init(context: ViewControllerTransitionContext) {
+        self.context = context
+    }
+}
+
 
 @objc public class TransitionViewControllerModel : NSObject, TransitionCenterProtocol {
     public class func getInstance() -> TransitionViewControllerModel {
@@ -71,22 +79,16 @@ public protocol TransitionCenterProtocol {
     
     // MARK: Observable
     //////////////////////////////////
-    private var contexts = [ViewControllerTransitionContext]()
+    private var contexts = [WeakContext]()
     public func addContext(context: ViewControllerTransitionContext) {
         mylog("addContext: \(context.path)")
-        contexts.append(context)
-    }
-    
-    public func removeContext(context: ViewControllerTransitionContext) {
-        let pre = contexts.count
-        contexts = contexts.filter { $0.0 !== context}
-        mylog("removeContext(\(pre) -> \(contexts.count)): \(context.path)")
+        contexts.append(WeakContext(context: context))
     }
     
     private func findContextOf(path: ViewControllerPath) -> ViewControllerTransitionContext? {
         for c in contexts {
-            if c.path? == path {
-                return c
+            if path ==  c.context?.path {
+                return c.context
             }
         }
         return nil
@@ -176,9 +178,6 @@ public protocol TransitionCenterProtocol {
         if let vc = object as? HasTransitionContext {
             if vc.transitionContext?.path == tInfo.commonPath {
                 mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
-                for context in self.caclWillRemoveContext(tInfo) {
-                    removeContext(context)
-                }
                 currentPath = tInfo.commonPath
                 return true
             }

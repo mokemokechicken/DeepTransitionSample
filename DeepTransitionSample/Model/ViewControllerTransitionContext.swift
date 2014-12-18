@@ -36,55 +36,41 @@ import UIKit
         self.vcInfo = vcInfo
         self.path = baseContext.path.appendPath(component: vcInfo)
         self.transitionCenter = center
-        registerToModel()
+        transitionCenter.addContext(self)
     }
 
     public init(delegate: ViewControllerTransitionContextDelegate?, center: TransitionCenterProtocol) {
         self.delegate = delegate
         self.path = ViewControllerPath(path: "")
         self.transitionCenter = center
-        registerToModel()
+        transitionCenter.addContext(self)
     }
     
     //
     public func canDisappearNow(nextPath: ViewControllerPath) -> Bool {
-        return del?.canDisappearNow?() ?? true
+        return delegate?.canDisappearNow?() ?? true
     }
 
     public func removeChildViewController() {
-        if let handler = del?.removeChildViewController {
+        if let handler = delegate?.removeChildViewController {
             handler()
         } else {
-            transitionCenter.reportFinishedRemoveViewControllerFrom(del)
+            // TODO: Use DEFAULT Implementatin
         }
     }
     
     public func addChildViewController(vcInfo: ViewControllerGraphProperty)  {
-        if let d = del {
+        if let d = delegate {
             d.addViewController(vcInfo)
         } else {
-            transitionCenter.reportAddedViewController(nil)
+            // TODO: Use DEFAULT Implementatin
         }
     }
     
     // MARK: Private
-    private var del : ViewControllerTransitionContextDelegate? {
-        if let del = self.delegate {
-            return del
-        } else {
-            unregisterFromModel()
-            return nil
-        }
-    }
     
-    private func registerToModel() {
-        // TODO: Use Locator
-        transitionCenter.addContext(self)
-    }
-    
-    private func unregisterFromModel() {
-        // TODO: Use Locator
-        transitionCenter.removeContext(self)
+    deinit {
+        NSLog("deinit Context: \(self.path)")
     }
 }
 

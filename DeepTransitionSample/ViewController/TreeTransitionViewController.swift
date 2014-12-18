@@ -20,6 +20,7 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         transitionCenter.reportAddedViewController(self)
+        NSLog("viewDidAppear: \(self)")
     }
     
     // May Override

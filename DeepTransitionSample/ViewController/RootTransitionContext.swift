@@ -9,6 +9,8 @@
 
 import UIKit
 
+private var instance : RootTransitionContext?
+
 public class RootTransitionContext : ViewControllerTransitionContext, HasTransitionContext {
     public var transitionContext : ViewControllerTransitionContext? { return self }
 
@@ -35,4 +37,8 @@ public class RootTransitionContext : ViewControllerTransitionContext, HasTransit
         }
     }
     
+    func forever() -> RootTransitionContext {
+        instance = self
+        return self
+    }
 }
