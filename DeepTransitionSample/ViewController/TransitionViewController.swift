@@ -36,37 +36,26 @@ public class TransitionViewController: UIViewController, TransitionAgentDelegate
     }
     
     // May Override
-    public func processPathComponent(pathComponent: TransitionPathComponent) -> TransitionPathComponent? {
-        return pathComponent
-    }
-    
-    public func beforePresentViewController(vc: UIViewController, info: TransitionPathComponent) {
-        // for customize animation
-    }
-    
-    // May Override
     public func addViewController(pathComponent: TransitionPathComponent) {
-        if let info = processPathComponent(pathComponent) {
-            if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(info.identifier) as? TransitionViewController {
-                transitionAgent?.setupChildAgent(vc, pathComponent: pathComponent)
-                switch pathComponent.segueKind {
-                case .Show:
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    return
-                    
-                case .Modal:
-                    if pathComponent.ownRootContainer == .Navigation {
-                        let nav = UINavigationController(rootViewController: vc)
-                        self.presentViewController(nav, animated: true) {}
-                    } else {
-                        self.presentViewController(vc, animated: true) {}
-                    }
-                    return
-                    
-                case .Tab:
-                    // Unimplemented Yet
-                    break
+        if let vc = self.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? TransitionViewController {
+            transitionAgent?.setupChildAgent(vc, pathComponent: pathComponent)
+            switch pathComponent.segueKind {
+            case .Show:
+                self.navigationController?.pushViewController(vc, animated: true)
+                return
+                
+            case .Modal:
+                if pathComponent.ownRootContainer == .Navigation {
+                    let nav = UINavigationController(rootViewController: vc)
+                    self.presentViewController(nav, animated: true) {}
+                } else {
+                    self.presentViewController(vc, animated: true) {}
                 }
+                return
+                
+            case .Tab:
+                // Unimplemented Yet
+                break
             }
         }
         transitionCenter.reportTransitionError("AddViewControlelr: \(pathComponent.identifier)")

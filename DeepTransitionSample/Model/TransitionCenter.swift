@@ -27,18 +27,18 @@ private class TransitionInfo {
 }
 
 public protocol TransitionCenterProtocol {
-    func addContext(context: TransitionAgent)
-    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionAgent?)
-    func reportViewDidAppear(vc: HasTransitionAgent)
+    func addAgent(agent: TransitionAgent)
+    func reportFinishedRemoveViewControllerFrom(hasAgent: HasTransitionAgent?)
+    func reportViewDidAppear(hasAgent: HasTransitionAgent)
     func reportTransitionError(reason: String?)
     func request(destination: String)
 }
 
 
 class WeakAgent {
-    private weak var context:TransitionAgent?
-    init(context: TransitionAgent) {
-        self.context = context
+    private weak var agent:TransitionAgent?
+    init(agent: TransitionAgent) {
+        self.agent = agent
     }
 }
 
@@ -56,16 +56,16 @@ class WeakAgent {
     }
     
     // MARK: TransitionCenterProtocol
-    public func reportFinishedRemoveViewControllerFrom(vc: HasTransitionAgent?) {
-        if let v = vc {
+    public func reportFinishedRemoveViewControllerFrom(hasAgent: HasTransitionAgent?) {
+        if let v = hasAgent {
             async_fsm { $0.finish_remove(v) }
         } else {
             async_fsm { $0.stop() }
         }
     }
     
-    public func reportViewDidAppear(vc: HasTransitionAgent) {
-        async_fsm { $0.move(vc) }
+    public func reportViewDidAppear(hasAgent: HasTransitionAgent) {
+        async_fsm { $0.move(hasAgent) }
     }
     
     public func reportTransitionError(reason: String?) {
@@ -82,15 +82,15 @@ class WeakAgent {
     // MARK: Observable
     //////////////////////////////////
     private var contexts = [WeakAgent]()
-    public func addContext(context: TransitionAgent) {
-        mylog("addContext: \(context.path)")
-        contexts.append(WeakAgent(context: context))
+    public func addAgent(agent: TransitionAgent) {
+        mylog("addAgent: \(agent.path)")
+        contexts.append(WeakAgent(agent: agent))
     }
     
     private func findContextOf(path: TransitionPath) -> TransitionAgent? {
         for c in contexts {
-            if path ==  c.context?.path {
-                return c.context
+            if path ==  c.agent?.path {
+                return c.agent
             }
         }
         return nil

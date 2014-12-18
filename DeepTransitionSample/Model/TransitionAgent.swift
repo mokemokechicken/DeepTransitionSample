@@ -36,14 +36,14 @@ import UIKit
         self.pathComponent = pathComponent
         self.path = parentAgent.path.appendPath(component: pathComponent)
         self.transitionCenter = center
-        transitionCenter.addContext(self)
+        transitionCenter.addAgent(self)
     }
 
     public init(delegate: TransitionAgentDelegate?, center: TransitionCenterProtocol) {
         self.delegate = delegate
         self.path = TransitionPath(path: "")
         self.transitionCenter = center
-        transitionCenter.addContext(self)
+        transitionCenter.addAgent(self)
     }
     
     public func setupChildAgent(target: TransitionAgentDelegate, pathComponent: TransitionPathComponent) {
