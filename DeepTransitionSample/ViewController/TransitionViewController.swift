@@ -31,7 +31,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
     
     // May Override
-    public func addViewController(pathComponent: TransitionPathComponent) {
+    public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let vc = delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController {
             if let transitionVC = vc as? TransitionViewControllerProtocol {
                 transitionVC.setupAgent(transitionPath.appendPath(component: pathComponent))
@@ -39,7 +39,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
                 switch pathComponent.segueKind {
                 case .Show:
                     delegate!.navigationController?.pushViewController(vc, animated: true)
-                    return
+                    return true
                     
                 case .Modal:
                     if pathComponent.ownRootContainer == .Navigation {
@@ -48,7 +48,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
                     } else {
                         delegate!.presentViewController(vc, animated: true) {}
                     }
-                    return
+                    return true
                     
                 case .Tab:
                     // Unimplemented Yet
@@ -57,7 +57,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
                 
             }
         }
-        transitionCenter.reportTransitionError("AddViewControlelr: \(pathComponent.identifier)")
+        return false
     }
     
     deinit {

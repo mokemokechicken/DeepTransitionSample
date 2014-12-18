@@ -14,7 +14,7 @@ import UIKit
 }
 
 @objc public protocol TransitionAgentDelegate {
-    optional func addViewController(pathComponent: TransitionPathComponent)
+    optional func addViewController(pathComponent: TransitionPathComponent) -> Bool
     optional func removeChildViewController()
     optional func canDisappearNow(nextPath: TransitionPath) -> Bool
 }
@@ -29,7 +29,7 @@ import UIKit
     var delegate : TransitionAgentDelegate? { get set }
     var delegateDefaultImpl : TransitionAgentDelegate? { get set }
 
-    func addChildViewController(pathComponent: TransitionPathComponent)
+    func addChildViewController(pathComponent: TransitionPathComponent) -> Bool
     func removeChildViewController()
     func canDisappearNow(nextPath: TransitionPath) -> Bool
 }
@@ -72,13 +72,13 @@ import UIKit
         }
     }
     
-    public func addChildViewController(pathComponent: TransitionPathComponent)  {
+    public func addChildViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let handler = delegate?.addViewController {
-            handler(pathComponent)
+            return handler(pathComponent)
         } else if let handler = delegateDefaultImpl?.addViewController {
-            handler(pathComponent)
+            return handler(pathComponent)
         } else {
-            transitionCenter.reportTransitionError("No Add Child Handler")
+            return false
         }
     }
     

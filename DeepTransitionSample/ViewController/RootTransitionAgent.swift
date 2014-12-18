@@ -25,7 +25,7 @@ public class RootTransitionAgent : TransitionAgent {
         transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
-    override public func addChildViewController(pathComponent: TransitionPathComponent)  {
+    override public func addChildViewController(pathComponent: TransitionPathComponent) -> Bool  {
         let window = UIApplication.sharedApplication().delegate?.window
         let path = transitionPath.appendPath(component: pathComponent)
  
@@ -38,10 +38,12 @@ public class RootTransitionAgent : TransitionAgent {
 
             vc.setupAgent(path)
             transitionCenter.reportViewDidAppear(path)
+            return true
 
         default:
             break
         }
+        return false
     }
     
     func forever() -> RootTransitionAgent {

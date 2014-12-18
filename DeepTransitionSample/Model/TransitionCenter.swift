@@ -159,13 +159,17 @@ public protocol TransitionCenterProtocol {
     func onEntryAdding() {
         // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある
         let tInfo = calcTransitionInfo()
-        var path = tInfo.commonPath
+        var path : TransitionPath? = tInfo.commonPath
         if let nextComponent = tInfo.newComponentList.first {
-            if let agent = findAgentOf(path) {
-                self.addingInfo = AddingInfo(tInfo: tInfo, nextComponent: nextComponent, agent: agent)
-                mylog("Sending AddChildRequest '\(agent.transitionPath)' += \(nextComponent.description)")
-                agent.addChildViewController(nextComponent)
-                return
+            while path != nil {
+                if let agent = findAgentOf(path!) {
+                    self.addingInfo = AddingInfo(tInfo: tInfo, nextComponent: nextComponent, agent: agent)
+                    mylog("Sending AddChildRequest '\(agent.transitionPath)' += \(nextComponent.description)")
+                    if agent.addChildViewController(nextComponent) {
+                        return
+                    }
+                }
+                path = path!.up()
             }
         }
         async_fsm { $0.stop() }

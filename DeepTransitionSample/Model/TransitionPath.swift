@@ -36,6 +36,17 @@ import Foundation
         return TransitionPath(componentList: self.componentList + path.componentList)
     }
     
+    public func up(depth: Int = 1) -> TransitionPath? {
+        if depth <= self.depth {
+            var list = [TransitionPathComponent]()
+            for i in 0..<self.depth-depth {
+                list.append(self.componentList[i])
+            }
+            return TransitionPath(componentList: list)
+        }
+        return nil
+    }
+    
     public class func diff(#path1: TransitionPath, path2: TransitionPath) -> (common: TransitionPath, d1: [TransitionPathComponent], d2: [TransitionPathComponent]) {
         let minDepth = min(path1.depth, path2.depth)
         var common = [TransitionPathComponent]()
