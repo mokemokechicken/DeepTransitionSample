@@ -27,7 +27,7 @@ public class TransitionInfo {
 }
 
 public protocol TransitionCenterProtocol {
-    func reportFinishedRemoveViewController()
+    func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?)
     func reportAddedViewController(vc: UIViewController?)
     func request(destination: String)
 
@@ -48,12 +48,20 @@ public protocol TransitionCenterProtocol {
     }
     
     // MARK: TransitionCenterProtocol
-    public func reportFinishedRemoveViewController() {
-        async_fsm { $0.add() }
+    public func reportFinishedRemoveViewControllerFrom(vc: HasTransitionContext?) {
+        if let v = vc {
+            async_fsm { $0.finish_remove(v) }
+        } else {
+            async_fsm { $0.stop() }
+        }
     }
     
     public func reportAddedViewController(vc: UIViewController?) {
-        async_fsm { $0.finish_add(vc)}
+        if let v = vc {
+            async_fsm { $0.finish_add(v)}
+        } else {
+            async_fsm { $0.stop() }
+        }
     }
 
     public func request(destination: String) {
@@ -65,11 +73,14 @@ public protocol TransitionCenterProtocol {
     //////////////////////////////////
     private var contexts = [ViewControllerTransitionContext]()
     public func addContext(context: ViewControllerTransitionContext) {
+        mylog("addContext: \(context.path)")
         contexts.append(context)
     }
     
     public func removeContext(context: ViewControllerTransitionContext) {
+        let pre = contexts.count
         contexts = contexts.filter { $0.0 !== context}
+        mylog("removeContext(\(pre) -> \(contexts.count)): \(context.path)")
     }
     
     private func findContextOf(path: ViewControllerPath) -> ViewControllerTransitionContext? {
@@ -108,12 +119,9 @@ public protocol TransitionCenterProtocol {
     }
     
     func onEntryIdle() {
-        for context in self.caclWillRemoveContext(calcTransitionInfo()) {
-            removeContext(context)
-        }
         switch (startPath, destPath) {
         case (let .Some(s), let .Some(d)):
-            mylog("Finish Transition FROM \(s) TO \(d)")
+            mylog("Finish Transition FROM \(s) TO \(currentPath)")
         default:
             break
         }
@@ -141,6 +149,7 @@ public protocol TransitionCenterProtocol {
                 return
             }
         }
+        mylog("Start Transition FROM \(startPath!) TO \(destPath!)")
         async_fsm { $0.ok() }
     }
     
@@ -148,12 +157,13 @@ public protocol TransitionCenterProtocol {
         // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある
         let tInfo = calcTransitionInfo()
         if tInfo.oldComponentList.isEmpty {
-            async_fsm { $0.add() }
+            mylog("Skip Removing")
+            async_fsm { $0.skip_removing() }
             return
         }
         
         if let context = findContextOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
-            mylog("RemoveChildRequest to '\(context.path)'")
+            mylog("Sending RemoveChildRequest to '\(context.path)'")
             context.removeChildViewController()
         } else {
             mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
@@ -161,7 +171,21 @@ public protocol TransitionCenterProtocol {
         }
     }
     
-    
+    func isExpectedReporter(object: AnyObject!) -> Bool {
+        let tInfo = calcTransitionInfo()
+        if let vc = object as? HasTransitionContext {
+            if vc.transitionContext?.path == tInfo.commonPath {
+                mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
+                for context in self.caclWillRemoveContext(tInfo) {
+                    removeContext(context)
+                }
+                currentPath = tInfo.commonPath
+                return true
+            }
+        }
+        return false
+    }
+
     func onEntryAdding() {
         // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある
         let tInfo = calcTransitionInfo()
@@ -169,12 +193,24 @@ public protocol TransitionCenterProtocol {
         if let willAdd = tInfo.newComponentList.first {
             if let context = findContextOf(path) {
                 self.addingInfo = AddingInfo(tInfo: tInfo, adding: willAdd, vcContext: context)
-                mylog("AddChildRequest '\(context.path)' += \(willAdd.description)")
+                mylog("Sending AddChildRequest '\(context.path)' += \(willAdd.description)")
                 context.addChildViewController(willAdd)
                 return
             }
         }
         async_fsm { $0.stop() }
+    }
+    
+    func isExpectedChild(object: AnyObject!) -> Bool {
+        switch (addingInfo, object as? ViewControllerTransitionContextDelegate) {
+        case(let .Some(ai), let .Some(vc)):
+            if vc.transitionContext == nil || vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
+                return true
+            }
+        default:
+            break
+        }
+        return false
     }
     
     func onFinishAdd(object: AnyObject!) {
@@ -183,7 +219,11 @@ public protocol TransitionCenterProtocol {
             if vc.transitionContext == nil {
                 vc.transitionContext = ViewControllerTransitionContext(delegate: vc, center: self, baseContext: ai.vcContext, vcInfo: ai.adding)
             }
-            currentPath = vc.transitionContext!.path
+            if vc.transitionContext!.path == currentPath.appendPath(component: ai.adding) {
+                mylog("Change CurrentPath From \(currentPath.path) to \(vc.transitionContext!.path)")
+                currentPath = vc.transitionContext!.path
+                addingInfo = nil
+            }
         default:
             async_fsm() { $0.stop() }
             break
@@ -191,7 +231,6 @@ public protocol TransitionCenterProtocol {
     }
     
     func onEntryFinishAdd() {
-        addingInfo = nil
         if currentPath == destPath {
             async_fsm { $0.finish_transition() }
         } else {

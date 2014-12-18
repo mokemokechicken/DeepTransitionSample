@@ -9,7 +9,11 @@
 import UIKit
 
 
-@objc public protocol ViewControllerTransitionContextDelegate {
+@objc public protocol HasTransitionContext {
+    var transitionContext: ViewControllerTransitionContext? { get }
+}
+
+@objc public protocol ViewControllerTransitionContextDelegate : HasTransitionContext {
     var transitionContext: ViewControllerTransitionContext? { get set }
     func addViewController(vcInfo: ViewControllerGraphProperty)
 
@@ -42,19 +46,6 @@ import UIKit
         registerToModel()
     }
     
-    // MARK: TransitionCenterProtocol
-    public func reportFinishedRemoveViewController() {
-        transitionCenter.reportFinishedRemoveViewController()
-    }
-    
-    public func reportAddedViewController(vc: UIViewController?) {
-        transitionCenter.reportAddedViewController(vc)
-    }
-    
-    public func request(destination: String) {
-        transitionCenter.request(destination)
-    }
-    
     //
     public func canDisappearNow(nextPath: ViewControllerPath) -> Bool {
         return del?.canDisappearNow?() ?? true
@@ -64,7 +55,7 @@ import UIKit
         if let handler = del?.removeChildViewController {
             handler()
         } else {
-            reportFinishedRemoveViewController()
+            transitionCenter.reportFinishedRemoveViewControllerFrom(del)
         }
     }
     
@@ -72,7 +63,7 @@ import UIKit
         if let d = del {
             d.addViewController(vcInfo)
         } else {
-            reportAddedViewController(nil)
+            transitionCenter.reportAddedViewController(nil)
         }
     }
     

@@ -23,13 +23,14 @@ CONFIRMING
 REMOVING
 Entry { onEntryRemoving(); }
 {
-  add ADDING {}
+  skip_removing ADDING {}
+  finish_remove(vc: id) [ [ctxt isExpectedReporter:vc] ] ADDING {}
 }
 
 ADDING
 Entry { onEntryAdding(); }
 {
-  finish_add(vc: id) FINISH_ADD { onFinishAdd(vc); }
+  finish_add(vc: id) [ [ctxt isExpectedChild:vc] ] FINISH_ADD { onFinishAdd(vc); }
 }
 
 FINISH_ADD

@@ -11,9 +11,15 @@ import UIKit
 
 public class TreeTransitionViewController: UIViewController, ViewControllerTransitionContextDelegate {
     public var transitionContext: ViewControllerTransitionContext?
+    public var transitionCenter : TransitionCenterProtocol  = TransitionViewControllerModel.getInstance()
     
     public func transition(destination: String) {
-        transitionContext?.request(destination)
+        transitionCenter.request(destination)
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        transitionCenter.reportAddedViewController(self)
     }
     
     // May Override
@@ -25,7 +31,7 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
         if let navi = navigationController {
             navi.popToViewController(self, animated: true)
         }
-        transitionContext?.reportFinishedRemoveViewController()
+        transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
     
     // May Override
@@ -44,18 +50,18 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
                 switch vcInfo.segueKind {
                 case .Show:
                     self.navigationController?.pushViewController(vc, animated: true)
-                    self.transitionContext?.reportAddedViewController(vc)
+//                    self.transitionContext?.reportAddedViewController(vc)
                     
                 case .Modal:
                     if vcInfo.ownRootContainer == .Navigation {
                         let nav = UINavigationController(rootViewController: vc)
                         self.presentViewController(nav, animated: true) {
-                            self.transitionContext?.reportAddedViewController(vc)
+//                            self.transitionContext?.reportAddedViewController(vc)
                             return
                         }
                     } else {
                         self.presentViewController(vc, animated: true) {
-                            self.transitionContext?.reportAddedViewController(vc)
+//                            self.transitionContext?.reportAddedViewController(vc)
                             return
                         }
                     }
@@ -65,21 +71,15 @@ public class TreeTransitionViewController: UIViewController, ViewControllerTrans
                     break
                 }
             } else {
-                self.transitionContext?.reportAddedViewController(nil)
+                transitionCenter.reportAddedViewController(nil)
             }
         } else {
-            self.transitionContext?.reportAddedViewController(nil)
+            transitionCenter.reportAddedViewController(nil)
         }
     }
-
-    // ViewController階層に追加・削除されたタイミングでObserveするようにする
-    public override func willMoveToParentViewController(parent: UIViewController?) {
-        super.willMoveToParentViewController(parent)
-        if self.parentViewController === parent {
-            NSLog("\(self.description) will be Added to ViewControlelr Tree")
-        } else {
-            NSLog("\(self.description): Removed From ViewControlelr Tree")
-        }
+    
+    deinit {
+        NSLog("deinit: \(self.description)")
     }
 }
 

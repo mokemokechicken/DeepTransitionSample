@@ -9,13 +9,15 @@
 
 import UIKit
 
-public class RootTransitionContext : ViewControllerTransitionContext {
+public class RootTransitionContext : ViewControllerTransitionContext, HasTransitionContext {
+    public var transitionContext : ViewControllerTransitionContext? { return self }
+
     public init(center: TransitionCenterProtocol) {
         super.init(delegate: nil, center: center)
     }
     
     override public func removeChildViewController() {
-        transitionCenter.reportFinishedRemoveViewController()
+        transitionCenter.reportFinishedRemoveViewControllerFrom(self)
     }
     
     override public func addChildViewController(vcInfo: ViewControllerGraphProperty)  {
