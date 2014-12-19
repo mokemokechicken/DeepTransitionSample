@@ -17,16 +17,25 @@ View(Controller)階層の遠い画面に遷移するのは、
 仕様
 ======
 
+簡単な使い方
+-----------
+
+* 全てのViewControllerに TransitionViewController を継承させます
+* 遷移を行うときに `requestTransition("/top/list_news!show(id=9)")` などのMethodを使います
+
+簡単な説明
+----------
+
 TransitionViewControllerProtocol を実装したViewControllerが、今回の仕組みで操作可能になります。
-TransitionViewController と TransitionDefaultHandler では標準的な実装を行っています。
-基本的にはこのTransitionViewControllerを継承してください。
+TransitionViewController と TransitionDefaultHandler ではそれに関する標準的な実装を行っています。
+これらは差し替えやOverrideなどでカスタマイズが可能です。
 
 TransitionViewController の継承したViewControllerが行うこと
 ----------------
 
 * 一つのViewControllerはMain Storyboard の`Storyboard ID`で識別されます。 この挙動は後述する `decideViewController` Methodを実装することで変更できます。
 * その階層を '/top/list_news/show_news' というような形で指定します。この場合、 top -> list_news -> show_news という順でViewControllerがつながります。
-* ページ遷移するときは、 `requestTransition("/top/list_news!")` などで行います。
+* ページ遷移するときは、 `requestTransition("/top/list_news")` などで行います。
   * ViewControllerを追加する遷移がある場合は必ずそうしてください。
   * ただし、Back（ViewControllerを除去する動作）などは、別の方法(NavigationControllerが自動で付けるもの)で行っても大丈夫です
 * viewDidAppearをoverrideした時は必ず super を呼ぶ(これを忘れるとそれ以降遷移しなくなります)
