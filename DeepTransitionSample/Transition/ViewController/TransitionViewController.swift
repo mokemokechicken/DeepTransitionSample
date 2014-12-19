@@ -112,8 +112,12 @@ public class TransitionViewController: UIViewController, TransitionViewControlle
         transitionCenter.request(destination)
     }
     
+    public func createAgent(path: TransitionPath) -> TransitionAgentProtocol {
+        return TransitionAgent(path: path)
+    }
+    
     public func setupAgent(path: TransitionPath) {
-        transitionAgent = TransitionAgent(path: path)
+        transitionAgent = createAgent(path)
         transitionAgent!.delegate = self
         transitionAgent!.delegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
         if missReporting {
