@@ -50,13 +50,13 @@ import UIKit
     public var delegateDefaultImpl : TransitionAgentDelegate?
 
     private var pathComponent: TransitionPathComponent?
-    var transitionCenter: TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    var transition: TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
     
 
     public init(path: TransitionPath) {
         self.pathComponent = path.componentList.last
         self.transitionPath = path
-        transitionCenter.addAgent(self)
+        transition.addAgent(self)
     }
 
     public convenience init(parentAgent: TransitionAgentProtocol, pathComponent: TransitionPathComponent) {
@@ -74,7 +74,7 @@ import UIKit
         } else if let handler = delegateDefaultImpl?.removeViewController  {
             handler(pathComponent)
         } else {
-            transitionCenter.reportTransitionError("No Remove Child Handler")
+            transition.reportTransitionError("No Remove Child Handler")
         }
     }
     

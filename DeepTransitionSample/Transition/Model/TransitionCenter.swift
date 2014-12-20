@@ -16,7 +16,7 @@ public protocol TransitionCenterProtocol {
     func reportFinishedRemoveViewControllerFrom(path: TransitionPath)
     func reportViewDidAppear(path: TransitionPath)
     func reportTransitionError(reason: String?)
-    func request(destination: String)
+    func to(destination: String)
 }
 
 @objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
@@ -43,7 +43,7 @@ public protocol TransitionCenterProtocol {
         async_fsm { $0.stop() }
     }
 
-    public func request(destination: String) {
+    public func to(destination: String) {
         async_fsm { $0.request(destination) }
     }
     //

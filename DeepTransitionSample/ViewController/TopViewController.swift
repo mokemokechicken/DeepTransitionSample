@@ -8,14 +8,18 @@
 
 import UIKit
 
-public class TopViewController: TransitionViewController {
+public class TopViewController: UIViewController {
 
+    @IBAction func onBtnHome(sender: AnyObject) {
+        transition.to("/top/home")
+    }
+    
     @IBAction func onBtnNews(sender: AnyObject) {
-        requestTransition("/top/list_news")
+        transition.to("/top/list_news")
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-        requestTransition("/top!/list_coupon")
+        transition.to("/top!/list_coupon")
     }
 
 }

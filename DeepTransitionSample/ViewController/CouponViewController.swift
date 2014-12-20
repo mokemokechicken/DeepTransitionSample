@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CouponViewController: TransitionViewController {
+class CouponViewController: UIViewController {
     @IBOutlet weak var labelID: UILabel!
     
     override func viewWillAppear(animated: Bool) {
@@ -19,6 +19,6 @@ class CouponViewController: TransitionViewController {
     }
     
     @IBAction func onBtnNews2(sender: AnyObject) {
-        requestTransition("/top/list_news/show_news(id=55)")
+        transition.to("/top/list_news/show_news(id=55)")
     }
 }

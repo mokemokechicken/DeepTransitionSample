@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import ObjectiveC
 
 public class TransitionDefaultHandler : TransitionAgentDelegate {
     private weak var delegate : UIViewController?
     public private(set) var transitionPath : TransitionPath
-    private var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    private var transition : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
 
     public init(viewController: UIViewController?, path: TransitionPath) {
         self.delegate = viewController
@@ -27,7 +28,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         if let navi = delegate?.navigationController {
             navi.popToViewController(delegate!, animated: true)
         }
-        transitionCenter.reportFinishedRemoveViewControllerFrom(transitionPath)
+        transition.reportFinishedRemoveViewControllerFrom(transitionPath)
     }
     
     public func decideViewController(pathComponent: TransitionPathComponent) -> UIViewController? {
@@ -71,19 +72,17 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     
     public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let vc = decideViewController(pathComponent) {
-            if let transitionVC = vc as? TransitionViewControllerProtocol {
-                transitionVC.setupAgent(transitionPath.appendPath(component: pathComponent))
+            vc.setupAgent(transitionPath.appendPath(component: pathComponent))
+            
+            switch pathComponent.segueKind {
+            case .Show:
+                return showViewController(vc, pathComponent: pathComponent)
                 
-                switch pathComponent.segueKind {
-                case .Show:
-                    return showViewController(vc, pathComponent: pathComponent)
-                    
-                case .Modal:
-                    return showModalViewController(vc, pathComponent: pathComponent)
-                    
-                case .Tab:
-                    return showInternalViewController(vc, pathComponent: pathComponent)
-                }
+            case .Modal:
+                return showModalViewController(vc, pathComponent: pathComponent)
+                
+            case .Tab:
+                return showInternalViewController(vc, pathComponent: pathComponent)
             }
         }
         return false
@@ -94,22 +93,24 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
 }
 
-public class TransitionViewController: UIViewController, TransitionViewControllerProtocol {
-    public var transitionAgent: TransitionAgentProtocol?
-    public var transitionCenter : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
-    private var missReporting = false
-    
-    public func reportViewDidAppear() {
-        if let path = transitionAgent?.transitionPath {
-            transitionCenter.reportViewDidAppear(path)
-            missReporting = false
-        } else {
-            missReporting = true
+private var transitionAgentKey: UInt8 = 0
+
+extension UIViewController : TransitionViewControllerProtocol {
+    public var transition : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
+    public var transitionAgent: TransitionAgentProtocol? {
+        get {
+            return objc_getAssociatedObject(self, &transitionAgentKey) as? TransitionAgentProtocol
+        }
+        set {
+            objc_setAssociatedObject(self, &transitionAgentKey, newValue, UInt(OBJC_ASSOCIATION_RETAIN))
         }
     }
     
-    public func requestTransition(destination: String) {
-        transitionCenter.request(destination)
+    
+    public func reportViewDidAppear() {
+        if let path = transitionAgent?.transitionPath {
+            transition.reportViewDidAppear(path)
+        }
     }
     
     public func createAgent(path: TransitionPath) -> TransitionAgentProtocol {
@@ -120,24 +121,11 @@ public class TransitionViewController: UIViewController, TransitionViewControlle
         transitionAgent = createAgent(path)
         transitionAgent!.delegate = self
         transitionAgent!.delegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
-        if missReporting {
-            reportViewDidAppear()
-        }
     }
     
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    public func viewDidAppear(animated: Bool) {
         reportViewDidAppear()
         NSLog("viewDidAppear: \(self)")
     }
     
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        missReporting = false
-    }
-    
-    deinit {
-        NSLog("deinit: \(self.description)")
-    }
 }
-
