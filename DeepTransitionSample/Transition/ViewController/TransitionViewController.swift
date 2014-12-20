@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import ObjectiveC
 
 public class TransitionDefaultHandler : TransitionAgentDelegate {
     private weak var delegate : UIViewController?
@@ -59,7 +58,6 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
             }
             return true
         }
-        
     }
     
     public func showInternalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool {
@@ -89,7 +87,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
     
     deinit {
-        NSLog("deinit TransitionHandler: \(self)")
+        mylog("deinit TransitionHandler: \(self)")
     }
 }
 
@@ -106,26 +104,36 @@ extension UIViewController : TransitionViewControllerProtocol {
         }
     }
     
+    public func setupAgent(path: TransitionPath) {
+        transitionAgent = createTransitionAgent(path)
+        transitionAgent!.delegate = self
+        if transitionAgent!.delegateDefaultImpl == nil {
+            transitionAgent!.delegateDefaultImpl = createTransitionDefaultHandler(path)
+        }
+    }
     
+    public func viewDidAppear(animated: Bool) {
+        reportViewDidAppear()
+        mylog("viewDidAppear: \(self)")
+    }
+
     public func reportViewDidAppear() {
         if let path = transitionAgent?.transitionPath {
             transition.reportViewDidAppear(path)
         }
     }
     
-    public func createAgent(path: TransitionPath) -> TransitionAgentProtocol {
+    public func createTransitionAgent(path: TransitionPath) -> TransitionAgentProtocol {
         return TransitionAgent(path: path)
     }
     
-    public func setupAgent(path: TransitionPath) {
-        transitionAgent = createAgent(path)
-        transitionAgent!.delegate = self
-        transitionAgent!.delegateDefaultImpl = TransitionDefaultHandler(viewController: self, path: path)
+    public func createTransitionDefaultHandler(path: TransitionPath) -> TransitionAgentDelegate {
+        return TransitionDefaultHandler(viewController: self, path: path)
     }
-    
-    public func viewDidAppear(animated: Bool) {
-        reportViewDidAppear()
-        NSLog("viewDidAppear: \(self)")
-    }
-    
+}
+
+private func mylog(s: String) {
+#if DEBUG
+    NSLog(s)
+#endif
 }
