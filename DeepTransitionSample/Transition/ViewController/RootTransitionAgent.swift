@@ -25,8 +25,9 @@ public class RootTransitionAgent : TransitionAgent {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController
     }
 
-    override public func removeViewController(pathComponent: TransitionPathComponent) {
+    override public func removeViewController(pathComponent: TransitionPathComponent) -> Bool {
         transition.reportFinishedRemoveViewControllerFrom(transitionPath)
+        return true
     }
     
     override public func addViewController(pathComponent: TransitionPathComponent) -> Bool  {

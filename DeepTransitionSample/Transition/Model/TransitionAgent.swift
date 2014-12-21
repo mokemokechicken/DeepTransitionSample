@@ -15,7 +15,7 @@ import UIKit
 
 @objc public protocol TransitionAgentDelegate {
     optional func addViewController(pathComponent: TransitionPathComponent) -> Bool
-    optional func removeViewController(pathComponent: TransitionPathComponent)
+    optional func removeViewController(pathComponent: TransitionPathComponent) -> Bool
     optional func canDisappearNow(nextPath: TransitionPath) -> Bool
     
     // Customize Show Child ViewController
@@ -36,7 +36,7 @@ import UIKit
     var delegateDefaultImpl : TransitionAgentDelegate? { get set }
 
     func addViewController(pathComponent: TransitionPathComponent) -> Bool
-    func removeViewController(pathComponent: TransitionPathComponent)
+    func removeViewController(pathComponent: TransitionPathComponent) -> Bool
     func canDisappearNow(nextPath: TransitionPath) -> Bool
 }
 
@@ -68,13 +68,13 @@ import UIKit
         return delegate?.canDisappearNow?(nextPath) ?? delegateDefaultImpl?.canDisappearNow?(nextPath) ?? true
     }
 
-    public func removeViewController(pathComponent: TransitionPathComponent) {
+    public func removeViewController(pathComponent: TransitionPathComponent) -> Bool {
         if let handler = delegate?.removeViewController {
-            handler(pathComponent)
+            return handler(pathComponent)
         } else if let handler = delegateDefaultImpl?.removeViewController  {
-            handler(pathComponent)
+            return handler(pathComponent)
         } else {
-            transition.reportTransitionError("No Remove Child Handler")
+            return false
         }
     }
     

@@ -52,7 +52,7 @@ public protocol TransitionCenterProtocol {
     //////////////////////////////////
     private var agents = [WeakAgent]()
     public func addAgent(agent: TransitionAgentProtocol) {
-        mylog("addAgent: \(agent.transitionPath)")
+        mylog("Add Agent In Center: \(agent.transitionPath)")
         agents.append(WeakAgent(agent: agent))
     }
     
@@ -135,13 +135,18 @@ public protocol TransitionCenterProtocol {
             return
         }
         
-        if let agent = findAgentOf(tInfo.commonPath) { // 大丈夫なら大元に消すように言う
-            mylog("Sending RemoveChildRequest to '\(agent.transitionPath)'")
-            agent.removeViewController(tInfo.oldComponentList.first!)
-        } else {
-            mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
-            async_fsm() { $0.stop() }
+        var path : TransitionPath? = tInfo.commonPath
+        while path != nil {
+            if let agent = findAgentOf(path!) { // 大丈夫なら大元に消すように言う
+                mylog("Sending RemoveChildRequest to '\(agent.transitionPath)'")
+                if agent.removeViewController(tInfo.oldComponentList.first!) {
+                    return
+                }
+                path = path!.up()
+            }
         }
+        mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
+        async_fsm() { $0.stop() }
     }
     
     func isExpectedReporter(object: AnyObject!) -> Bool {
