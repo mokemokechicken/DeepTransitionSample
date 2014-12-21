@@ -142,8 +142,8 @@ public protocol TransitionCenterProtocol {
                 if agent.removeViewController(tInfo.oldComponentList.first!) {
                     return
                 }
-                path = path!.up()
             }
+            path = path!.up()
         }
         mylog("Can't send RemoveChildRequest to '\(tInfo.commonPath)'")
         async_fsm() { $0.stop() }

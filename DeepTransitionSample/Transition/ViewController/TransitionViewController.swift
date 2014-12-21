@@ -24,27 +24,16 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
     
     public func removeViewController(pathComponent: TransitionPathComponent) -> Bool {
-        switch pathComponent.segueKind {
-        case .Modal:
-            if let modal = delegate?.presentedViewController {
-                modal.dismissViewControllerAnimated(true, nil)
-                transition.reportFinishedRemoveViewControllerFrom(transitionPath)
-                return true
-            }
-            
-        case .Show:
-            if let navi = delegate?.navigationController {
-                navi.popToViewController(delegate!, animated: true)
-                transition.reportFinishedRemoveViewControllerFrom(transitionPath)
-                return true
-            }
-            
-        case .Tab:
-            transition.reportFinishedRemoveViewControllerFrom(transitionPath)
-            return true
+        if let modal = delegate?.presentedViewController {
+            modal.dismissViewControllerAnimated(true, nil)
         }
         
-        return false
+        if let navi = delegate?.navigationController {
+            navi.popToViewController(delegate!, animated: true)
+        }
+        
+        transition.reportFinishedRemoveViewControllerFrom(transitionPath)
+        return true
     }
     
     public func decideViewController(pathComponent: TransitionPathComponent) -> UIViewController? {

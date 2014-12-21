@@ -8,15 +8,25 @@
 
 import UIKit
 
-class FriendListViewController: UIViewController {
+class FriendListViewController: UIViewController, UINavigationControllerDelegate {
     let controllerName = "friend"
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationController?.delegate = self
+    }
+    
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        viewController.viewDidAppear(animated)
+    }
+
     @IBAction func onBtnFriend(sender: AnyObject) {
-        transition.to("/top/home#/friend/show_friend")
+        transition.to("/top/home#friend/show_friend")
     }
 
     
     @IBAction func onBtnHelp(sender: AnyObject) {
-        transition.to("/top/home#/friend!help")
+        transition.to("/top/home#friend!help")
     }
 }
