@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+@objc public protocol HasControllerName {
+    optional var controllerName : String { get }
+}
+
 public class TransitionDefaultHandler : TransitionAgentDelegate {
     private weak var delegate : UIViewController?
     public private(set) var transitionPath : TransitionPath
@@ -34,7 +38,14 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         if let handler = (delegate as? TransitionAgentDelegate)?.decideViewController {
             return handler(pathComponent)
         } else {
-            return delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController
+            switch delegate? {
+            case let .Some(tab as UITabBarController):
+                var innerVC = tab.findViewControllerInCollection(pathComponent.identifier)
+                return innerVC?.vc
+
+            default:
+                return delegate?.storyboard?.instantiateViewControllerWithIdentifier(pathComponent.identifier) as? UIViewController
+            }
         }
     }
     
@@ -42,7 +53,7 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         if let handler = (delegate as? TransitionAgentDelegate)?.showViewController {
             return handler(vc, pathComponent: pathComponent)
         } else {
-            return (delegate!.navigationController?.pushViewController(vc, animated: true)) != nil
+            return (delegate?.navigationController?.pushViewController(vc, animated: true)) != nil
         }
     }
     
@@ -52,9 +63,9 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         } else {
             if pathComponent.ownRootContainer == .Navigation {
                 let nav = UINavigationController(rootViewController: vc)
-                delegate!.presentViewController(nav, animated: true) {}
+                delegate?.presentViewController(nav, animated: true) {}
             } else {
-                delegate!.presentViewController(vc, animated: true) {}
+                delegate?.presentViewController(vc, animated: true) {}
             }
             return true
         }
@@ -64,8 +75,18 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         if let handler = (delegate as? TransitionAgentDelegate)?.showInternalViewController {
             return handler(vc, pathComponent: pathComponent)
         } else {
-            return false
+            switch delegate? {
+            case let .Some(tab as UITabBarController):
+                if let innerVC = tab.findViewControllerInCollection(pathComponent.identifier) {
+                    tab.selectedIndex = innerVC.index
+                    innerVC.vc.reportViewDidAppear()
+                    return true
+                }
+            default:
+                break
+            }
         }
+        return false
     }
     
     public func addViewController(pathComponent: TransitionPathComponent) -> Bool {
@@ -86,14 +107,11 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
         return false
     }
     
-    deinit {
-        mylog("deinit TransitionHandler: \(self)")
-    }
 }
 
 private var transitionAgentKey: UInt8 = 0
 
-extension UIViewController : TransitionViewControllerProtocol {
+extension UIViewController : TransitionViewControllerProtocol, HasControllerName {
     public var transition : TransitionCenterProtocol { return TransitionServiceLocater.transitionCenter }
     public var transitionAgent: TransitionAgentProtocol? {
         get {
@@ -105,6 +123,10 @@ extension UIViewController : TransitionViewControllerProtocol {
     }
     
     public func setupAgent(path: TransitionPath) {
+        if self.transitionAgent?.transitionPath == path {
+            return
+        }
+
         transitionAgent = createTransitionAgent(path)
         transitionAgent!.delegate = self
         if transitionAgent!.delegateDefaultImpl == nil {
@@ -130,6 +152,70 @@ extension UIViewController : TransitionViewControllerProtocol {
     public func createTransitionDefaultHandler(path: TransitionPath) -> TransitionAgentDelegate {
         return TransitionDefaultHandler(viewController: self, path: path)
     }
+    
+    public func getControllerName() -> String? {
+        return (self as HasControllerName).controllerName
+    }
+}
+
+private struct ViewControllerInContainer {
+    let index : Int
+    let name : String?
+    let vc : UIViewController
+}
+
+extension UITabBarController {
+    public func findViewControllerInCollection(name: String) -> (index: Int, vc: UIViewController)? {
+        for vcInfo in rootViewControllersInCollection() {
+            if vcInfo.name == name {
+                return (index: vcInfo.index, vc: vcInfo.vc)
+            }
+        }
+        return nil
+    }
+    
+    public func setupAgentToInnerNameController() {
+        if let path = self.transitionAgent?.transitionPath {
+            for vcInfo in rootViewControllersInCollection() {
+                if let name = vcInfo.name {
+                    vcInfo.vc.setupAgent(path.appendPath(TransitionPath(path: "#\(name)")))
+                }
+            }
+        }
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        setupAgentToInnerNameController()
+        super.viewDidAppear(animated)
+    }
+
+    private func findNotContainerViewController(vc: UIViewController!) -> UIViewController? {
+        if vc == nil {
+            return vc
+        }
+        
+        switch vc {
+        case let (nav as UINavigationController):
+            return findNotContainerViewController(nav.viewControllers?.first as? UIViewController)
+            
+        default:
+            return vc
+        }
+        
+    }
+    
+    private func rootViewControllersInCollection() -> [ViewControllerInContainer] {
+        var ret = [ViewControllerInContainer]()
+        var index = 0
+        for innerVC in viewControllers as? [UIViewController] ?? [] {
+            if let vc = findNotContainerViewController(innerVC) {
+                ret.append(ViewControllerInContainer(index: index, name: vc.getControllerName(), vc: vc))
+            }
+            index++
+        }
+        return ret
+    }
+    
 }
 
 private func mylog(s: String) {

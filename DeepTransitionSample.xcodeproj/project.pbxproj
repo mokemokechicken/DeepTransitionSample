@@ -11,6 +11,7 @@
 		BE756B3B1A45066A00DC184D /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3A1A45066A00DC184D /* HelpViewController.swift */; };
 		BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3C1A45068200DC184D /* FriendListViewController.swift */; };
 		BE756B3F1A45068F00DC184D /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3E1A45068F00DC184D /* FriendViewController.swift */; };
+		BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B401A45212E00DC184D /* HomeViewController.swift */; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
@@ -52,6 +53,7 @@
 		BE756B3A1A45066A00DC184D /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		BE756B3C1A45068200DC184D /* FriendListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		BE756B3E1A45068F00DC184D /* FriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		BE756B401A45212E00DC184D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E41F91A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				BE756B3A1A45066A00DC184D /* HelpViewController.swift */,
 				BE756B3C1A45068200DC184D /* FriendListViewController.swift */,
 				BE756B3E1A45068F00DC184D /* FriendViewController.swift */,
+				BE756B401A45212E00DC184D /* HomeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 			files = (
 				BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */,
 				BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */,
+				BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */,
 				BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */,
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
 				BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */,

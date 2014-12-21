@@ -9,11 +9,9 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    let controllerName = "profile"
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    @IBAction func onBtnHelp(sender: AnyObject) {
+        transition.to("/top/home#profile/help")
     }
-
 }

@@ -11,7 +11,7 @@ import UIKit
 public class TopViewController: UIViewController {
 
     @IBAction func onBtnHome(sender: AnyObject) {
-        transition.to("/top/home")
+        transition.to("/top/home#profile")
     }
     
     @IBAction func onBtnNews(sender: AnyObject) {

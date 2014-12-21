@@ -5,6 +5,21 @@
 * 履歴に関する情報を公開する
 * アニメーションに関するような情報を渡せるようにする？これは 同一判定には影響しないパラメータとして扱う。
 
+Test
+=======
+
+/top/home#profile/help
+->  /top/home#profile/show_friend
+->  /top/home#profile!show_friend
+->  /top/home#profile
+->  /top/home#/friend
+
+/top/home#/friend/show_friend
+->  /top/home#/friend/help
+->  /top/home#/friend!help
+->  /top/home#profile
+->  /top/home#/friend
+
 
 課題
 =======

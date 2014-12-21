@@ -112,6 +112,24 @@
             </objects>
             <point key="canvasLocation" x="189.5" y="787.5"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="xkk-1u-Mal">
+            <objects>
+                <navigationController id="npO-L9-jqq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="K5a-xr-4la"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QOF-1h-SID">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YMU-OV-fgL" kind="relationship" relationship="rootViewController" id="aIB-Rg-Glg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kyU-3A-mUP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="850.5" y="-675.5"/>
+        </scene>
         <!--Friend List-->
         <scene sceneID="UZ3-3w-nwI">
             <objects>
@@ -123,16 +141,43 @@
                     <view key="view" contentMode="scaleToFill" id="B1R-Gu-LiI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Friend List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEM-bN-Kqw">
+                                <rect key="frame" x="94" y="67" width="187" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3T-eY-iI9">
+                                <rect key="frame" x="144" y="185" width="87" height="30"/>
+                                <state key="normal" title="Show Friend">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnFriend:" destination="YMU-OV-fgL" eventType="touchUpInside" id="aVw-3P-5SK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pME-zN-ED6">
+                                <rect key="frame" x="148" y="281" width="79" height="30"/>
+                                <state key="normal" title="Modal Help">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnHelp:" destination="YMU-OV-fgL" eventType="touchUpInside" id="SZg-NV-SfD"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 2" id="Ryh-jw-cC6"/>
+                    <navigationItem key="navigationItem" id="P4f-Pk-BFU"/>
                     <connections>
                         <segue destination="PX1-cV-MLu" kind="show" id="TGB-fM-OEJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D90-Tx-wlC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="850.5" y="-689.5"/>
+            <point key="canvasLocation" x="1291.5" y="-675.5"/>
         </scene>
         <!--Friend-->
         <scene sceneID="66l-AL-RtY">
@@ -145,12 +190,38 @@
                     <view key="view" contentMode="scaleToFill" id="vye-sa-tfP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Friend" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxe-H8-qQf">
+                                <rect key="frame" x="94" y="62" width="187" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAS-hc-vYE">
+                                <rect key="frame" x="127" y="230" width="120" height="30"/>
+                                <state key="normal" title="Show profile/help">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnHelp:" destination="PX1-cV-MLu" eventType="touchUpInside" id="kaA-2z-Fon"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jBS-0J-B1p">
+                                <rect key="frame" x="156" y="162" width="63" height="30"/>
+                                <state key="normal" title="friend list">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnFrientList:" destination="PX1-cV-MLu" eventType="touchUpInside" id="q5c-Qo-8MA"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kpd-nE-bLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1286.5" y="-689.5"/>
+            <point key="canvasLocation" x="1727.5" y="-675.5"/>
         </scene>
         <!--Profile-->
         <scene sceneID="L6H-iY-B2C">
@@ -163,6 +234,23 @@
                     <view key="view" contentMode="scaleToFill" id="p0i-H8-7Ow">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WnY-90-k1F">
+                                <rect key="frame" x="96" y="59" width="187" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cg-n9-G7E">
+                                <rect key="frame" x="150" y="198" width="75" height="30"/>
+                                <state key="normal" title="Show Help">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnHelp:" destination="fDY-iA-ro4" eventType="touchUpInside" id="7un-7c-IjI"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="0fp-ZA-2EW"/>
@@ -185,6 +273,23 @@
                     <view key="view" contentMode="scaleToFill" id="aK0-jg-aNG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Help" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QlM-GZ-eIG">
+                                <rect key="frame" x="94" y="60" width="187" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ihj-vi-wnG">
+                                <rect key="frame" x="144" y="206" width="87" height="30"/>
+                                <state key="normal" title="Show Friend">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnFriend:" destination="q0l-NI-Pbh" eventType="touchUpInside" id="bzd-Rb-SgB"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -195,7 +300,7 @@
         <!--Home-->
         <scene sceneID="gi2-BR-6u8">
             <objects>
-                <tabBarController storyboardIdentifier="home" title="Home" id="OAC-Wr-Fsj" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="home" title="Home" id="OAC-Wr-Fsj" customClass="HomeViewController" customModule="DeepTransitionSample" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="sGp-H3-ymv">
@@ -205,7 +310,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="fDY-iA-ro4" kind="relationship" relationship="viewControllers" id="Tia-6g-KIc"/>
-                        <segue destination="YMU-OV-fgL" kind="relationship" relationship="viewControllers" id="soG-zX-76A"/>
+                        <segue destination="npO-L9-jqq" kind="relationship" relationship="viewControllers" id="oiR-RE-QUn"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7R7-Vg-BMZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
