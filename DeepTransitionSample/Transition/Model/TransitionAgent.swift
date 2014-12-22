@@ -14,19 +14,101 @@ import UIKit
 }
 
 @objc public protocol TransitionAgentDelegate {
+    /**
+    * ViewControllerを作成する
+    * 作成した ViewController に Agentに正しいPathを与えて設置する
+    * その際ViewController階層に必ずAddすること。
+    * viewDidAppearイベントをCenterに通知する (transitionCenter.reportViewDidAppear を呼ぶ)。
+      基本的にはUIViewControllerのイベントの viewDidAppear内で行ってください。
+    
+    :param: pathComponent 追加したいViewControllerの情報
+    
+    :returns: 追加するつもりがあるならTrue、無いならFalse
+    */
     optional func addViewController(pathComponent: TransitionPathComponent) -> Bool
+    
+    /**
+    * 子供のViewControllerを非表示・除去して、transitionCenter.reportFinishedRemoveViewControllerFromを呼びます
+    
+    :param: pathComponent 削除するViewControllerの譲歩
+    
+    :returns: 削除できたらTrue, そうでなければFalse
+    */
     optional func removeViewController(pathComponent: TransitionPathComponent) -> Bool
+    
+    /**
+    このViewControllerが削除されてしまってOKかどうか。
+    例えば、データ入力や決済中などの重要な状態ならFalseを返して画面遷移をしないようにできます。
+    
+    :param: nextPath 遷移しようとしている Path。
+    
+    :returns: 削除されてOKならTrue
+    */
     optional func canDisappearNow(nextPath: TransitionPath) -> Bool
     
-    // Customize Show Child ViewController
+    ////// Customize Show Child ViewController
+
+    /**
+    カスタマイズメソッドです。
+    主に デフォルト実装の addViewController から呼ばれます。
+    追加したいViewControllerの情報から実際の ViewControllerのInstanceを返します。
+    デフォルトでは Main Storyboard の Storyboard ID を参考に決定します。
+    
+    :param: pathComponent 追加したいViewControllerの情報
+    
+    :returns: 生成したViewController。 nilならば追加しないということになります。
+    */
     optional func decideViewController(pathComponent: TransitionPathComponent)  -> UIViewController?
+    
+    /**
+    カスタマイズメソッドです。
+    通常のPush遷移("/")が指定されている時に呼ばれます。
+    表示アニメーションを変更したい場合などに実装します。
+    また、表示後は結果的に transitionCenter の reportViewDidAppear が呼ばれるようにしてください。
+    通常は、 表示対象の ViewController の viewDidAppear で行っているので気にしなくても良いですが、そうでない場合は明示的に呼ぶように調整してください。
+    
+    :param: vc            表示するViewController
+    :param: pathComponent 追加したいViewControllerの情報
+    
+    :returns: 処理を行ったならTrue
+    */
     optional func showViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
+    
+    /**
+    カスタマイズメソッドです。
+    通常のModal遷移("!")が指定されている時に呼ばれます。
+    表示アニメーションを変更したい場合などに実装します。
+    また、表示後は結果的に transitionCenter の reportViewDidAppear が呼ばれるようにしてください。
+    通常は、 表示対象の ViewController の viewDidAppear で行っているので気にしなくても良いですが、そうでない場合は明示的に呼ぶように調整してください。
+    
+    :param: vc            表示するViewController
+    :param: pathComponent 追加したいViewControllerの情報
+    
+    :returns: 処理を行ったならTrue
+    */
     optional func showModalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
+
+    /**
+    カスタマイズメソッドです。
+    内部ViewControllerの表示("#")が指定されている時に呼ばれます。
+    また、表示後は結果的に transitionCenter の reportViewDidAppear が呼ばれるようにしてください。
+    通常は、 表示対象の ViewController の viewDidAppear で行っているので気にしなくても良いですが、そうでない場合は明示的に呼ぶように調整してください。
+    
+    :param: vc            表示するViewController
+    :param: pathComponent 追加したいViewControllerの情報
+    
+    :returns: 処理を行ったならTrue
+    */
     optional func showInternalViewController(vc: UIViewController, pathComponent: TransitionPathComponent) -> Bool
 }
 
 @objc public protocol TransitionViewControllerProtocol : TransitionAgentDelegate, OwnTransitionAgent {
-     func setupAgent(path: TransitionPath)
+    /**
+    自ViewControllerに TransitionAgent を設置します。
+    
+    :param: path TransitionAgent の TransitionPath
+    */
+    func setupAgent(path: TransitionPath)
 }
 
 @objc public protocol TransitionAgentProtocol {
