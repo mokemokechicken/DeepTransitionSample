@@ -47,8 +47,45 @@ import Foundation
         return nil
     }
     
-    public func relativeTo(path: String) -> TransitionPath {
-        return self
+    public func relativeTo(path: String, basePath: TransitionPath? = nil) -> TransitionPath {
+        var base = basePath ?? self
+        if path.hasPrefix("^") {
+            return TransitionPath(path: path.substringFromIndex(advance(path.startIndex, 1)))
+        }
+        // 何個戻るか？ と そういうのを除去したPath文字列
+        let info = howManyUp(path)
+        var comList = [TransitionPathComponent]()
+        for var i=0; i < (base.componentList.count-info.upCount); i++ {
+            comList.append(base.componentList[i])
+        }
+        let retPath = TransitionPath(componentList: comList)
+
+        return retPath.appendPath(TransitionPath(path:info.remainPath))
+    }
+    
+    private func howManyUp(path: String, upCount: Int = 0, lastSegue: String? = nil) -> (upCount: Int, remainPath: String) {
+        if path.isEmpty {
+            return (upCount: upCount, remainPath: "")
+        }
+        if path.hasPrefix("..") {
+            var segue:String?
+            var cutCount = 2
+            if path.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 2 {
+                segue = String(path[advance(path.startIndex, 2)])
+                cutCount = 3
+            }
+            return howManyUp(path.substringFromIndex(advance(path.startIndex, cutCount)), upCount: upCount+1, lastSegue: segue)
+        } else {
+            var retPath = (lastSegue ?? "") + path
+            switch String(retPath[retPath.startIndex]) {
+            case "/", "#", "!":
+                break
+            default:
+                retPath = "/" + retPath
+            }
+
+            return (upCount: upCount, remainPath: retPath)
+        }
     }
     
     public class func diff(#path1: TransitionPath, path2: TransitionPath) -> (common: TransitionPath, d1: [TransitionPathComponent], d2: [TransitionPathComponent]) {
@@ -103,7 +140,7 @@ import Foundation
         for c in componentList  {
             str += c.description
         }
-        return str.substringFromIndex(advance(str.startIndex, 1))
+        return str
     }
     
     // MARK: Enums
@@ -348,7 +385,11 @@ public func ==(lhs: TransitionPathComponent, rhs: TransitionPathComponent) -> Bo
         case .None:
             ret = "\(segueKind.rawValue)\(identifier)\(pstr)"
         case .Navigation:
-            ret = "\(segueKind.rawValue)/\(identifier)\(pstr)"
+            if segueKind != TransitionPath.SegueKind.Show {
+                ret = "\(segueKind.rawValue)/\(identifier)\(pstr)"
+            } else {
+                ret = "\(segueKind.rawValue)\(identifier)\(pstr)"
+            }
         }
         return ret
     }

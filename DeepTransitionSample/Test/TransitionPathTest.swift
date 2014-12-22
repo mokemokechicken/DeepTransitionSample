@@ -68,10 +68,10 @@ class TransitionPathTest: XCTestCase {
     }
 
     func testSplitPath_5() {
-        let pl = obj.splitPath("menu!/home/follows")
+        let pl = obj.splitPath("!menu!/home/follows")
         XCTAssertEqual(3, pl.count)
         if pl.count > 0 {
-            checkSamePathComponent(target: pl[0], id: "menu", kind: SegueKind.Show, root: .None, params: nil)
+            checkSamePathComponent(target: pl[0], id: "menu", kind: SegueKind.Modal, root: .None, params: nil)
         }
         if pl.count > 1 {
             checkSamePathComponent(target: pl[1], id: "home", kind: SegueKind.Modal, root: .Navigation, params: nil)
@@ -82,10 +82,10 @@ class TransitionPathTest: XCTestCase {
     }
 
     func testSplitPath_6() {
-        let pl = obj.splitPath("menu#/home/follows")
+        let pl = obj.splitPath("!menu#/home/follows")
         XCTAssertEqual(3, pl.count)
         if pl.count > 0 {
-            checkSamePathComponent(target: pl[0], id: "menu", kind: SegueKind.Show, root: .None, params: nil)
+            checkSamePathComponent(target: pl[0], id: "menu", kind: SegueKind.Modal, root: .None, params: nil)
         }
         if pl.count > 1 {
             checkSamePathComponent(target: pl[1], id: "home", kind: SegueKind.Tab, root: .Navigation, params: nil)
@@ -127,9 +127,9 @@ class TransitionPathTest: XCTestCase {
         XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/b")))
         XCTAssertEqual(true, path.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
         
-        let p2 = TransitionPath(path: "menu")
+        let p2 = TransitionPath(path: "!menu")
         XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
-        XCTAssertEqual(false, p2.isDifferenceRoot(TransitionPath(path: "menu!/top")))
+        XCTAssertEqual(false, p2.isDifferenceRoot(TransitionPath(path: "!menu!/top")))
         XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/menu!/top")))
     }
     
@@ -186,14 +186,82 @@ class TransitionPathTest: XCTestCase {
         XCTAssertEqual("list_news", d2[0].identifier)
     }
     
-
     func testComponentListToPath_1() {
         var path = ""
         path = "/a/b/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
         path = ""; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
-        path = "a"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
-        path = "a!b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
-        path = "a#b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
-        path = "a#/b!/c(id=10,url=http://hoge.com/hoge?ud=10#jjj)/ddx"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "!a"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "!a!b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "!a#b!/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+        path = "!a#/b!/c(id=10,url=http://hoge.com/hoge?ud=10#jjj)/ddx"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))
+    }
+    
+    func testAppendPath_1() {
+        var basePath = TransitionPath(path: "")
+        XCTAssertEqual("/top/profile", basePath.appendPath(TransitionPath(path: "/top/profile")).path)
+        XCTAssertEqual("!top/profile", basePath.appendPath(TransitionPath(path: "!top/profile")).path)
+    }
+    
+    func testRelativeTo_root() {
+        var basePath = TransitionPath(path: "")
+        XCTAssertEqual("/top", basePath.relativeTo("top").path)
+        XCTAssertEqual("/top", basePath.relativeTo("/top").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("top/profile").path)
+        XCTAssertEqual("!top/profile", basePath.relativeTo("!top/profile").path)
+        XCTAssertEqual("", basePath.relativeTo("..").path)
+        XCTAssertEqual("/profile", basePath.relativeTo("../profile").path)
+        XCTAssertEqual("/profile", basePath.relativeTo("../../profile").path)
+        XCTAssertEqual("!profile", basePath.relativeTo("..!profile").path)
+        XCTAssertEqual("!profile", basePath.relativeTo("..!..!profile").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("^/top/profile").path)
+        XCTAssertEqual("!top/profile", basePath.relativeTo("^!top/profile").path)
+    }
+
+    func testRelativeTo_1depth() {
+        var basePath = TransitionPath(path: "/top")
+        XCTAssertEqual("/top/top", basePath.relativeTo("top").path)
+        XCTAssertEqual("/top/top", basePath.relativeTo("/top").path)
+        XCTAssertEqual("/top#top", basePath.relativeTo("#top").path)
+        XCTAssertEqual("/top/top/profile", basePath.relativeTo("top/profile").path)
+        XCTAssertEqual("/top!top/profile", basePath.relativeTo("!top/profile").path)
+        XCTAssertEqual("", basePath.relativeTo("..").path)
+        XCTAssertEqual("/profile", basePath.relativeTo("../profile").path)
+        XCTAssertEqual("/profile", basePath.relativeTo("../../profile").path)
+        XCTAssertEqual("!profile", basePath.relativeTo("..!profile").path)
+        XCTAssertEqual("!profile", basePath.relativeTo("..!..!profile").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("^/top/profile").path)
+        XCTAssertEqual("!top/profile", basePath.relativeTo("^!top/profile").path)
+    }
+
+    func testRelativeTo_2depth() {
+        var basePath = TransitionPath(path: "/top!/friend")
+        XCTAssertEqual("/top!/friend/top", basePath.relativeTo("top").path)
+        XCTAssertEqual("/top!/friend/top", basePath.relativeTo("/top").path)
+        XCTAssertEqual("/top!/friend#top", basePath.relativeTo("#top").path)
+        XCTAssertEqual("/top!/friend/top/profile", basePath.relativeTo("top/profile").path)
+        XCTAssertEqual("/top!/friend!top/profile", basePath.relativeTo("!top/profile").path)
+        XCTAssertEqual("/top", basePath.relativeTo("..").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("../profile").path)
+        XCTAssertEqual("/profile", basePath.relativeTo("../../profile").path)
+        XCTAssertEqual("/top!profile", basePath.relativeTo("..!profile").path)
+        XCTAssertEqual("!profile", basePath.relativeTo("..!..!profile").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("^/top/profile").path)
+        XCTAssertEqual("!top/profile", basePath.relativeTo("^!top/profile").path)
+    }
+
+    func testRelativeTo_tab() {
+        var basePath = TransitionPath(path: "/top/friend#list")
+        XCTAssertEqual("/top/friend#list/top", basePath.relativeTo("top").path)
+        XCTAssertEqual("/top/friend#list/top", basePath.relativeTo("/top").path)
+        XCTAssertEqual("/top/friend#list#top", basePath.relativeTo("#top").path)
+        XCTAssertEqual("/top/friend#list/top/profile", basePath.relativeTo("top/profile").path)
+        XCTAssertEqual("/top/friend#list!top/profile", basePath.relativeTo("!top/profile").path)
+        XCTAssertEqual("/top/friend", basePath.relativeTo("..").path)
+        XCTAssertEqual("/top/friend/profile", basePath.relativeTo("../profile").path)  // ?? /top/profile ??
+        XCTAssertEqual("/top/profile", basePath.relativeTo("../../profile").path)      // /profile ??
+        XCTAssertEqual("/top/friend!profile", basePath.relativeTo("..!profile").path)
+        XCTAssertEqual("/top!profile", basePath.relativeTo("..!..!profile").path)
+        XCTAssertEqual("/top/profile", basePath.relativeTo("^/top/profile").path)
+        XCTAssertEqual("!top/profile", basePath.relativeTo("^!top/profile").path)
     }
 }
