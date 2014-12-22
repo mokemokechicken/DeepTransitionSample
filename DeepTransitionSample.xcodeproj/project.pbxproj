@@ -13,6 +13,7 @@
 		BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3C1A45068200DC184D /* FriendListViewController.swift */; };
 		BE756B3F1A45068F00DC184D /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3E1A45068F00DC184D /* FriendViewController.swift */; };
 		BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B401A45212E00DC184D /* HomeViewController.swift */; };
+		BE7C6A2C1A48E41A0053D6C6 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C6A2B1A48E41A0053D6C6 /* UIViewControllerExtension.swift */; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
 		BE8E42021A3C32AA00D740A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE8E42011A3C32AA00D740A3 /* Images.xcassets */; };
@@ -34,7 +35,7 @@
 		BEF0F3001A432DF800D6139D /* TransitionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F41A432DF800D6139D /* TransitionPath.swift */; };
 		BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */; };
 		BEF0F3021A432DF800D6139D /* RootTransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */; };
-		BEF0F3031A432DF800D6139D /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */; };
+		BEF0F3031A432DF800D6139D /* TransitionDefaultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F81A432DF800D6139D /* TransitionDefaultHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		BE756B3C1A45068200DC184D /* FriendListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		BE756B3E1A45068F00DC184D /* FriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		BE756B401A45212E00DC184D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		BE7C6A2B1A48E41A0053D6C6 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E41F91A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,7 +83,7 @@
 		BEF0F2F41A432DF800D6139D /* TransitionPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionPath.swift; sourceTree = "<group>"; };
 		BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionServiceLocator.swift; sourceTree = "<group>"; };
 		BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTransitionAgent.swift; sourceTree = "<group>"; };
-		BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
+		BEF0F2F81A432DF800D6139D /* TransitionDefaultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionDefaultHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,7 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				BEF0F2F71A432DF800D6139D /* RootTransitionAgent.swift */,
-				BEF0F2F81A432DF800D6139D /* TransitionViewController.swift */,
+				BEF0F2F81A432DF800D6139D /* TransitionDefaultHandler.swift */,
+				BE7C6A2B1A48E41A0053D6C6 /* UIViewControllerExtension.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */,
 				095223111A47E9E8002D05F4 /* TransitionHistory.swift in Sources */,
 				BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */,
+				BE7C6A2C1A48E41A0053D6C6 /* UIViewControllerExtension.swift in Sources */,
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
 				BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */,
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
@@ -370,7 +374,7 @@
 				BE756B3B1A45066A00DC184D /* HelpViewController.swift in Sources */,
 				BE8E42321A3E5FA800D740A3 /* CouponListViewController.swift in Sources */,
 				BE756B391A4505AC00DC184D /* ProfileViewController.swift in Sources */,
-				BEF0F3031A432DF800D6139D /* TransitionViewController.swift in Sources */,
+				BEF0F3031A432DF800D6139D /* TransitionDefaultHandler.swift in Sources */,
 				BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
