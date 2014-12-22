@@ -186,6 +186,19 @@ class TransitionPathTest: XCTestCase {
         XCTAssertEqual("list_news", d2[0].identifier)
     }
     
+    func testDiff_5() {
+        let path1 = TransitionPath(path: "/top/home#profile/help")
+        let path2 = TransitionPath(path: "/top/home#profile")
+        let (common, d1, d2) = TransitionPath.diff(path1: path1, path2: path2)
+        XCTAssertEqual(3, common.depth)
+        XCTAssertEqual(1, d1.count)
+        XCTAssertEqual(0, d2.count)
+        XCTAssertEqual("top", common.componentList[0].identifier)
+        XCTAssertEqual("home", common.componentList[1].identifier)
+        XCTAssertEqual("profile", common.componentList[2].identifier)
+        XCTAssertEqual("help", d1[0].identifier)
+    }
+    
     func testComponentListToPath_1() {
         var path = ""
         path = "/a/b/c"; XCTAssertEqual(path, TransitionPath.componentListToPath(TransitionPath(path: path).componentList))

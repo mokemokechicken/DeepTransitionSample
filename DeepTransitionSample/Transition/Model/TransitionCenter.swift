@@ -19,12 +19,17 @@ public protocol TransitionCenterProtocol {
     func reportFinishedRemoveViewControllerFrom(path: TransitionPath)
     func reportViewDidAppear(path: TransitionPath)
     func reportTransitionError(reason: String?)
+    
+    // For Transition
     func to(destination: String)
+    func up()
+    func up(depth: Int)
 }
 
 @objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
 
     private let _fsm : TransitionModelFSM!
+    
     public override init() {
         super.init()
         _fsm = TransitionModelFSM(owner: self)
@@ -49,7 +54,17 @@ public protocol TransitionCenterProtocol {
     public func to(destination: String) {
         async_fsm { $0.request(destination) }
     }
-    //
+    
+    private func to(destination: TransitionPath) {
+        self.to("^\(destination.path)")
+    }
+    
+    public func up() {up(1)}
+    public func up(depth: Int) {
+        if let path = currentPath.up(depth: depth) {
+            self.to(path)
+        }
+    }
     
     // MARK: Agent Management
     //////////////////////////////////
@@ -90,7 +105,7 @@ public protocol TransitionCenterProtocol {
         switch (startPath, destPath) {
         case (let .Some(s), let .Some(d)):
             mylog("Finish Transition FROM \(s) TO \(currentPath)")
-            notifyChangeState(TRANSITION_CENTER_EVENT_END_TRANSITION, info: TransitionStateInfo(currentPath: s, destinationPath: currentPath))
+            notifyChangeState(TRANSITION_CENTER_EVENT_END_TRANSITION, info: TransitionStateInfo(startPath: s, destinationPath: currentPath))
         default:
             break
         }
@@ -119,10 +134,12 @@ public protocol TransitionCenterProtocol {
             }
         }
         mylog("Start Transition FROM \(startPath!) TO \(destPath!)")
-        notifyChangeState(TRANSITION_CENTER_EVENT_START_TRANSITION, info: TransitionStateInfo(currentPath: startPath!, destinationPath: destPath!))
+        notifyChangeState(TRANSITION_CENTER_EVENT_START_TRANSITION, info: TransitionStateInfo(startPath: startPath!, destinationPath: destPath!))
         async_fsm { $0.ok() }
     }
     
+    var removeTargetPath : TransitionPath?
+
     func onEntryRemoving() {
         let tInfo = calcTransitionInfo()
         if tInfo.oldComponentList.isEmpty {
@@ -135,6 +152,7 @@ public protocol TransitionCenterProtocol {
         while path != nil {
             if let agent = findAgentOf(path!) { // 大丈夫なら大元に消すように言う
                 mylog("Sending RemoveChildRequest to '\(agent.transitionPath)'")
+                removeTargetPath = path
                 if agent.removeViewController(tInfo.oldComponentList.first!) {
                     return
                 }
@@ -145,12 +163,14 @@ public protocol TransitionCenterProtocol {
         async_fsm() { $0.stop() }
     }
     
+    
     func isExpectedReporter(object: AnyObject!) -> Bool {
         let tInfo = calcTransitionInfo()
         if let path = object as? TransitionPath {
-            if path == tInfo.commonPath {
-                mylog("Change CurrentPath From \(currentPath.path) to \(path)")
-                currentPath = path
+            if path == removeTargetPath {
+                mylog("Change CurrentPath From \(currentPath.path) to \(tInfo.commonPath)")
+                currentPath = tInfo.commonPath
+                removeTargetPath = nil
                 return true
             }
         }
@@ -190,8 +210,10 @@ public protocol TransitionCenterProtocol {
     
     func onMove(object: AnyObject!) {
         if let path = object as? TransitionPath {
-            mylog("Change CurrentPath From \(currentPath.path) to \(path)")
-            currentPath = path
+            if path != currentPath {
+                mylog("Change CurrentPath From \(currentPath.path) to \(path)")
+                currentPath = path
+            }
         }
     }
     
@@ -234,11 +256,11 @@ public protocol TransitionCenterProtocol {
 }
 
 public class TransitionStateInfo {
-    public let currentPath : TransitionPath
+    public let startPath : TransitionPath
     public let destinationPath: TransitionPath
     
-    init(currentPath: TransitionPath, destinationPath: TransitionPath) {
-        self.currentPath = currentPath
+    init(startPath: TransitionPath, destinationPath: TransitionPath) {
+        self.startPath = startPath
         self.destinationPath = destinationPath
     }
 }

@@ -58,9 +58,9 @@ import Foundation
         for var i=0; i < (base.componentList.count-info.upCount); i++ {
             comList.append(base.componentList[i])
         }
-        let retPath = TransitionPath(componentList: comList)
+        let retPath = TransitionPath(componentList: comList).path + info.remainPath
 
-        return retPath.appendPath(TransitionPath(path:info.remainPath))
+        return TransitionPath(path: retPath)
     }
     
     private func howManyUp(path: String, upCount: Int = 0, lastSegue: String? = nil) -> (upCount: Int, remainPath: String) {

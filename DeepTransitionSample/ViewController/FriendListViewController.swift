@@ -18,7 +18,7 @@ class FriendListViewController: UIViewController, UINavigationControllerDelegate
     }
     
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
-        viewController.viewDidAppear(animated)
+        viewController.viewDidShow()
     }
 
     @IBAction func onBtnFriend(sender: AnyObject) {

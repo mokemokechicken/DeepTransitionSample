@@ -1,22 +1,7 @@
 TODO
 =====
 
-* 相対PATH、 Backなど
+* 相対PATH、 Backなど -> OK
 * 履歴に関する情報を公開する
 * parameter のみの更新は別扱いにする
 * cocoapods にする
-
-Test
-=======
-
-/top/home#profile/help
-->  /top/home#profile/show_friend
-->  /top/home#profile!show_friend
-->  /top/home#profile
-->  /top/home#/friend
-
-/top/home#/friend/show_friend
-->  /top/home#/friend/help
-->  /top/home#/friend!help
-->  /top/home#profile
-->  /top/home#/friend

@@ -14,4 +14,9 @@ class HelpViewController: UIViewController {
         transition.to("^/top/home#friend/show_friend")
     }
     
+
+    @IBAction func onBtnUp(sender: AnyObject) {
+        transition.up()
+    }
+    
 }

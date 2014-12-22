@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		095223111A47E9E8002D05F4 /* TransitionHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095223101A47E9E8002D05F4 /* TransitionHistory.swift */; };
 		BE756B391A4505AC00DC184D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B381A4505AC00DC184D /* ProfileViewController.swift */; };
 		BE756B3B1A45066A00DC184D /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3A1A45066A00DC184D /* HelpViewController.swift */; };
 		BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3C1A45068200DC184D /* FriendListViewController.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeepTransitionSample-Bridging-Header.h"; sourceTree = "<group>"; };
+		095223101A47E9E8002D05F4 /* TransitionHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionHistory.swift; sourceTree = "<group>"; };
 		09EAE7EC1A419E2C00F4DC96 /* statemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
 		BE756B381A4505AC00DC184D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BE756B3A1A45066A00DC184D /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */,
 				BEF0F2F41A432DF800D6139D /* TransitionPath.swift */,
 				BEF0F2F51A432DF800D6139D /* TransitionServiceLocator.swift */,
+				095223101A47E9E8002D05F4 /* TransitionHistory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */,
 				BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */,
 				BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */,
+				095223111A47E9E8002D05F4 /* TransitionHistory.swift in Sources */,
 				BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */,
 				BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */,
 				BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */,

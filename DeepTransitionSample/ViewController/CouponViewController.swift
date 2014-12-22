@@ -21,4 +21,8 @@ class CouponViewController: UIViewController {
     @IBAction func onBtnNews2(sender: AnyObject) {
         transition.to("^/top/list_news/show_news(id=55)")
     }
+
+    @IBAction func onBtnUp(sender: AnyObject) {
+        transition.up()
+    }
 }

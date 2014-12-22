@@ -101,6 +101,15 @@
                                     <action selector="onBtnCoupon2:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="PEz-v3-KF0"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gn-Rb-LxN">
+                                <rect key="frame" x="111" y="307" width="142" height="30"/>
+                                <state key="normal" title="UP">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnUp:" destination="CTB-Sg-wH4" eventType="touchUpInside" id="9d8-Vo-9Rw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -289,6 +298,15 @@
                                     <action selector="onBtnFriend:" destination="q0l-NI-Pbh" eventType="touchUpInside" id="bzd-Rb-SgB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pxh-zH-LEg">
+                                <rect key="frame" x="170" y="145" width="30" height="30"/>
+                                <state key="normal" title="Up">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnUp:" destination="q0l-NI-Pbh" eventType="touchUpInside" id="PSH-e1-yja"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -433,6 +451,15 @@
                                 </state>
                                 <connections>
                                     <action selector="onBtnNews2:" destination="bAu-6K-Oz7" eventType="touchUpInside" id="1yl-WB-1kS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIX-Bx-zwY">
+                                <rect key="frame" x="116" y="348" width="142" height="30"/>
+                                <state key="normal" title="UP">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBtnUp:" destination="bAu-6K-Oz7" eventType="touchUpInside" id="tbU-2E-n6f"/>
                                 </connections>
                             </button>
                         </subviews>

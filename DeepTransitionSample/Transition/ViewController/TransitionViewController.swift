@@ -24,16 +24,31 @@ public class TransitionDefaultHandler : TransitionAgentDelegate {
     }
     
     public func removeViewController(pathComponent: TransitionPathComponent) -> Bool {
+        var removed = false
         if let modal = delegate?.presentedViewController {
             modal.dismissViewControllerAnimated(true, nil)
+            removed = true
         }
         
         if let navi = delegate?.navigationController {
-            navi.popToViewController(delegate!, animated: true)
+            if contains(navi.viewControllers as? [UIViewController] ?? [], delegate!) {
+                navi.popToViewController(delegate!, animated: true)
+                removed = true
+            }
         }
         
-        transition.reportFinishedRemoveViewControllerFrom(transitionPath)
-        return true
+        switch pathComponent.segueKind {
+        case .Show, .Modal:
+            if removed {
+                transition.reportFinishedRemoveViewControllerFrom(transitionPath)
+                return true
+            }
+            
+        case .Tab:
+            transition.reportFinishedRemoveViewControllerFrom(transitionPath)
+            return true
+        }
+        return false
     }
     
     public func decideViewController(pathComponent: TransitionPathComponent) -> UIViewController? {
@@ -137,12 +152,17 @@ extension UIViewController : TransitionViewControllerProtocol, HasControllerName
     }
     
     public func viewDidAppear(animated: Bool) {
-        reportViewDidAppear()
+        viewDidShow()
         mylog("viewDidAppear: \(self)")
+    }
+    
+    public func viewDidShow() {
+        reportViewDidAppear()
     }
 
     public func reportViewDidAppear() {
         if let path = transitionAgent?.transitionPath {
+            mylog("reportViewDidAppear: \(path.path)")
             transition.reportViewDidAppear(path)
         }
     }
@@ -157,6 +177,13 @@ extension UIViewController : TransitionViewControllerProtocol, HasControllerName
     
     public func getControllerName() -> String? {
         return (self as HasControllerName).controllerName
+    }
+}
+
+extension UINavigationController {
+    override public func viewDidShow() {
+        super.viewDidShow()
+        viewControllers?.last?.viewDidShow()
     }
 }
 
@@ -189,6 +216,9 @@ extension UITabBarController {
     override public func viewDidAppear(animated: Bool) {
         setupAgentToInnerNameController()
         super.viewDidAppear(animated)
+        if (viewControllers?.count ?? 0) > selectedIndex {
+            viewControllers?[selectedIndex].viewDidShow()
+        }
     }
 
     private func findNotContainerViewController(vc: UIViewController!) -> UIViewController? {
