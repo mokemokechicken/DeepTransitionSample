@@ -105,7 +105,7 @@ public protocol TransitionCenterProtocol {
             return
         }
         
-        destPath = TransitionPath(path: destination!)
+        destPath =  currentPath.relativeTo(destination) // TransitionPath(path: destination!)
         if destPath == currentPath {
             async_fsm { $0.cancel() }
             return

@@ -22,11 +22,11 @@ class FriendListViewController: UIViewController, UINavigationControllerDelegate
     }
 
     @IBAction func onBtnFriend(sender: AnyObject) {
-        transition.to("/top/home#friend/show_friend")
+        transition.to("show_friend")
     }
 
     
     @IBAction func onBtnHelp(sender: AnyObject) {
-        transition.to("/top/home#friend!help")
+        transition.to("!help")
     }
 }

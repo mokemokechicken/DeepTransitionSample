@@ -11,7 +11,7 @@ import UIKit
 class HelpViewController: UIViewController {
 
     @IBAction func onBtnFriend(sender: AnyObject) {
-        transition.to("/top/home#friend/show_friend")
+        transition.to("^/top/home#friend/show_friend")
     }
     
 }

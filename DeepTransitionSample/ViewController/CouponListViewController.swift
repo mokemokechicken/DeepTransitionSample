@@ -10,9 +10,9 @@ import UIKit
 
 class CouponListViewController: UIViewController {
     @IBAction func onBtnCoupon2(sender: AnyObject) {
-        transition.to("/top!/list_coupon/show_coupon(id=99)")
+        transition.to("show_coupon(id=99)")
     }
     @IBAction func onBtnNews2(sender: AnyObject) {
-        transition.to("/top!/list_coupon/show_news(id=99)")
+        transition.to("show_news(id=99)")
     }
 }

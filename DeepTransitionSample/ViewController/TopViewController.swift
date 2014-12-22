@@ -11,15 +11,15 @@ import UIKit
 public class TopViewController: UIViewController {
 
     @IBAction func onBtnHome(sender: AnyObject) {
-        transition.to("/top/home#profile")
+        transition.to("home#profile")
     }
     
     @IBAction func onBtnNews(sender: AnyObject) {
-        transition.to("/top/list_news")
+        transition.to("list_news")
     }
     
     @IBAction func onBtnCoupon(sender: AnyObject) {
-        transition.to("/top!/list_coupon")
+        transition.to("!/list_coupon")
     }
 
 }

@@ -11,7 +11,7 @@ import UIKit
 class NewsViewController: UIViewController {
     @IBOutlet weak var label: UILabel!
     @IBAction func onBtnCoupon2(sender: AnyObject) {
-        transition.to("/top!/list_coupon/show_coupon(id=88)")
+        transition.to("^/top!/list_coupon/show_coupon(id=88)")
     }
     
     override func viewWillAppear(animated: Bool) {

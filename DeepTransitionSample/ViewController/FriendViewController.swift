@@ -11,10 +11,10 @@ import UIKit
 class FriendViewController: UIViewController {
 
     @IBAction func onBtnFrientList(sender: AnyObject) {
-        transition.to("/top/home#friend")
+        transition.to("..")
     }
 
     @IBAction func onBtnHelp(sender: AnyObject) {
-        transition.to("/top/home#profile/help")
+        transition.to("^/top/home#profile/help")
     }
 }

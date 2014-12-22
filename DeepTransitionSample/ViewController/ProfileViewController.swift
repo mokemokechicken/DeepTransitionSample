@@ -12,6 +12,6 @@ class ProfileViewController: UIViewController {
     let controllerName = "profile"
 
     @IBAction func onBtnHelp(sender: AnyObject) {
-        transition.to("/top/home#profile/help")
+        transition.to("help")
     }
 }
