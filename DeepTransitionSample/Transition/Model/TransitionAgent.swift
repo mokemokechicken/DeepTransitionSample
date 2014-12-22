@@ -173,8 +173,17 @@ import UIKit
     // MARK: Private
     
     deinit {
-        NSLog("deinit Agent: \(self.transitionPath)")
+        mylog("deinit Agent: \(self.transitionPath)")
     }
 }
+
+private func mylog(s: String?) {
+    #if DEBUG
+        if let str = s {
+            NSLog(str)
+        }
+    #endif
+}
+
 
 

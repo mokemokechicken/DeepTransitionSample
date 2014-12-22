@@ -83,14 +83,6 @@ public protocol TransitionCenterProtocol {
         }
     }
     
-    private func mylog(s: String?) {
-        #if DEBUG
-        if let str = s {
-            NSLog(str)
-        }
-        #endif
-    }
-    
     func onEntryIdle() {
         switch (startPath, destPath) {
         case (let .Some(s), let .Some(d)):
@@ -249,6 +241,16 @@ private class TransitionInfo {
         self.oldComponentList = oldComponentList
     }
 }
+
+private func mylog(s: String?) {
+    #if DEBUG
+        if let str = s {
+            NSLog(str)
+        }
+    #endif
+}
+
+
 
 
 
