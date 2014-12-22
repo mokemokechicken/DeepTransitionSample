@@ -10,6 +10,9 @@
 
 import Foundation
 
+public let TRANSITION_CENTER_EVENT_START_TRANSITION = "TRANSITION_CENTER_EVENT_START_TRANSITION"
+public let TRANSITION_CENTER_EVENT_END_TRANSITION   = "TRANSITION_CENTER_EVENT_END_TRANSITION"
+
 
 public protocol TransitionCenterProtocol {
     func addAgent(agent: TransitionAgentProtocol)
@@ -87,6 +90,7 @@ public protocol TransitionCenterProtocol {
         switch (startPath, destPath) {
         case (let .Some(s), let .Some(d)):
             mylog("Finish Transition FROM \(s) TO \(currentPath)")
+            notifyChangeState(TRANSITION_CENTER_EVENT_END_TRANSITION, info: TransitionStateInfo(currentPath: s, destinationPath: currentPath))
         default:
             break
         }
@@ -115,11 +119,11 @@ public protocol TransitionCenterProtocol {
             }
         }
         mylog("Start Transition FROM \(startPath!) TO \(destPath!)")
+        notifyChangeState(TRANSITION_CENTER_EVENT_START_TRANSITION, info: TransitionStateInfo(currentPath: startPath!, destinationPath: destPath!))
         async_fsm { $0.ok() }
     }
     
     func onEntryRemoving() {
-        // TODO: Tab系のVCでContainer系のRootじゃない場合はその親にRequestを投げる必要がある
         let tInfo = calcTransitionInfo()
         if tInfo.oldComponentList.isEmpty {
             mylog("Skip Removing")
@@ -221,7 +225,24 @@ public protocol TransitionCenterProtocol {
         }
         return ret
     }
+
+    private func notifyChangeState(eventName: String, info: TransitionStateInfo) {
+        var userInfo = ["info": info]
+        NSNotificationCenter.defaultCenter().postNotificationName(eventName, object: self, userInfo: userInfo)
+    }
+
 }
+
+public class TransitionStateInfo {
+    public let currentPath : TransitionPath
+    public let destinationPath: TransitionPath
+    
+    init(currentPath: TransitionPath, destinationPath: TransitionPath) {
+        self.currentPath = currentPath
+        self.destinationPath = destinationPath
+    }
+}
+
 
 private class WeakAgent {
     private weak var agent:TransitionAgentProtocol?
