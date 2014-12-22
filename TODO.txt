@@ -1,9 +1,11 @@
-構造
+TODO
 =====
 
 * 状態の変更を通知するようにする
 * 履歴に関する情報を公開する
 * アニメーションに関するような情報を渡せるようにする？これは 同一判定には影響しないパラメータとして扱う。
+* parameter のみの更新は別扱いにする
+* cocoapods にする
 
 Test
 =======
@@ -19,10 +21,3 @@ Test
 ->  /top/home#/friend!help
 ->  /top/home#profile
 ->  /top/home#/friend
-
-
-課題
-=======
-
-* NAVへ追加完了したイベントの取得 -> Done
-* Defaultで付いてくるNavのBack機能でModelの状態がずれないようにする -> Done
