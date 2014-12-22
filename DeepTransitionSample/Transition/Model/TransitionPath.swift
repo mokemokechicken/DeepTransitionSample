@@ -113,25 +113,6 @@ import Foundation
         return (TransitionPath(componentList: common), d1, d2)
     }
     
-    public func isDifferenceRoot(destinationPath: TransitionPath) -> Bool {
-        // path の 最後の要素以外が一致していて、かつ、最後の要素が一致してなければTrue。
-        // それ以外はFalse
-        if destinationPath.depth < depth || depth == 0 {
-            return false
-        }
-        
-        for i in 0..<(depth-1) {
-            if destinationPath.componentList[i] != componentList[i] {
-                return false
-            }
-        }
-        let lastIndex = depth-1
-        if destinationPath.componentList[lastIndex] != componentList[lastIndex] {
-            return true
-        }
-        return false
-    }
-    
     public class func componentListToPath(componentList: [TransitionPathComponent]) -> String {
         if componentList.isEmpty {
             return ""

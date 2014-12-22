@@ -118,21 +118,6 @@ class TransitionPathTest: XCTestCase {
             obj.tokenize("/top/news/show(id=10,url=http://hoge.com/mu?hoge=10#jj)"))
     }
     
-
-    func testIsDifferenceRoot() {
-        let path = TransitionPath(path: "/a/b/c")
-        XCTAssertEqual(true, path.isDifferenceRoot(TransitionPath(path: "/a/b/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/a/b/c/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/a/c/d")))
-        XCTAssertEqual(false, path.isDifferenceRoot(TransitionPath(path: "/b")))
-        XCTAssertEqual(true, path.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
-        
-        let p2 = TransitionPath(path: "!menu")
-        XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/a/b!c")))
-        XCTAssertEqual(false, p2.isDifferenceRoot(TransitionPath(path: "!menu!/top")))
-        XCTAssertEqual(true , p2.isDifferenceRoot(TransitionPath(path: "/menu!/top")))
-    }
-    
     func testDiff_1() {
         let path1 = TransitionPath(path: "/a/b/c")
         let path2 = TransitionPath(path: "/a/b/e/f")

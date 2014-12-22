@@ -113,7 +113,7 @@ public protocol TransitionCenterProtocol {
         startPath = nil
     }
     
-    public func onRequestConfirming(destination: String!) {
+    func onRequestConfirming(destination: String!) {
         startPath = currentPath
         if destination == nil {
             async_fsm { $0.cancel() }
