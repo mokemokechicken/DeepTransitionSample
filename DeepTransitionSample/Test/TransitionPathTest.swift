@@ -14,7 +14,7 @@ import DeepTransitionSample
 typealias SegueKind = TransitionPath.SegueKind
 typealias ContainerKind = TransitionPath.ContainerKind
 
-class TransitionGraphModelTest: XCTestCase {
+class TransitionPathTest: XCTestCase {
     let obj = TransitionPath(path: "")
 
     override func setUp() {

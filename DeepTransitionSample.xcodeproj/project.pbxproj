@@ -22,7 +22,7 @@
 		BE8E42341A3E5FA800D740A3 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */; };
 		BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */; };
 		BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42301A3E5FA800D740A3 /* TopViewController.swift */; };
-		BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */; };
+		BE8E423A1A3E79CC00D740A3 /* TransitionPathTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */; };
 		BEF0F2F91A432DF800D6139D /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2ED1A432DF800D6139D /* statemap.h */; };
 		BEF0F2FA1A432DF800D6139D /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2EE1A432DF800D6139D /* statemap.m */; };
 		BEF0F2FB1A432DF800D6139D /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */; };
@@ -68,7 +68,7 @@
 		BE8E422E1A3E5FA800D740A3 /* NewsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		BE8E42301A3E5FA800D740A3 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
-		BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionGraphModelTest.swift; sourceTree = "<group>"; };
+		BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionPathTest.swift; sourceTree = "<group>"; };
 		BEF0F2ED1A432DF800D6139D /* statemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
 		BEF0F2EE1A432DF800D6139D /* statemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statemap.m; sourceTree = "<group>"; };
 		BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionModelFSM.h; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		BE8E42381A3E797C00D740A3 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				BE8E42391A3E79CC00D740A3 /* TransitionGraphModelTest.swift */,
+				BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */,
 				09EAE7EC1A419E2C00F4DC96 /* statemap.h */,
 			);
 			path = Test;
@@ -376,7 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE8E42111A3C32AA00D740A3 /* DeepTransitionSampleTests.swift in Sources */,
-				BE8E423A1A3E79CC00D740A3 /* TransitionGraphModelTest.swift in Sources */,
+				BE8E423A1A3E79CC00D740A3 /* TransitionPathTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

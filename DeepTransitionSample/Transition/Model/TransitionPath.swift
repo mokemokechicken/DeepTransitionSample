@@ -47,6 +47,10 @@ import Foundation
         return nil
     }
     
+    public func relativeTo(path: String) -> TransitionPath {
+        return self
+    }
+    
     public class func diff(#path1: TransitionPath, path2: TransitionPath) -> (common: TransitionPath, d1: [TransitionPathComponent], d2: [TransitionPathComponent]) {
         let minDepth = min(path1.depth, path2.depth)
         var common = [TransitionPathComponent]()

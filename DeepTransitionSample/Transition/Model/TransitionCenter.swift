@@ -51,7 +51,7 @@ public protocol TransitionCenterProtocol {
     }
     //
     
-    // MARK: Observable
+    // MARK: Agent Management
     //////////////////////////////////
     private var agents = [WeakAgent]()
     public func addAgent(agent: TransitionAgentProtocol) {
