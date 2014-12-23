@@ -13,6 +13,7 @@
 		BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3C1A45068200DC184D /* FriendListViewController.swift */; };
 		BE756B3F1A45068F00DC184D /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B3E1A45068F00DC184D /* FriendViewController.swift */; };
 		BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE756B401A45212E00DC184D /* HomeViewController.swift */; };
+		BE764EF41A49495D00F1A8D6 /* TransitionModelFSM.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE764EF31A49495D00F1A8D6 /* TransitionModelFSM.swift */; };
 		BE7C6A2C1A48E41A0053D6C6 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C6A2B1A48E41A0053D6C6 /* UIViewControllerExtension.swift */; };
 		BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */; };
 		BE8E42001A3C32AA00D740A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE8E41FE1A3C32AA00D740A3 /* Main.storyboard */; };
@@ -25,10 +26,6 @@
 		BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */; };
 		BE8E42361A3E5FA800D740A3 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42301A3E5FA800D740A3 /* TopViewController.swift */; };
 		BE8E423A1A3E79CC00D740A3 /* TransitionPathTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */; };
-		BEF0F2F91A432DF800D6139D /* statemap.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2ED1A432DF800D6139D /* statemap.h */; };
-		BEF0F2FA1A432DF800D6139D /* statemap.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2EE1A432DF800D6139D /* statemap.m */; };
-		BEF0F2FB1A432DF800D6139D /* TransitionModelFSM.h in Headers */ = {isa = PBXBuildFile; fileRef = BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */; };
-		BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */; };
 		BEF0F2FD1A432DF800D6139D /* TransitionModelFSM.sm in Resources */ = {isa = PBXBuildFile; fileRef = BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */; };
 		BEF0F2FE1A432DF800D6139D /* TransitionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F21A432DF800D6139D /* TransitionAgent.swift */; };
 		BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */; };
@@ -49,14 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DeepTransitionSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		095223101A47E9E8002D05F4 /* TransitionHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionHistory.swift; sourceTree = "<group>"; };
-		09EAE7EC1A419E2C00F4DC96 /* statemap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
 		BE756B381A4505AC00DC184D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BE756B3A1A45066A00DC184D /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		BE756B3C1A45068200DC184D /* FriendListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		BE756B3E1A45068F00DC184D /* FriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		BE756B401A45212E00DC184D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		BE764EF31A49495D00F1A8D6 /* TransitionModelFSM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionModelFSM.swift; sourceTree = "<group>"; };
 		BE7C6A2B1A48E41A0053D6C6 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		BE8E41F51A3C32AA00D740A3 /* DeepTransitionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepTransitionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8E41F91A3C32AA00D740A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,10 +69,6 @@
 		BE8E422F1A3E5FA800D740A3 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		BE8E42301A3E5FA800D740A3 /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionPathTest.swift; sourceTree = "<group>"; };
-		BEF0F2ED1A432DF800D6139D /* statemap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statemap.h; sourceTree = "<group>"; };
-		BEF0F2EE1A432DF800D6139D /* statemap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = statemap.m; sourceTree = "<group>"; };
-		BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionModelFSM.h; sourceTree = "<group>"; };
-		BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionModelFSM.m; sourceTree = "<group>"; };
 		BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransitionModelFSM.sm; sourceTree = "<group>"; };
 		BEF0F2F21A432DF800D6139D /* TransitionAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionAgent.swift; sourceTree = "<group>"; };
 		BEF0F2F31A432DF800D6139D /* TransitionCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionCenter.swift; sourceTree = "<group>"; };
@@ -125,7 +117,6 @@
 		BE8E41F71A3C32AA00D740A3 /* DeepTransitionSample */ = {
 			isa = PBXGroup;
 			children = (
-				09096DD11A4164F400D73591 /* DeepTransitionSample-Bridging-Header.h */,
 				BEF0F2EA1A432DF800D6139D /* Transition */,
 				BE8E422B1A3E5FA800D740A3 /* ViewController */,
 				BE8E41FA1A3C32AA00D740A3 /* AppDelegate.swift */,
@@ -184,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				BE8E42391A3E79CC00D740A3 /* TransitionPathTest.swift */,
-				09EAE7EC1A419E2C00F4DC96 /* statemap.h */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -214,10 +204,7 @@
 		BEF0F2EC1A432DF800D6139D /* fsm */ = {
 			isa = PBXGroup;
 			children = (
-				BEF0F2ED1A432DF800D6139D /* statemap.h */,
-				BEF0F2EE1A432DF800D6139D /* statemap.m */,
-				BEF0F2EF1A432DF800D6139D /* TransitionModelFSM.h */,
-				BEF0F2F01A432DF800D6139D /* TransitionModelFSM.m */,
+				BE764EF31A49495D00F1A8D6 /* TransitionModelFSM.swift */,
 				BEF0F2F11A432DF800D6139D /* TransitionModelFSM.sm */,
 			);
 			path = fsm;
@@ -247,8 +234,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEF0F2FB1A432DF800D6139D /* TransitionModelFSM.h in Headers */,
-				BEF0F2F91A432DF800D6139D /* statemap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,7 +341,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE756B3D1A45068200DC184D /* FriendListViewController.swift in Sources */,
-				BEF0F2FC1A432DF800D6139D /* TransitionModelFSM.m in Sources */,
 				BE756B411A45212E00DC184D /* HomeViewController.swift in Sources */,
 				095223111A47E9E8002D05F4 /* TransitionHistory.swift in Sources */,
 				BEF0F2FF1A432DF800D6139D /* TransitionCenter.swift in Sources */,
@@ -365,9 +349,9 @@
 				BEF0F3011A432DF800D6139D /* TransitionServiceLocator.swift in Sources */,
 				BE8E42331A3E5FA800D740A3 /* CouponViewController.swift in Sources */,
 				BE756B3F1A45068F00DC184D /* FriendViewController.swift in Sources */,
+				BE764EF41A49495D00F1A8D6 /* TransitionModelFSM.swift in Sources */,
 				BEF0F3021A432DF800D6139D /* RootTransitionAgent.swift in Sources */,
 				BEF0F2FE1A432DF800D6139D /* TransitionAgent.swift in Sources */,
-				BEF0F2FA1A432DF800D6139D /* statemap.m in Sources */,
 				BE8E42351A3E5FA800D740A3 /* NewsViewController.swift in Sources */,
 				BEF0F3001A432DF800D6139D /* TransitionPath.swift in Sources */,
 				BE8E41FB1A3C32AA00D740A3 /* AppDelegate.swift in Sources */,
@@ -508,7 +492,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = MyHeaders;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/DeepTransitionSample-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -523,7 +506,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = MyHeaders;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/DeepTransitionSample-Bridging-Header.h";
 			};
 			name = Release;
 		};
