@@ -12,13 +12,14 @@ IDLE
 Entry { onEntryIdle(); }
 {
   move(vc: id) IDLE { onMove(vc); }
-  request(destination: NSString*) CONFIRMING { onRequestConfirming(destination); }
+  request(destination: id) CONFIRMING { onRequestConfirming(destination); }
 }
 
 CONFIRMING
 {
   cancel IDLE {}
   ok REMOVING {}
+  change(params: id) IDLE { onChangeParams(params); }
 }
 
 REMOVING

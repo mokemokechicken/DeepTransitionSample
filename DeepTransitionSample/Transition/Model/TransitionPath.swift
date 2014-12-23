@@ -338,7 +338,7 @@ public func ==(lhs: TransitionPathComponent, rhs: TransitionPathComponent) -> Bo
 @objc public class TransitionPathComponent : Printable, Equatable {
     public let segueKind: TransitionPath.SegueKind
     public let identifier: String
-    public let params: [String:String]
+    public var params: [String:String]
     public let ownRootContainer: TransitionPath.ContainerKind
     
     public init(identifier: String, segueKind: TransitionPath.SegueKind, params:[String:String], ownRootContainer: TransitionPath.ContainerKind) {

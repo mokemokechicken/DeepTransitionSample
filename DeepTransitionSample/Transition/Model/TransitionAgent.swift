@@ -36,6 +36,14 @@ import UIKit
     */
     optional func removeViewController(pathComponent: TransitionPathComponent) -> Bool
     
+
+    /**
+    * パラメータが変更された場合に呼ばれます
+    
+    :param: params 変更後のパラメータ
+    */
+    optional func onChangeParams(params: [String:String])
+    
     /**
     このViewControllerが削除されてしまってOKかどうか。
     例えば、データ入力や決済中などの重要な状態ならFalseを返して画面遷移をしないようにできます。
@@ -119,6 +127,7 @@ import UIKit
 
     func addViewController(pathComponent: TransitionPathComponent) -> Bool
     func removeViewController(pathComponent: TransitionPathComponent) -> Bool
+    func changeParams(params: [String:String])
     func canDisappearNow(nextPath: TransitionPath) -> Bool
 }
 
@@ -167,6 +176,15 @@ import UIKit
             return handler(pathComponent)
         } else {
             return false
+        }
+    }
+    
+    public func changeParams(params: [String : String]) {
+        pathComponent?.params = params
+        if let handler = delegate?.onChangeParams {
+            handler(params)
+        } else if let handler = delegateDefaultImpl?.onChangeParams {
+            handler(params)
         }
     }
     

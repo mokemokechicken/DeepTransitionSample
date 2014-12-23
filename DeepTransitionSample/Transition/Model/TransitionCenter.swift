@@ -22,6 +22,7 @@ public protocol TransitionCenterProtocol {
     
     // For Transition
     func to(destination: String)
+    func changeParams(params: [String:String])
     func up()
     func up(depth: Int)
 }
@@ -55,9 +56,14 @@ public protocol TransitionCenterProtocol {
         async_fsm { $0.request(destination) }
     }
     
+    public func changeParams(params: [String : String]) {
+        async_fsm { $0.request(params) }
+    }
+    
     private func to(destination: TransitionPath) {
         self.to("^\(destination.path)")
     }
+    
     
     public func up() {up(1)}
     public func up(depth: Int) {
@@ -113,19 +119,26 @@ public protocol TransitionCenterProtocol {
         startPath = nil
     }
     
-    func onRequestConfirming(destination: String!) {
-        startPath = currentPath
-        if destination == nil {
+    func onRequestConfirming(destination: AnyObject!) {
+        switch destination? {
+        case let .Some(x as String):
+            destPath =  currentPath.relativeTo(x)
+        case let .Some(x as TransitionPath):
+            destPath = x
+        case let .Some(x as [String : String]):
+            async_fsm { $0.change(x) }
+            return
+        default:
             async_fsm { $0.cancel() }
             return
         }
-        
-        destPath =  currentPath.relativeTo(destination) // TransitionPath(path: destination!)
+
         if destPath == currentPath {
             async_fsm { $0.cancel() }
             return
         }
         
+        startPath = currentPath
         let tInfo = calcTransitionInfo()
         for context in self.caclWillRemoveContext(tInfo) {
             if !context.canDisappearNow(destPath!) { // これから消されるVCに消えて大丈夫か尋ねる
@@ -136,6 +149,12 @@ public protocol TransitionCenterProtocol {
         mylog("Start Transition FROM \(startPath!) TO \(destPath!)")
         notifyChangeState(TRANSITION_CENTER_EVENT_START_TRANSITION, info: TransitionStateInfo(startPath: startPath!, destinationPath: destPath!))
         async_fsm { $0.ok() }
+    }
+    
+    func onChangeParams(params: [String:String]) {
+        if let agent = findAgentOf(currentPath) {
+            agent.changeParams(params)
+        }
     }
     
     var removeTargetPath : TransitionPath?
