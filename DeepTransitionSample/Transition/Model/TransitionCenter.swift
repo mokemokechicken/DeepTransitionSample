@@ -29,12 +29,12 @@ public protocol TransitionCenterProtocol {
 
 @objc public class TransitionCenter : NSObject, TransitionCenterProtocol {
 
-    private let _fsm : TransitionModelFSM!
+    private let _fsm : TransitionModel_TransitionModelFSM!
     
     public override init() {
         super.init()
-        _fsm = TransitionModelFSM(owner: self)
-        _fsm.setDebugFlag(true)
+        _fsm = TransitionModel_TransitionModelFSM(context: self)
+        _fsm.debugMode = true
     }
     
     // MARK: TransitionCenterProtocol
@@ -101,7 +101,7 @@ public protocol TransitionCenterProtocol {
         let agent: TransitionAgentProtocol
     }
     
-    private func async_fsm(block:(TransitionModelFSM) -> Void) {
+    private func async_fsm(block:(TransitionModel_TransitionModelFSM) -> Void) {
         dispatch_async(dispatch_get_main_queue()) {
             block(self._fsm)
         }

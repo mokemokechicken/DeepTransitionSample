@@ -11,28 +11,28 @@
 IDLE
 Entry { onEntryIdle(); }
 {
-  move(vc: id) IDLE { onMove(vc); }
-  request(destination: id) CONFIRMING { onRequestConfirming(destination); }
+  move(vc: AnyObject) IDLE { onMove(vc); }
+  request(destination: AnyObject) CONFIRMING { onRequestConfirming(destination); }
 }
 
 CONFIRMING
 {
   cancel IDLE {}
   ok REMOVING {}
-  change(params: id) IDLE { onChangeParams(params); }
+change(params: [String:String]) IDLE { onChangeParams(params); }
 }
 
 REMOVING
 Entry { onEntryRemoving(); }
 {
   skip_removing ADDING {}
-  finish_remove(vc: id) [ [ctxt isExpectedReporter:vc] ] ADDING {}
+  finish_remove(vc: AnyObject) [ ctxt.isExpectedReporter(vc) ] ADDING {}
 }
 
 ADDING
 Entry { onEntryAdding(); }
 {
-  move(vc: id) [ [ctxt isExpectedChild:vc] ] MOVED { onMove(vc); }
+  move(vc: AnyObject) [ ctxt.isExpectedChild(vc) ] MOVED { onMove(vc); }
 }
 
 MOVED
